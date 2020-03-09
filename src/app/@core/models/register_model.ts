@@ -16,6 +16,7 @@ export class LocationModel extends LocationData {
   set locations(locations: Location[]) { this._locations = locations }
   get locations() { return this._locations }
 
+  
   load(input: any) {
     const configInput = ConfigurationModel.getInputById('locationOptions');
     const configFragment = ConfigurationModel.getFragment();
