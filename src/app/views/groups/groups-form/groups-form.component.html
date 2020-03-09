@@ -1,0 +1,124 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-pencil-square-o"></i> Groups <button class="btn btn-link" (click)="infoModal.show()"><i
+              class="icon-info"></i></button>
+          <div class="card-header-actions">
+            <button (click)="onSubmit()" class="btn btn-sm btn-primary" type="submit">
+              <i class="fa fa-dot-circle-o"></i> Submit</button>
+            <button class="btn btn-sm btn-danger" type="reset" (click)="onReset()">
+              <i class="fa fa-ban"></i> Cancel</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div *ngIf="obs$ | async as data; else loading" [formGroup]="form" (ngSubmit)="onSubmit()">
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label>Name</label>
+                  <input type="text" formControlName="name" class="form-control"
+                    [ngClass]="{ 'is-invalid': (submitted && f.name.errors) || (f.name.errors && f.name.errors.exist)}" />
+                  <div *ngIf="f.name.errors" class="invalid-feedback">
+                    <div *ngIf="f.name.errors.required">Name is required</div>
+                    <div *ngIf="f.name.errors.exist">Name already exist</div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label>Main Service</label>
+                  <select formControlName="main" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && f.main.errors }">
+                    <option disabled>Please select</option>
+                    <ng-container *ngFor="let option of data.configuration.value">
+                    </ng-container>
+                  </select>
+                  <div *ngIf="submitted && f.main.errors" class="invalid-feedback">
+                    <div *ngIf="f.main.errors.required">Please select a main activity for this group</div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-col-form-label">Options</label>
+                  <div class="list-group">
+                    <mat-nav-list>
+                      <mat-selection-list #options formControlName="options">
+                        <mat-list-option *ngFor="let option of data.configuration.value" [value]="option._id">
+                          {{option.desc}}
+                        </mat-list-option>
+                      </mat-selection-list>
+                    </mat-nav-list>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="card">
+                  <div class="card-header">
+                    <i class="fa fa-calendar"></i> Select allowed services for this group
+                  </div>
+                  <div class="card-body">
+                    <perfect-scrollbar class="scroll-area-sm" [config]="config">
+                      <div class="list-group">
+                        <mat-nav-list>
+                          <mat-selection-list #activities formControlName="activities">
+                            <mat-list-option *ngFor="let option of data.activities" [value]="option._id">
+                              <mat-icon mat-list-icon (click)="test($event)"  mat-icon-button class="checkbox tricheck negative">
+                                </mat-icon ><span>{{option.name}}</span>
+                            </mat-list-option>
+                          </mat-selection-list>
+                        </mat-nav-list>
+                      </div>
+                    </perfect-scrollbar>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div bsModal #infoModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-info modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Information about services</h4>
+        <button type="button" class="close" (click)="infoModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h5>Lorem ipsum dolor sit amet</h5>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+          consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+          est laborum.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+          consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+          est laborum.</p>
+        <h5>Lorem ipsum dolor sit amet</h5>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+          consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+          est laborum.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+          consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+          est laborum.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="infoModal.hide()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #loading>
+  Loading Location...
+</ng-template>

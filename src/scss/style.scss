@@ -1,0 +1,16 @@
+// If you want to override variables do it here
+@import "variables";
+
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+@import '~bootstrap/scss/grid';
+// Import styles
+@import "~@coreui/coreui/scss/coreui";
+@import '~ngx-toastr/toastr';
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import './timeline';
+@import './_multicheckbox';
+// If you want to add something do it here
+@import "custom";
+

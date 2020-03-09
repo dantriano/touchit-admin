@@ -1,0 +1,93 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-object-ungroup"></i> Groups
+          <div class="card-header-actions">
+            <div class="btn-group" dropdown>
+              <button id="button-basic" dropdownToggle type="button" class="btn-min btn btn-block btn-link dropdown-toggle"
+                aria-controls="dropdown-basic">
+                <i class="fa fa-align-justify"></i> <span class="caret"></span>
+              </button>
+              <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu"
+                aria-labelledby="button-basic">
+                <li role="menuitem"><a class="dropdown-item" routerLink="/settings/group" href="#">Add group</a></li>
+               
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm-12 col-md-6"></div>
+            <div class="col-sm-12 col-md-6 text-right">
+              <div class="dataTables_filter"><label><input matInput (keyup)="applyFilter($event)" placeholder="Filter"
+                    type="search" class="form-control form-control-sm" aria-controls="DataTables_Table_0"></label></div>
+
+            </div>
+          </div>
+          <table mat-table [dataSource]="dataSource"
+            class="table table-striped table-bordered datatable dataTable no-footer" matSort>
+
+            <!-- Position Column -->
+            <ng-container matColumnDef="id">
+              <th *matHeaderCellDef> No. </th>
+              <td *matCellDef="let element"> {{element.id}} </td>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="name">
+              <th *matHeaderCellDef> Name </th>
+              <td *matCellDef="let element"> {{element.name}} </td>
+            </ng-container>
+          
+            <ng-container matColumnDef="status">
+              <th *matHeaderCellDef> Status </th>
+              <td *matCellDef="let element">
+                <span *ngFor="let item of element.activities" class="badge badge-success mr-1">{{item.name}}</span><br>
+                <span *ngFor="let item of element.activities" class="badge badge-primary mr-1">{{item.name}}</span>
+               </td>
+            </ng-container>
+            <!-- Buttons Column -->
+            <ng-container matColumnDef="options">
+              <th *matHeaderCellDef> Options </th>
+              <td *matCellDef="let element">
+                <button routerLink="/settings/group/{{element._id}}" class="btn btn-warning" href="#">
+                  <i class="fa fa-pencil"></i>
+                </button>
+                <button data-toggle="modal" class="btn btn-danger" (click)="set('_id',element._id);dangerModal.show()">
+                  <i class="fa fa fa-trash-o"></i>
+                </button>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+          <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div bsModal #dangerModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-danger" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Delete element</h4>
+        <button type="button" class="close" (click)="dangerModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to continue?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="dangerModal.hide()">Close</button>
+        <button type="button" class="btn btn-danger" (click)="confirmDelete();dangerModal.hide()">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>

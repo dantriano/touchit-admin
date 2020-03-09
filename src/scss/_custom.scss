@@ -1,0 +1,19 @@
+// Here you can add other styles
+.table th,
+.table td {
+  padding: 0.75rem;
+}
+.card-header-actions .btn-min {
+  padding: 0;
+}
+
+agm-map {
+  height: 300px;
+}
+.scroll-area-sm {
+  position: relative;
+  max-height: 400px;
+}
+.hidden {
+  display: none !important;
+}
