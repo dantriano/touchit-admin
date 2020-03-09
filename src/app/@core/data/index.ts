@@ -5,5 +5,5 @@ export * from './companies';
 export * from './activity';
 export * from './group';
 export * from './location';
-export * from './registers';
+export * from './register';
 export * from './configuration';

@@ -129,6 +129,9 @@ export const routedComponents = [
   SettingsComponent,
   SettingsMainComponent,
   ActivitiesFormComponent,
+  ActivitiesListComponent,
   LocationsFormComponent,
+  LocationsListComponent,
   GroupsFormComponent,
+  GroupsListComponent
 ];

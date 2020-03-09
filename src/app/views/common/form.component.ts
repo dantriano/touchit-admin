@@ -23,7 +23,7 @@ export class FormComponent {
   private formInputs: any = {};
   private uiName = 'Element'
   @Output() onLoadContent= new EventEmitter();
-  private validators: any = {
+  public validators: any = {
     valueExist: () => FormValidator.valueExist(this.service, this.model),
     required: Validators.required,
     email: Validators.email,

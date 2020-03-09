@@ -4,11 +4,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
-import { TablesRoutingModule, routedComponents } from './employees-routing.module';
+import { TablesRoutingModule, routedComponents } from './registers-routing.module';
 
-import { EmployeesListComponent } from './employees-list/employees-list.component';
-import { EmployeesCalendarComponent } from './employees-calendar/employees-calendar.component';
-import { EmployeesFormComponent } from './employees-form/employees-form.component';
+
 import {MatTableModule} from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
@@ -29,10 +27,8 @@ import { MatListModule } from '@angular/material/list';
     BsDropdownModule
   ],
   schemas:[CUSTOM_ELEMENTS_SCHEMA],
-  entryComponents: [EmployeesListComponent],
-  bootstrap: [EmployeesListComponent, EmployeesCalendarComponent],
   declarations: [
-    ...routedComponents, EmployeesCalendarComponent, EmployeesFormComponent
+    ...routedComponents
   ],
 })
-export class EmployeesModule { }
+export class RegistersModule { }

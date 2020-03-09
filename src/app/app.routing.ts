@@ -8,7 +8,7 @@ import { P404Component } from './views/error/404.component';
 import { P500Component } from './views/error/500.component';
 import { LoginComponent } from './views/login/login.component';
 import { RegisterComponent } from './views/register/register.component';
-import { NoAuthGuard } from './no-auth-guard.services';
+
 import { AuthGuard } from './auth.guard';
 import { TestComponent } from './views/test/test.component';
 
@@ -46,22 +46,27 @@ export const routes: Routes = [
   {
     path: 'register',
     component: RegisterComponent,
-    canActivate: [NoAuthGuard],
     data: {
       title: 'Register Page'
     }
   },
   {
-    path: '',
+    path: 'employees',
     component: DefaultLayoutComponent,
     data: {
       title: 'Employees'
     },
-    children: [
-      {
-        path: 'employees',
-        loadChildren: () => import('./views/employees/employees.module').then(m => m.EmployeesModule)
-      }]
+    loadChildren: () => import('./views/employees/employees.module').then(m => m.EmployeesModule)
+
+  },
+  {
+    path: 'registers',
+    component: DefaultLayoutComponent,
+    data: {
+      title: 'Registers',
+    },
+    loadChildren: () => import('./views/registers/registers.module').then(m => m.RegistersModule)
+
   },
   {
     path: 'settings',
@@ -97,3 +102,5 @@ export const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
+export const routedComponents = [
+];

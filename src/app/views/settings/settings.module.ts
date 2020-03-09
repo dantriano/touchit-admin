@@ -48,7 +48,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   entryComponents: [SettingsComponent,SettingsMainComponent],
   bootstrap: [SettingsComponent,SettingsMainComponent],
   declarations: [
-    ...routedComponents, SettingsComponent,ActivitiesListComponent,LocationsListComponent,SettingsMainComponent,GroupsListComponent
+    ...routedComponents
   ],
   providers: [
     {

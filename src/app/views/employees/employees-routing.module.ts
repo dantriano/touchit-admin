@@ -29,26 +29,26 @@ const routes: Routes = [{
         },
         {
           path: 'edit',
-          component: EmployeesFormComponent,
-          data: {
-            // Uses static text (Home)
-            text: 'Employees'
-          }
+          children: [
+            {
+              path: '',
+              component: EmployeesFormComponent,
+              data: {
+                // Uses static text (Home)
+                text: 'Employees'
+              }
+            },
+            {
+              path: ':id',
+              component: EmployeesFormComponent,
+              data: {
+                text: 'Employees'
+              }
+            },
+          ]
         },
-        {
-          path: 'edit/:id',
-          component: EmployeesFormComponent,
-          data: {
-            text: 'Employees'
-          }
-        },
-        {
-          path: 'add',
-          component: EmployeesFormComponent,
-          data: {
-            title: 'Employees'
-          }
-        },
+
+
         {
           path: 'profile/:id',
           component: EmployeesProfileComponent, data: {

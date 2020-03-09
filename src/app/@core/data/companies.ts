@@ -1,4 +1,3 @@
-import { Registers } from './registers';
 import { Employee } from './employee';
 import { Location } from './location';
 import { Activity } from './activity';
@@ -12,7 +11,6 @@ export interface Companies {
   locations?:Location[];
   services?:Activity[];
   groups?:Group[];
-  register?:Registers[];
   status?:string;
 }
 

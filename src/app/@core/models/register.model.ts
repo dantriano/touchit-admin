@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { LocationData, Location } from '../data/location';
 import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
 import { ConfigurationModel } from './configuration.model';
+import { RegisterData } from '../data';
 
 @Injectable()
-export class LocationModel extends LocationData {
+export class RegisterModel extends RegisterData {
   private _locations: Location[] = [];
   private _location: Location;
   constructor(private apollo: Apollo) {
@@ -16,61 +16,45 @@ export class LocationModel extends LocationData {
   set locations(locations: Location[]) { this._locations = locations }
   get locations() { return this._locations }
 
-  
-  load(input: any) {
-    const configInput = ConfigurationModel.getInputById('locationOptions');
+
+  load(registerInput: any) {
+    const configInput = ConfigurationModel.getInputById('registerOptions');
     const configFragment = ConfigurationModel.getFragment();
     const location = {}
     const query = gql`
-    query($configuration:configurationsInput!,$location:locationInput){
-      configuration(input:$configuration) {
-        ... configFragment
-      }
-      location(input:$location)  {
+    query($register:registerInput){
+      register(input:$register)  {
         _id
-        name
-        center{
-          lat
-          lng
-        }
-        zones{
-          name
-          latsLngs{
-            lat
-            lng
-          }
-        }
-      }
-    }${configFragment}
-    `;
-    return this.apollo
-      .watchQuery<any>({
-        query: query,
-        variables: { 'activity': input, 'configuration': configInput, 'location': location },
-        fetchPolicy: 'network-only'
-      }).valueChanges;
-  }
-  getList(input: object) {
-    const query = gql`
-    query locations($input:locationInput){
-      locations(input:$input) {
-        _id
-        name
       }
     }
     `;
     return this.apollo
       .watchQuery<any>({
         query: query,
-        variables: { 'input': input },
+        variables: { 'register': registerInput, },
+        fetchPolicy: 'network-only'
+      }).valueChanges;
+  }
+  getList(register: object) {
+    const query = gql`
+    query($register:registerInput){
+      registers(input:$register) {
+        _id
+      }
+    }
+    `;
+    return this.apollo
+      .watchQuery<any>({
+        query: query,
+        variables: { 'register': register },
         fetchPolicy: 'network-only'
       }).valueChanges;
   }
 
-  getOne(input: object) {
+  getOne(register: object) {
     const query = gql`
-    query($input:locationInput!){
-      location(input:$input) {
+    query($register:registerInput!){
+      register(input:$register) {
         _id
         name
         options
@@ -91,29 +75,29 @@ export class LocationModel extends LocationData {
     return this.apollo
       .watchQuery<any>({
         query: query,
-        variables: { 'input': input },
+        variables: { 'register': register },
         fetchPolicy: 'network-only'
       }).valueChanges;
   }
 
-  save(input: Location) {
-    console.log(input)
+  save(register: Location) {
+    console.log(register)
     const mutation = gql`
-      mutation saveLocation($input:locationInput){
-        saveLocation(input: $input)
+      mutation saveRegister($register:registerInput!){
+        saveRegister(input: $register)
       }
       `;
     return this.apollo
       .mutate<any>({
         mutation: mutation,
-        variables: { 'input': input },
+        variables: { 'register': register },
       })
   }
 
   remove(id: string) {
     const mutation = gql`
-    mutation removeLocation($id: ID!) {
-      removeLocation(_id: $id)
+    mutation removeRegister($id: ID!) {
+      removeRegister(_id: $id)
     }
     `;
     return this.apollo
@@ -124,21 +108,9 @@ export class LocationModel extends LocationData {
   }
   static getFragment() {
     return gql`
-    fragment location on Location{
+    fragment register on Register{
       _id
-      name
-      center{ 
-        lat
-        lng
-      }
-      zones{
-        name
-        latsLngs{
-          lat
-          lng
-        }
-      }
-  }
+    }
     `;
   }
 

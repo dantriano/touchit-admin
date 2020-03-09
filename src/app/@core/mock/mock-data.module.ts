@@ -9,8 +9,6 @@ const SERVICES = [
   //{ provide: data.EventsData, useClass: mocks.EventsService },
   //{ provide: data.GroupData, useClass: mocks.GroupService },
   //{ provide: data.LocationData, useClass: mocks.LocationService },
-  { provide: data.RegistersData, useClass: mocks.RegistersService },
-  { provide: data.CompaniesData, useClass: mocks.CompaniesService },
 ];
 
 

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RegistersData } from '../../@core/data/registers';
+import { RegisterData } from '../../@core/data'
 
 @Component({
   selector: 'ngx-timeline',
@@ -75,8 +75,8 @@ export class TimelineComponent implements OnInit {
       ]
   };
   registers: any;
-  constructor(private service: RegistersData) {
-    this.registers = service.getRegisters();
+  constructor(private service: RegisterData) {
+    this.registers = service.getList();
     console.log(this.timeline);
   }
 

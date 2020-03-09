@@ -27,7 +27,7 @@ export class ListComponent implements OnInit {
     this.subscription = this.service.getList().subscribe((res) => {
       const data = res.data
       console.log(data)
-      this.dataSource.data = data[this.model];
+      this.dataSource.data = data[this.model]||[];
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     });

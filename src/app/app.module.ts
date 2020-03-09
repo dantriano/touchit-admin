@@ -31,7 +31,7 @@ import {
 } from '@coreui/angular';
 
 // Import routing module
-import { AppRoutingModule } from './app.routing';
+import { AppRoutingModule,routedComponents } from './app.routing';
 
 // Import 3rd party components
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
@@ -78,7 +78,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     P500Component,
     LoginComponent,
     RegisterComponent,
-    TestComponent
+    TestComponent,
+   // ...routedComponents
   ],
   providers: [AuthGuard,{
     provide: LocationStrategy,

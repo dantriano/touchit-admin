@@ -35,6 +35,7 @@ const DATA_SERVICES = [
   { provide: data.ActivityData, useClass: models.ActivityModel },
   { provide: data.GroupData, useClass: models.GroupModel },
   { provide: data.ConfigurationData, useClass: models.ConfigurationModel },
+  { provide: data.RegisterData, useClass: models.RegisterModel },
   /*{ provide: data.EventsData, useClass: services.EventsService },
   { provide: data.GroupsData, useClass: services.GroupsService },
  
