@@ -22,6 +22,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { AgmCoreModule, GoogleMapsAPIWrapper } from "@agm/core";
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import {MatListModule} from '@angular/material/list';
+
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
 };
@@ -29,7 +30,6 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 @NgModule({
   imports: [
     CommonModule,
-   
     TablesRoutingModule,
     ReactiveFormsModule,
     MatTableModule,

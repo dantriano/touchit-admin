@@ -18,24 +18,30 @@ export class RegisterModel extends RegisterData {
 
 
   load(registerInput: any) {
+    const activityInput={}
     const configInput = ConfigurationModel.getInputById('registerOptions');
     const configFragment = ConfigurationModel.getFragment();
     const location = {}
     const query = gql`
-    query($register:registerInput){
+    query($register:registerInput,$activity:activityInput){
       register(input:$register)  {
         _id
+      }
+      activities(input:$activity) {
+        _id
+        name
       }
     }
     `;
     return this.apollo
       .watchQuery<any>({
         query: query,
-        variables: { 'register': registerInput, },
+        variables: { 'register': registerInput,'activity': activityInput },
         fetchPolicy: 'network-only'
       }).valueChanges;
   }
   getList(register: object) {
+   
     const query = gql`
     query($register:registerInput){
       registers(input:$register) {

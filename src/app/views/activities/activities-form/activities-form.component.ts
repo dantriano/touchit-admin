@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from "@angular/router";
 import { ActivityData } from './../../../@core/data'
 import { ToastrService } from 'ngx-toastr';
 import { FormComponent } from 'app/views/common/form.component';
+
 @Component({
   selector: 'activites-form',
   templateUrl: './activities-form.component.html',

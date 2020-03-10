@@ -19,10 +19,31 @@
                 <div class="form-group">
                   <input type="hidden" formControlName="_id" class="form-control" />
                   <label>Activity</label>
-                  <input type="text" formControlName="activity" class="form-control"
+                  <input formControlName="activity" type="text" class="form-control"
                     [ngClass]="{ 'is-invalid': submitted && f.activity.errors }" />
                   <div *ngIf="submitted && f.activity.errors" class="invalid-feedback">
                     <div *ngIf="f.activity.errors.required">Activity is required</div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="col-lg-6">
+                <div class="card">
+                  <div class="card-header">
+                    <i class="fa fa-calendar"></i> Select allowed services for this group
+                  </div>
+                  <div class="card-body">
+                    <perfect-scrollbar class="scroll-area-sm" [config]="config">
+                      <div class="list-group">
+                        <mat-nav-list>
+                          <mat-selection-list>
+                            <mat-list-option *ngFor="let option of data.activities" [value]="option._id">
+                              <span>{{option.name}}</span>
+                            </mat-list-option>
+                          </mat-selection-list>
+                        </mat-nav-list>
+                      </div>
+                    </perfect-scrollbar>
                   </div>
                 </div>
               </div>
