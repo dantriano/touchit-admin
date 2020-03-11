@@ -51,12 +51,11 @@ export class ActivityModel extends ActivityData {
         _id
         name
         options
-        locations{
-          ...location
-        }
-        locationsAvailable{
-         ...location
-        }
+        startFrom
+        startTo
+        duration
+        days
+        locations
       }
       configuration(input:$configuration) {
         ... configFragment

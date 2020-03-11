@@ -14,36 +14,39 @@
         </div>
         <div class="card-body">
           <div *ngIf="obs$ | async as data; else loading" [formGroup]="form" (ngSubmit)="onSubmit()">
+            <input type="hidden" formControlName="_id" class="form-control" />
             <div class="row">
-              <div class="col-lg-6">
-                <div class="form-group">
-                  <input type="hidden" formControlName="_id" class="form-control" />
-                  <label>Activity</label>
-                  <input formControlName="activity" type="text" class="form-control"
-                    [ngClass]="{ 'is-invalid': submitted && f.activity.errors }" />
-                  <div *ngIf="submitted && f.activity.errors" class="invalid-feedback">
-                    <div *ngIf="f.activity.errors.required">Activity is required</div>
-                  </div>
-                </div>
-              </div>
-              
+
               <div class="col-lg-6">
                 <div class="card">
                   <div class="card-header">
-                    <i class="fa fa-calendar"></i> Select allowed services for this group
+                    <i class="fa fa-calendar"></i> Insert a new register
                   </div>
                   <div class="card-body">
-                    <perfect-scrollbar class="scroll-area-sm" [config]="config">
-                      <div class="list-group">
-                        <mat-nav-list>
-                          <mat-selection-list>
-                            <mat-list-option *ngFor="let option of data.activities" [value]="option._id">
-                              <span>{{option.name}}</span>
-                            </mat-list-option>
-                          </mat-selection-list>
-                        </mat-nav-list>
+                    <div class="form-group">
+                      <input type="hidden" class="form-control" formControlName="employee" />
+                      <input class="form-control" matInput placeholder="Employee" aria-label="Employee"
+                        [matAutocomplete]="auto" [formControl]="employeeName" (change)="f.employee.setValue('')" [ngClass]="{ 'is-invalid': (submitted && f.employee.errors)}" />
+                        <div *ngIf="f.employee.errors" class="invalid-feedback">
+                          <div *ngIf="f.employee.errors.required">Employee is required</div>
+                        </div>
+                      <mat-autocomplete #auto="matAutocomplete">
+                        <mat-option (onSelectionChange)="f.employee.setValue(option._id)" *ngFor="let option of filteredEmployees | async" [value]="option.firstName">
+                          <span>{{option.firstName}}</span>
+                        </mat-option>
+                      </mat-autocomplete>
+                    </div>
+                    <div class="form-group">
+                      <mat-label>Activty</mat-label>
+                      <mat-select class="form-control" formControlName="activity" [ngClass]="{ 'is-invalid': (submitted && f.activity.errors)}">
+                        <mat-option *ngFor="let option of data.activities" [value]="option._id">
+                          {{option.name}}
+                        </mat-option>
+                      </mat-select>
+                      <div *ngIf="f.activity.errors" class="invalid-feedback">
+                        <div *ngIf="f.activity.errors.required">Activity is required</div>
                       </div>
-                    </perfect-scrollbar>
+                    </div>
                   </div>
                 </div>
               </div>

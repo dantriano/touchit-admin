@@ -1,10 +1,10 @@
 import { Component, ViewChild, Output, EventEmitter } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { Router, ActivatedRoute } from "@angular/router";
 
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
-import { map } from 'rxjs/operators';
+import { map, startWith } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { FormValidator } from './form.validator';
 import { MapsService } from 'app/@core/utils';
@@ -16,13 +16,14 @@ export class FormComponent {
   public form: FormGroup;
   private formValidator: FormValidator;
   private submitted: boolean = false;
-  private obs$: Observable<any>;
+  public obs$: Observable<any>;
   private _id: any = null
   private model: string;
   private service: any;
   private formInputs: any = {};
   private uiName = 'Element'
-  @Output() onLoadContent= new EventEmitter();
+  @Output() onLoadContent = new EventEmitter();
+  @Output() onSubmitComplete = new EventEmitter();
   public validators: any = {
     valueExist: () => FormValidator.valueExist(this.service, this.model),
     required: Validators.required,
@@ -30,7 +31,7 @@ export class FormComponent {
   }
   config: any = {
     'redirect': 'settings',
-    'uiName' : 'Element'
+    'uiName': 'Element'
   }
   msg: any = {
     success: {
@@ -46,16 +47,18 @@ export class FormComponent {
   }
   submitObserver: any = {
     next: x => {
+      this.onSubmitComplete.emit(x);
       this.toastr.success(this.msg.success.saved);
       this.router.navigate([this.config.redirect])
       return
     },
     error: err => {
+      this.onSubmitComplete.emit(err);
       this.toastr.error(this.msg.err.ups);
       this.router.navigate([this.config.redirect])
       return
     },
-    //complete: () => console.log('Observer got a complete notification'),
+    complete: (x) => console.log('Observer got a complete notification'),
   };
   @ViewChild('infoModal') public dangerModal: ModalDirective;
 
@@ -70,11 +73,11 @@ export class FormComponent {
       this.loadContent();
     });
   }
-  test(a){debugger}
+  test(a,b) { debugger }
   loadForm() {
     this.form = new FormBuilder().group(this.formInputs)
   }
-  
+
   loadContent() {
     this.obs$ = this.service.load({ '_id': this._id }).pipe(map(res => {
       let data = res['data']
@@ -84,7 +87,7 @@ export class FormComponent {
         return;
       }
       if (data[this.model]) this.form.patchValue(data[this.model])
-      this.onLoadContent.emit(data); 
+      this.onLoadContent.emit(data);
       console.log(data)
       return data
     }, (error) => {
@@ -102,6 +105,7 @@ export class FormComponent {
     this.saveForm();
   }
   saveForm() {
+    console.log(this.form.value)
     return this.service.save(this.form.value).subscribe((this.submitObserver));
   }
 
@@ -119,7 +123,7 @@ export class FormComponent {
   }
   set(attr, obj) { this[attr] = obj }
   get(attr) { return this[attr] }
-  
+
   setOption(input, object, reset?) {
     let values = this.form.controls[input].value;
     if (reset) values = []
@@ -144,11 +148,23 @@ export class FormComponent {
   switchTriStatus(_id, input) {
     let el = this.getOption(_id, input)
 
-    if (!el || el.status==='null') status = 'allow'
+    if (!el || el.status === 'null') status = 'allow'
     else if (el.status === 'allow') status = 'deny'
     else if (el.status === 'deny') status = 'null'
 
-    let object={ '_id': _id, 'status': status };
-    this.setOption(input,object);
+    let object = { '_id': _id, 'status': status };
+    this.setOption(input, object);
+  }
+
+  public loadAutocomplete(source: any[], control: FormControl, by: string) {
+    return control.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => value ? this._filterAutocomplete(source, value, by) : source.slice())
+      );
+  }
+  private _filterAutocomplete(source: any[], value: string, by: string): any[] {
+    const filterValue = value.toLowerCase();
+    return source.filter(x => x[by].toLowerCase().indexOf(filterValue) === 0);
   }
 }

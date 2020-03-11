@@ -11,6 +11,16 @@ import { FormComponent } from 'app/views/common/form.component';
 })
 
 export class ActivitiesFormComponent extends FormComponent {
+  daysWeek:any=[
+    {_id:0,name:'Monday'},
+    {_id:1,name:'Tuesday'},
+    {_id:2,name:'Wensday'},
+    {_id:3,name:'Thursday'},
+    {_id:4,name:'Friday'},
+    {_id:5,name:'Saturday'},
+    {_id:6,name:'Sunday'}
+
+  ]
   constructor(public componentService: ActivityData, public route: ActivatedRoute, public router: Router, public toastr: ToastrService) {
     super(route,router,toastr);
   }
@@ -23,7 +33,11 @@ export class ActivitiesFormComponent extends FormComponent {
       _id: [''],
       name: ['', [validators.required],[validators.valueExist()]],
       locations: [[]],
-      options: [[]]
+      options: [[]],
+      startFrom:[''],
+      startTo:[''],
+      days:[[]],
+      duration:['']
     })
   }
 

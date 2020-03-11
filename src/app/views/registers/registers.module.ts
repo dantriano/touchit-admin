@@ -13,6 +13,9 @@ import { MatSortModule } from '@angular/material/sort';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { MatListModule } from '@angular/material/list';
 
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatSelectModule} from '@angular/material/select';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -24,7 +27,9 @@ import { MatListModule } from '@angular/material/list';
     MatSortModule,
     MatListModule,
     ModalModule.forRoot(),
-    BsDropdownModule
+    BsDropdownModule,
+    MatAutocompleteModule,
+    MatSelectModule
   ],
   schemas:[CUSTOM_ELEMENTS_SCHEMA],
   declarations: [

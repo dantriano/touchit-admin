@@ -45,6 +45,7 @@ import { AuthGuard } from './auth.guard';
 import { GraphQLModule } from './graphql.module';
 import { HttpClientModule } from '@angular/common/http';
 import { TestComponent } from './views/test/test.component';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
@@ -68,7 +69,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     ToastrModule.forRoot(),
     ModalModule.forRoot(),
     GraphQLModule,
-    HttpClientModule
+    HttpClientModule,
+    NgxMaterialTimepickerModule
     ],
     exports:[ModalModule],
   declarations: [
