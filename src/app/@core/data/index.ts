@@ -7,3 +7,4 @@ export * from './group';
 export * from './location';
 export * from './register';
 export * from './configuration';
+export * from './user';

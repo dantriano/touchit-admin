@@ -14,6 +14,6 @@ export class EmployeesListComponent extends ListComponent implements OnInit {
   public loadComponent() {
     this.set('model', 'employees');
     this.set('service', this.componentService);
-    this.set('displayedColumns', ['avatar', 'employeeId', 'employeeCode', 'firstName', 'lastName', 'status', 'options']);
+    this.set('displayedColumns', ['avatar',/* 'employeeId', 'employeeCode'*/ 'firstName', 'lastName', 'status', 'options']);
   }
 }

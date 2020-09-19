@@ -28,6 +28,7 @@ export class LocationModel extends LocationData {
       location(input:$location)  {
         _id
         name
+        options
         center{
           lat
           lng

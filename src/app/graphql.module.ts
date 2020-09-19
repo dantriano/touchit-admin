@@ -20,11 +20,12 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
     console.log(`[Network error]: ${networkError}`);
   }
 });
-
-const user = JSON.parse(localStorage.getItem('currentUser'));
+const currentUser=localStorage.getItem('currentUser');
+const user = (currentUser && currentUser!='undefined')?JSON.parse(currentUser):'';
 const auth = setContext((operation, context) => ({
   headers: {
-    Authorization: user.token
+    Authorization: (user)?user.token:'',
+    //CurrentCompany:'5e6acf4e2a94ac32a586eafa'
   },
 }));
 

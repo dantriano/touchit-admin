@@ -29,18 +29,13 @@ const socialLinks = [
 
 
 const DATA_SERVICES = [
-  //{ provide: data.UsersData, useClass: services.UsersService },
   { provide: data.EmployeeData, useClass: models.EmployeeModel },
   { provide: data.LocationData, useClass: models.LocationModel },
   { provide: data.ActivityData, useClass: models.ActivityModel },
   { provide: data.GroupData, useClass: models.GroupModel },
   { provide: data.ConfigurationData, useClass: models.ConfigurationModel },
   { provide: data.RegisterData, useClass: models.RegisterModel },
-  /*{ provide: data.EventsData, useClass: services.EventsService },
-  { provide: data.GroupsData, useClass: services.GroupsService },
- 
-  { provide: data.RegistersData, useClass: services.RegistersService },
-  { provide: data.CompaniesData, useClass: services.CompaniesService },*/
+  { provide: data.UserData, useClass: models.UserModel },
 ];
 
 

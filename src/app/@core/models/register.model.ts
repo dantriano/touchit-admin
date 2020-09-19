@@ -23,7 +23,6 @@ export class RegisterModel extends RegisterData {
     const configInput = ConfigurationModel.getInputById('registerOptions');
     const configFragment = ConfigurationModel.getFragment();
     const location = {}
-    console.log(registerInput)
     const query = gql`
     query($register:registerInput,$activity:activityInput,$employee:employeeInput){
       register(input:$register)  {

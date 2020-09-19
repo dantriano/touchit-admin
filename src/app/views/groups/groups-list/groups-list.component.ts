@@ -14,6 +14,6 @@ export class GroupsListComponent extends ListComponent implements OnInit {
   public loadComponent() {
     this.set('model', 'groups');
     this.set('service', this.componentService);
-    this.set('displayedColumns', ['id', 'name', 'status', 'options']);
+    this.set('displayedColumns', [/*'id',*/ 'name', /*'status', */'options']);
   }
 }
