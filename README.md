@@ -29,7 +29,7 @@ It is based on Bootstrap 4 and uses
 | Dashboard | Locations |
 | --- | --- |
 | ![Dashboard](img/dashboard.png?raw=true "Dashboard")
-| ![Locations](img/locations.png?raw=true "Locations")
+| ![Locations](img/locations.png?raw=true "Locations") |
 
 #### Prerequisites
 Before you begin, make sure your development environment includes `Node.js®`, `Graphql server` and an `npm` package manager and is up the [Touch it Graphql server](https://gitlab.com/dantriano/touchit_graphql) on port 5000.
