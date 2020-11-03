@@ -1,0 +1,12 @@
+{
+    "dev": {
+        "host": "localhost",
+        "user": "devroot",
+        "password" : "devroot",
+        "port": "27017",
+        "database": "touch_it",
+        "multipleStatements": true,
+        "driver": "mongodb",
+        "authSource":"admin"
+    }
+}

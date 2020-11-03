@@ -6,7 +6,7 @@ services:
     image: node:10
     container_name: node
     working_dir: /app
-    command: sh -c "npm install && npm run dev"
+    command: sh -c "npm install && npm install -g migrate-mongo && npm run dev"
     restart: unless-stopped
     environment:
       - MONGO_URI=mongodb://${MONGO_ROOT_USER}:${MONGO_ROOT_PASSWORD}@mongo:27017
