@@ -1,0 +1,75 @@
+version: '3'
+services:
+  # To connect: in the oackage.json PROJECT must be
+  #"start": "ng serve --host=0.0.0.0 --port 4200",
+  node:
+    image: node:10
+    container_name: node
+    working_dir: /app
+    command: sh -c "npm install && npm run dev"
+    restart: unless-stopped
+    environment:
+      - MONGO_URI=mongodb://${MONGO_ROOT_USER}:${MONGO_ROOT_PASSWORD}@mongo:27017
+    ports:
+      - ${NODE_PORT}:4200
+    volumes:
+      - ${PROJECT_PATH}:/app
+    networks:
+      - app-network
+
+  graphql:
+    image: node:10
+    container_name: graphql
+    working_dir: /app
+    command: sh -c "npm install && npm run dev"
+    restart: unless-stopped
+    ports:
+      - ${GRAPHQL_PORT}:${GRAPHQL_PORT}
+    volumes:
+      - ${GRAPHQL_PATH}:/app
+    depends_on:
+      - mongo
+    restart: always
+  
+  mongo:
+    image: mongo:4
+    container_name: mongo
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_ROOT_USER}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_ROOT_PASSWORD}
+      - MONGO_INITDB_DATABASE=touch_it
+    ports:
+      - ${MONGO_PORT}:27017
+    volumes:
+      - ${DATA_PATH}:/data/db  
+    networks:
+      - app-network
+    restart: always
+
+  mongo-express:
+    image: mongo-express:0.54
+    container_name: mongo-express
+    environment:
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=${MONGO_ROOT_USER}
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=${MONGO_ROOT_PASSWORD}
+      - ME_CONFIG_MONGODB_SERVER=mongo
+      - ME_CONFIG_MONGODB_PORT=27017
+      - ME_CONFIG_MONGODB_ENABLE_ADMIN=true
+      - ME_CONFIG_MONGODB_AUTH_DATABASE=admin
+      - ME_CONFIG_MONGODB_AUTH_USERNAME=${MONGO_ROOT_USER}
+      - ME_CONFIG_MONGODB_AUTH_PASSWORD=${MONGO_ROOT_PASSWORD}
+      - ME_CONFIG_OPTIONS_EDITORTHEME=ambiance
+      - ME_CONFIG_BASICAUTH_USERNAME=${MONGOEXPRESS_LOGIN}
+      - ME_CONFIG_BASICAUTH_PASSWORD=${MONGOEXPRESS_PASSWORD}
+    depends_on:
+        - mongo
+    restart: always
+    ports:
+      - 8888:8081
+    networks:
+      - app-network
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge

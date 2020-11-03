@@ -9,6 +9,9 @@
 # dependencies
 /node_modules
 package-lock.json
+/graphql/node_modules
+/graphql/package-lock.json
+
 
 # IDEs and editors
 /.idea
@@ -43,3 +46,6 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+#data
+/data
