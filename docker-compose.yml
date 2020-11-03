@@ -27,13 +27,15 @@ services:
       - ${GRAPHQL_PORT}:${GRAPHQL_PORT}
     volumes:
       - ${GRAPHQL_PATH}:/app
+    networks:
+      - app-network
     depends_on:
       - mongo
-    restart: always
   
   mongo:
     image: mongo:4
     container_name: mongo
+    restart: unless-stopped
     environment:
       - MONGO_INITDB_ROOT_USERNAME=${MONGO_ROOT_USER}
       - MONGO_INITDB_ROOT_PASSWORD=${MONGO_ROOT_PASSWORD}
@@ -44,11 +46,11 @@ services:
       - ${DATA_PATH}:/data/db  
     networks:
       - app-network
-    restart: always
 
   mongo-express:
     image: mongo-express:0.54
     container_name: mongo-express
+    restart: unless-stopped
     environment:
       - ME_CONFIG_MONGODB_ADMINPASSWORD=${MONGO_ROOT_USER}
       - ME_CONFIG_MONGODB_ADMINUSERNAME=${MONGO_ROOT_PASSWORD}
@@ -63,7 +65,6 @@ services:
       - ME_CONFIG_BASICAUTH_PASSWORD=${MONGOEXPRESS_PASSWORD}
     depends_on:
         - mongo
-    restart: always
     ports:
       - 8888:8081
     networks:
