@@ -1,12 +1,13 @@
 import { AuthenticationError } from 'apollo-server';
 import * as utils from './utils';
-
+let status
 export default {
   Query: {
     location: async (parent, { input }, { models: { locationModel }, me }, info) => {
       if (!me) {
         throw new AuthenticationError('You are not authenticated');
       }
+      console.log(input)
       const result = (input._id) ? await locationModel.findById({ _id: utils.objectId(input._id) }) : await locationModel.findOne(input).exec();
       return result;
     },
@@ -23,13 +24,13 @@ export default {
       if (!me)
         throw new AuthenticationError('You are not authenticated');
         if(input._id){
-          input._id = utils.objectId(input._id);
-          let status = await locationModel.updateOne({ _id: input._id }, input);
+          status = await locationModel.updateOne({ _id: input._id }, input);
+          return (status.ok&&status.nModified>0);
         }else{
           input._id = utils.objectId();
-          let result = await locationModel.create(input);
+          status= await locationModel.create(input);
+          return status!==undefined    
         }
-      return true
     },
     removeLocation: async (parent, { _id }, { models: { locationModel }, me }, info) => {
       if (!me)

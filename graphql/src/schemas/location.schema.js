@@ -17,11 +17,9 @@ const locationSchema= gql`
     lng: Float
   }
   type zones  {
-    name:String,
     latsLngs: [latLng],
   }
   input zonesInput  {
-    name:String,
     latsLngs: [latLngInput],
   }
   input locationInput  {
@@ -31,7 +29,6 @@ const locationSchema= gql`
     zones: [zonesInput],
     options: [String]
   }
-
   extend type Query {
     location(input: locationInput): Location
     locations(input: locationInput): [Location]
@@ -40,6 +37,5 @@ const locationSchema= gql`
     saveLocation(input:locationInput): Boolean
     removeLocation(_id: ID!): Boolean
   }
-
 `;
 export default locationSchema;

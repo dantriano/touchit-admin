@@ -15,11 +15,8 @@ export class LocationModel extends LocationData {
   get location() { return this._location }
   set locations(locations: Location[]) { this._locations = locations }
   get locations() { return this._locations }
-
   load(input: any) {
-    const configInput = {'id':'locationOptions','status':'active'};
-    //const configInput = ConfigurationModel.getInputById('locationOptions');
-    const configFragment = ConfigurationModel.getFragment();
+    const configInput = ConfigurationModel.getInputById('locationOptions');
     const location = {}
     const query = gql`
     query($configuration:configurationsInput!,$location:locationInput){
@@ -29,20 +26,19 @@ export class LocationModel extends LocationData {
       location(input:$location)  {
         _id
         name
-        options
-        center{
+        center{ 
           lat
           lng
         }
         zones{
-          name
           latsLngs{
             lat
             lng
           }
         }
       }
-    }${configFragment}
+    }
+    ${ConfigurationModel.getFragment()}
     `;
     return this.apollo
       .watchQuery<any>({
@@ -80,7 +76,6 @@ export class LocationModel extends LocationData {
           lng
         }
         zones{
-          name
           latsLngs{
             lat
             lng
@@ -98,7 +93,6 @@ export class LocationModel extends LocationData {
   }
 
   save(input: Location) {
-    console.log(input)
     const mutation = gql`
       mutation saveLocation($input:locationInput){
         saveLocation(input: $input)
@@ -125,7 +119,7 @@ export class LocationModel extends LocationData {
   }
   static getFragment() {
     return gql`
-    fragment location on Location{
+    fragment locationFragment on Location{
       _id
       name
       center{ 
@@ -133,7 +127,6 @@ export class LocationModel extends LocationData {
         lng
       }
       zones{
-        name
         latsLngs{
           lat
           lng

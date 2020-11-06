@@ -17,7 +17,7 @@ export class ConfigurationModel extends ConfigurationData {
     return this._types[type];
   }
   static getInputById(id) {
-    return { 'id': id }
+    return { 'id': id, 'status':'active' }
   }
   static getFragment() {
     return gql`

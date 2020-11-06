@@ -39,7 +39,7 @@ export class LocationsFormComponent extends FormComponent {
     let poligon = event.overlay;
     let points=poligon.getPath().getArray().map((e)=>e.toJSON());    
     this.mapMgr.poligons.push(poligon);
-    this.setOption('zones',{ name: 'noname', latsLngs: points })
+    this.setOption('zones',{latsLngs: points })
   }
   //Delte selected zones
   deleteZone(index) {

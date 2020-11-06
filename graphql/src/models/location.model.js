@@ -5,7 +5,6 @@ const latLng = {
   lng: String,
 }
 const zone ={
-  name: String,
   latsLngs: [latLng],
 }
 const locationSchema = new mongoose.Schema({

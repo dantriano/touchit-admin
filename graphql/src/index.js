@@ -23,7 +23,6 @@ const getUser = async (req) => {
     }
 };
 const isAdmin = async (req) => {
-    console.log(req)
     const company = req.headers.CurrentCompany || ''
     console.log(company)
     if(company)
@@ -50,5 +49,5 @@ server.applyMiddleware({ app, path: '/graphql' });
 server.applyMiddleware({ app, path: '/api' });
 
 app.listen(5000, () => {
-    mongoose.connect('mongodb://devroot:devroot@mongo:27017/touch_it?authSource=admin', { useCreateIndex: true, useUnifiedTopology: true, useNewUrlParser: true });
+    mongoose.connect('mongodb://devroot:devroot@localhost:27017/touch_it?authSource=admin', { useCreateIndex: true, useUnifiedTopology: true, useNewUrlParser: true });
 });
