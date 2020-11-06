@@ -52,7 +52,7 @@
     "@fullcalendar/interaction": "^4.1.0",
     "@fullcalendar/list": "^4.1.0",
     "@fullcalendar/timegrid": "^4.1.0",
-    "apollo-angular": "^1.8.0",
+    "apollo-angular": "^2.1.0",
     "apollo-angular-link-http": "^1.9.0",
     "apollo-cache-inmemory": "^1.6.0",
     "apollo-client": "^2.6.0",
