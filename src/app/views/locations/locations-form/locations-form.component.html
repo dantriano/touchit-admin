@@ -28,7 +28,17 @@
                       <div *ngIf="f.name.errors.exist">Name already exist</div>
                     </div>
                   </div>
-                  <div *ngIf="data.configuration.value?.length>0" class="list-group">
+
+                  <perfect-scrollbar  *ngIf="f.zones.value?.length>0" class="scroll-area-sm" [config]="config">
+                    <ul class="list-group">
+                      <li *ngFor="let option of f.zones.value; let i = index" (click)="goLocation(option)"
+                        class="list-group-item list-group-item-action justify-content-between d-flex ">Zone
+                        {{i+1}}<button (click)="deleteZone(i);unsetOption('zones', {'_id':option._id})"
+                          class="btn btn-sm btn-primary">
+                          <i class="fa fa-plus-square-o"></i> Remove Zone</button></li>
+                    </ul>
+                  </perfect-scrollbar>
+                  <div *ngIf="data.configuration && data.configuration.value?.length>0" class="list-group">
                     <mat-nav-list>
                       <label class="form-col-form-label">Options</label>
                       <mat-selection-list #options formControlName="options">
@@ -43,18 +53,9 @@
               <div class="col-lg-6">
                 <div class="card">
                   <div class="card-header">
-                    <i class="fa fa-map"></i> List of zones
+                    <i class="fa fa-map"></i> Select different zones
                   </div>
                   <div class="card-body">
-                    <perfect-scrollbar  *ngIf="f.zones.value?.length>0" class="scroll-area-sm" [config]="config">
-                      <ul class="list-group">
-                        <li *ngFor="let option of f.zones.value; let i = index" (click)="goLocation(option)"
-                          class="list-group-item list-group-item-action justify-content-between d-flex ">Zone
-                          {{option.name}} <button (click)="deleteZone(i);unsetOption('zones', {'_id':option._id})"
-                            class="btn btn-sm btn-primary">
-                            <i class="fa fa-plus-square-o"></i> Remove Zone</button></li>
-                      </ul>
-                    </perfect-scrollbar>
                     <div class="card-body" *ngIf="center">
                       <agm-map [latitude]="center.lat" [longitude]="center.lng" (mapReady)="onMapReady($event)">
                       </agm-map>

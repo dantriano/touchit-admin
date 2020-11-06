@@ -9,6 +9,9 @@ const configurationSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
+  status: {
+    type: String,
+  },
   desc: {
     type: String,
   },

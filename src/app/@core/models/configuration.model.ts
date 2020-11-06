@@ -22,8 +22,9 @@ export class ConfigurationModel extends ConfigurationData {
   static getFragment() {
     return gql`
     fragment configFragment on Configuration {
-      id
+        id
         type
+        status
         value{
           _id
           desc
@@ -38,6 +39,7 @@ export class ConfigurationModel extends ConfigurationData {
       configuration(input:$input) {
           id
           type
+          status
           value{
             id
             desc

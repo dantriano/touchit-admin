@@ -45,5 +45,11 @@ export class LocationsFormComponent extends FormComponent {
   deleteZone(index) {
     this.mapMgr.deletePoligon(index)
   }
+  goLocation(location) {
+    let center= location.latsLngs[0]
+    this.mapMgr.map.setCenter(center);
+    this.mapMgr.resetPoligon()
+      this.mapMgr.loadPoligons(location);
+  }
 }
 

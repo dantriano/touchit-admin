@@ -54,7 +54,7 @@ export class FormComponent {
     },
     error: err => {
       this.onSubmitComplete.emit(err);
-      this.toastr.error(this.msg.err.ups);
+      this.toastr.error(this.msg.error.ups);
       this.router.navigate([this.config.redirect])
       return
     },

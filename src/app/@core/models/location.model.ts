@@ -17,7 +17,8 @@ export class LocationModel extends LocationData {
   get locations() { return this._locations }
 
   load(input: any) {
-    const configInput = ConfigurationModel.getInputById('locationOptions');
+    const configInput = {'id':'locationOptions','status':'active'};
+    //const configInput = ConfigurationModel.getInputById('locationOptions');
     const configFragment = ConfigurationModel.getFragment();
     const location = {}
     const query = gql`

@@ -32,7 +32,7 @@ const auth = setContext((operation, context) => ({
 export function createApollo(httpLink: HttpLink) {
   return {
     link: ApolloLink.from([auth, httpLink.create({ uri })]),
-    cache: new InMemoryCache({ addTypename: false}),
+    cache: new InMemoryCache({ addTypename: true}),
   };
 }
 @NgModule({
