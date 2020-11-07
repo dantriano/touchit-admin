@@ -12,7 +12,6 @@ import { MapsService } from 'app/@core/utils';
 
 export class FormComponent {
   public mapMgr: any;
-  private center: any = MapsService.center;
   public form: FormGroup;
   private formValidator: FormValidator;
   private submitted: boolean = false;
@@ -73,7 +72,6 @@ export class FormComponent {
       this.loadContent();
     });
   }
-  test(a,b) { debugger }
   loadForm() {
     this.form = new FormBuilder().group(this.formInputs)
   }

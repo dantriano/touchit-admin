@@ -6,7 +6,7 @@
           <i class="fa fa-pencil-square-o"></i> Locations <button class="btn btn-link" (click)="infoModal.show()"><i
               class="icon-info"></i></button>
           <div class="card-header-actions">
-            <button (click)="onSubmit()" class="btn btn-sm btn-primary" type="submit">
+            <button (click)="onSubmit()" class="btn btn-sm btn-primary" type="submit" > <!--[disabled]="!form.valid"-->
               <i class="fa fa-dot-circle-o"></i> Submit</button>
             <button class="btn btn-sm btn-danger" type="reset" (click)="onReset()">
               <i class="fa fa-ban"></i> Cancel</button>
@@ -15,12 +15,15 @@
         <div class="card-body">
           <div *ngIf="obs$ | async as data; else loading" [formGroup]="form" (ngSubmit)="onSubmit()">
             <input type="hidden" formControlName="_id" class="form-control" />
-            <input type="hidden" formControlName="zones" class="form-control" />
             <div class="row">
               <div class="col-lg-6">
                 <div class="form-col">
                   <div class="form-group">
-                    <label>Name</label>
+                    <input type="text" formControlName="zones" class="form-control" [ngClass]="{ 'is-invalid': (submitted && f.zones.errors)}"  />              
+                    <div *ngIf="f.zones.errors" class="invalid-feedback">
+                      <div *ngIf="f.zones.errors.required">Zone is required</div>
+                    </div>
+                     <label>Name</label>
                     <input type="text" formControlName="name" class="form-control"
                       [ngClass]="{ 'is-invalid': (submitted && f.name.errors) || (f.name.errors && f.name.errors.exist)}" />
                     <div *ngIf="f.name.errors" class="invalid-feedback">
@@ -28,7 +31,6 @@
                       <div *ngIf="f.name.errors.exist">Name already exist</div>
                     </div>
                   </div>
-
                   <perfect-scrollbar  *ngIf="f.zones.value?.length>0" class="scroll-area-sm" [config]="config">
                     <ul class="list-group">
                       <li *ngFor="let option of f.zones.value; let i = index" (click)="goLocation(option)"
@@ -56,8 +58,8 @@
                     <i class="fa fa-map"></i> Select different zones
                   </div>
                   <div class="card-body">
-                    <div class="card-body" *ngIf="center">
-                      <agm-map [latitude]="center.lat" [longitude]="center.lng" (mapReady)="onMapReady($event)">
+                    <div class="card-body">
+                      <agm-map [zoom]="16" [latitude]="lat" [longitude]="lng" (mapReady)="onMapReady($event)">
                       </agm-map>
                     </div>
                   </div>

@@ -19,11 +19,6 @@ export class MapsService {
   constructor(map) {
     this.map = map
   }
-
-  static center = {
-    lat: 33.5362475,
-    lng: -111.9267386
-  };
   //Delte selected zones
   overZone(polygon, inn) {
     polygon.setOptions({ fillColor: (inn) ? overFillColor : fillColor, strokeColor: (inn) ? overStrokeColor : strokeColor });
@@ -76,7 +71,6 @@ export class MapsService {
     });
     return isIn;
   }
-
   //Draw the current areas
   loadPoligons(zone) {
     var path = [];
@@ -94,4 +88,24 @@ export class MapsService {
     });
     this.poligons.push(poligon);
   }
+
+  setCurrentPosition(){
+    if ("geolocation" in navigator) { 
+    navigator.geolocation.getCurrentPosition((position) => { 
+      this.center.lat = position.coords.latitude;
+      this.center.lng = position.coords.longitude;
+      this.map.setCenter(this.center);
+      //this.getLocationAddress() 
+    }, failure => {  
+        this.map.setZoom(2);
+            switch (failure.code) {
+              case 3:// ...deal with timeout
+                break;
+              case 2:// ...device can't get data
+                break;
+              case 1:// ...user said no (PERMISSION_DENIED)
+            }
+        }); 
+      }   
+    }
 }

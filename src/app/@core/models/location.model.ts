@@ -43,7 +43,7 @@ export class LocationModel extends LocationData {
     return this.apollo
       .watchQuery<any>({
         query: query,
-        variables: { 'activity': input, 'configuration': configInput, 'location': location },
+        variables: {'configuration': configInput, 'location': input },
         fetchPolicy: 'network-only'
       }).valueChanges;
   }
