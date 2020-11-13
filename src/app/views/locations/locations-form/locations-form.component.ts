@@ -26,7 +26,8 @@ export class LocationsFormComponent extends FormComponent {
     this.set('formInputs', {
       _id: [''],
       name: ['', [validators.required],[validators.valueExist()]],
-      zones: [[],[validators.required]],
+      //name: ['', [validators.required]],
+      zones: ['', [validators.required]],
       options: [[]]
     })
   }
@@ -54,6 +55,7 @@ export class LocationsFormComponent extends FormComponent {
   }
   //Delte selected zones
   deleteZone(index) {
+    this.zones.splice(index, 1);
     this.mapMgr.deletePoligon(index)
   }
   goLocation(location) {
