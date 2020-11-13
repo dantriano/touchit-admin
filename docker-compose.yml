@@ -1,6 +1,6 @@
-version: '3'
+version: '3.8'
 services:
-  # To connect: in the oackage.json PROJECT must be
+  # To connect: in the poackage.json PROJECT must be
   #"start": "ng serve --host=0.0.0.0 --port 4200",
   node:
     image: node:10
