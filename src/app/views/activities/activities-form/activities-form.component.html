@@ -85,9 +85,9 @@
                     <label>Locations</label>
                     <ul class="list-group">
                       <li href="#" *ngFor="let option of data.locations; let i = index"
-                        [ngClass]="{'hidden':f.locations.value.includes(option._id)==false}" (click)="goLocation(option)"
+                        [ngClass]="{'hidden':f.locations.value.includes(option._id)==false}" (mouseover)="previewLocation(option)"
                         class="list-group-item list-group-item-action justify-content-between  d-flex ">
-                        {{option.name}} <button (click)="f.locations.value.splice(option._id);"
+                        {{option.name}} <button (click)="deleteLocation(option)"
                           class="btn btn-sm btn-danger">
                           <i class="fa fa-trash-o"></i> Remove location</button></li>
                     </ul>
@@ -116,17 +116,14 @@
                     <perfect-scrollbar class="scroll-area-sm" [config]="config">
                       <ul class="list-group">
                         <li *ngFor="let option of data.locations; let i = index"
-                          [ngClass]="{'hidden':f.locations.value.includes(option._id)==true}" (click)="goLocation(option)"
+                          [ngClass]="{'hidden':f.locations.value.includes(option._id)==true}" (mouseover)="previewLocation(option)"
                           class="list-group-item list-group-item-action justify-content-between  d-flex ">
-                          {{option.name}} <button (click)="f.locations.value.push(option._id);"
+                          {{option.name}} <button (click)="addLocation(option)"
                             class="btn btn-sm btn-primary">
                             <i class="fa fa-plus-square-o"></i> Add location</button></li>
                       </ul>
                     </perfect-scrollbar>
-                    <div class="card-body" *ngIf="center">
-                      <agm-map [latitude]="center.lat" [longitude]="center.lng" (mapReady)="onMapReady($event)">
-                      </agm-map>
-                    </div>
+                      <agm-map [zoom]="m.zoom" [latitude]="m.center.lat" [longitude]="m.center.lng" (mapReady)="onMapReady($event)"></agm-map>
                   </div>
                 </div>
               </div>

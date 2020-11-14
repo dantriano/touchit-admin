@@ -11,16 +11,23 @@ export class MapsService {
     lat: 33.5362475,
     lng: -111.9267386
   };
+  zoom: any = 16;
   map: any;
   poligon: any;
   points: any;
   poligons: any[] = [];
   drawingManager: any;
-  constructor(map) {
+  constructor() {this.setCurrentPosition(); }
+  setMap(map) {
     this.map = map
+    this.map.setCenter(this.center);
+    this.map.setZoom(15);
   }
   selectZone(i) {
     this.poligons.forEach((e,index) => e.setOptions({ fillColor: (i==index) ? overFillColor : fillColor, strokeColor: (i==index) ? overStrokeColor : strokeColor }));
+  }
+  goZone(i) {
+    this.map.setCenter(this.poligons[i].getPath().getAt(0));
   }
   getDrawingManager() {
     return this.drawingManager;
@@ -96,10 +103,7 @@ export class MapsService {
     navigator.geolocation.getCurrentPosition((position) => { 
       this.center.lat = position.coords.latitude;
       this.center.lng = position.coords.longitude;
-      this.map.setCenter(this.center);
-      //this.getLocationAddress() 
     }, failure => {  
-        this.map.setZoom(2);
             switch (failure.code) {
               case 3:// ...deal with timeout
                 break;

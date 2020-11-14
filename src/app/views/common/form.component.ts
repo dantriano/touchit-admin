@@ -11,7 +11,7 @@ import { MapsService } from 'app/@core/utils';
 
 
 export class FormComponent {
-  public mapMgr: any;
+  public mapMgr: MapsService = new MapsService();
   public form: FormGroup;
   private submitted: boolean = false;
   public obs$: Observable<any>;
@@ -74,6 +74,9 @@ export class FormComponent {
   loadForm() {
     this.form = new FormBuilder().group(this.formInputs)
   }
+  loadMap() {
+    this.mapMgr = new MapsService();
+  }
 
   loadContent() {
     this.obs$ = this.service.load({ '_id': this._id }).pipe(map(res => {
@@ -93,6 +96,7 @@ export class FormComponent {
     }));
   }
   get f() { return this.form.controls; }
+  get m() { return this.mapMgr; }
 
   onSubmit() {
     this.submitted = true;
@@ -111,7 +115,7 @@ export class FormComponent {
     this.router.navigate([this.config.redirect]);
   }
   onMapReady(map) {
-    this.mapMgr = new MapsService(map);
+    this.mapMgr.setMap(map);
   }
   switchElement(el, source, dest) {
     dest.push(el);

@@ -22,6 +22,7 @@ export class ConfigurationModel extends ConfigurationData {
   static getFragment() {
     return gql`
     fragment configFragment on Configuration {
+        __typename
         id
         type
         status

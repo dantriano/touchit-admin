@@ -25,13 +25,13 @@ export class ActivitiesFormComponent extends FormComponent {
     super(route,router,toastr);
   }
   public loadComponent(){
-    const validators=this.get('validators');
     this.set('uiName','Activity');
     this.set('model','activity');
     this.set('service',this.componentService);
     this.set('formInputs', {
       _id: [''],
-      name: ['', [validators.required],[validators.valueExist()]],
+      //name: ['', [validators.required],[validators.valueExist()]],
+      name: ['', [this.validators.required]],
       locations: [[]],
       options: [[]],
       startFrom:[''],
@@ -40,14 +40,19 @@ export class ActivitiesFormComponent extends FormComponent {
       duration:['']
     })
   }
-
-  goLocation(location) {
-    let center= location.zones[0].latsLngs[0]
-    this.mapMgr.map.setCenter(center);
-    this.mapMgr.resetPoligon()
-    location.zones.forEach(element => {
-      this.mapMgr.loadPoligons(element);
-    });
+  deleteLocation(el) {
+    let locations = this.form.controls.locations.value;
+    locations.splice(locations.indexOf(el._id), 1);
+    this.form.controls.locations.setValue(locations);
+  }
+  addLocation(el) {
+    let locations = this.form.controls.locations.value;
+    locations.push(el._id);
+    this.form.controls.locations.setValue(locations);
+  }
+  previewLocation(location){
+      location.zones.forEach(e => this.mapMgr.areaToPoligon(e));
+      this.mapMgr.map.setCenter(location.zones[0].latsLngs[0]);
   }
   
 }

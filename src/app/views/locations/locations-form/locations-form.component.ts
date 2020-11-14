@@ -12,8 +12,6 @@ declare const google: any;
 })
 
 export class LocationsFormComponent extends FormComponent {
-  lat: number = 21.149102499999998;
-  lng: number = 72.77611639999999;
   zones =[]
   constructor(public componentService: LocationData, public route: ActivatedRoute, public router: Router, public toastr: ToastrService) {
     super(route,router,toastr);
@@ -34,13 +32,9 @@ export class LocationsFormComponent extends FormComponent {
   onMapReady(map) {
     super.onMapReady(map)
     this.mapMgr.initDrawingManager();
-    this.zones = this.form.value.zones?this.form.value.zones:[];
     if(this.form.value.zones && this.form.value.zones.length>0){
       this.form.value.zones.forEach(e => this.mapMgr.areaToPoligon(e));
-      this.mapMgr.center=this.form.value.zones[0].latsLngs[0]
-      this.mapMgr.map.setCenter(this.mapMgr.center);
-    }else{
-      this.mapMgr.setCurrentPosition();
+      this.mapMgr.map.setCenter(this.form.value.zones[0].latsLngs[0]);
     }
     google.maps.event.addListener(this.mapMgr.drawingManager, 'overlaycomplete', (event) => {
       this.createZone(event)
@@ -61,11 +55,6 @@ export class LocationsFormComponent extends FormComponent {
     zones.splice(index, 1);
     this.form.controls.zones.setValue(zones);
     this.mapMgr.deletePoligon(index);
-  }
-
-  goZone(index) {
-    let poligon = this.mapMgr.poligons[index]
-    this.mapMgr.map.setCenter(poligon.getPath().getAt(0));
   }
 }
 

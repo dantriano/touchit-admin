@@ -120,6 +120,7 @@ export class LocationModel extends LocationData {
   static getFragment() {
     return gql`
     fragment locationFragment on Location{
+      __typename
       _id
       name
       center{ 

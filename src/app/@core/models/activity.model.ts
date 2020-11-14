@@ -61,7 +61,7 @@ export class ActivityModel extends ActivityData {
         ... configFragment
       }
       locations(input:$location)  {
-        ...location
+        ...locationFragment
       }
     }
   ${locationFragment}
