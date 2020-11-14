@@ -6,7 +6,7 @@
           <i class="fa fa-pencil-square-o"></i> Locations <button class="btn btn-link" (click)="infoModal.show()"><i
               class="icon-info"></i></button>
           <div class="card-header-actions">
-            <button (click)="onSubmit()" class="btn btn-sm btn-primary" type="submit" > <!--[disabled]="!form.valid"-->
+            <button (click)="onSubmit()" class="btn btn-sm btn-primary" type="submit"><!--[disabled]="!form.valid">--> 
               <i class="fa fa-dot-circle-o"></i> Submit</button>
             <button class="btn btn-sm btn-danger" type="reset" (click)="onReset()">
               <i class="fa fa-ban"></i> Cancel</button>
@@ -19,10 +19,6 @@
               <div class="col-lg-6">
                 <div class="form-col">
                   <div class="form-group">
-                    <input type="text" formControlName="zones" class="form-control" [ngClass]="{ 'is-invalid': (submitted && f.zones.errors)}"  />              
-                    <div *ngIf="f.zones.errors" class="invalid-feedback">
-                      <div *ngIf="f.zones.errors.required">Zone is required</div>
-                    </div>
                      <label>Name</label>
                     <input type="text" formControlName="name" class="form-control"
                       [ngClass]="{ 'is-invalid': (submitted && f.name.errors) || (f.name.errors && f.name.errors.exist)}" />
@@ -35,7 +31,7 @@
                     <ul class="list-group">
                       <li *ngFor="let option of f.zones.value; let i = index" (click)="goLocation(option)"
                         class="list-group-item list-group-item-action justify-content-between d-flex ">Zone
-                        {{i+1}}<button (click)="deleteZone(i);unsetOption('zones', {'_id':option._id})"
+                        {{i+1}}<button (click)="deleteZone(i)"
                           class="btn btn-sm btn-primary">
                           <i class="fa fa-plus-square-o"></i> Remove Zone</button></li>
                     </ul>
@@ -56,13 +52,13 @@
                 <div class="card">
                   <div class="card-header">
                     <i class="fa fa-map"></i> Select different zones
-                  </div>
-                  <div class="card-body">
-                    <div class="card-body">
-                      <agm-map [zoom]="16" [latitude]="lat" [longitude]="lng" (mapReady)="onMapReady($event)">
-                      </agm-map>
+                    <input type="hidden" formControlName="zones" class="form-control" [ngClass]="{ 'is-invalid': (submitted && f.zones.errors)}"  />              
+                    <div *ngIf="f.zones.errors" class="invalid-feedback">
+                      <div *ngIf="f.zones.errors.required">Zone is required</div>
                     </div>
                   </div>
+                      <agm-map [zoom]="16" [latitude]="lat" [longitude]="lng" (mapReady)="onMapReady($event)">
+                      </agm-map>
                 </div>
               </div>
             </div>

@@ -19,16 +19,16 @@ export class LocationsFormComponent extends FormComponent {
     super(route,router,toastr);
   }
   public loadComponent(){
-    const validators=this.get('validators');    
+    //const validators=this.get('validators');    
     this.set('uiName','Location');
     this.set('model','location');
     this.set('service',this.componentService);
     this.set('formInputs', {
-      _id: [''],
-      name: ['', [validators.required],[validators.valueExist()]],
-      //name: ['', [validators.required]],
-      zones: ['', [validators.required]],
-      options: [[]]
+      _id: [null],
+      //name: [null, [this.validators.required],[this.validators.valueExist()]],
+      name: [null, [this.validators.required]],
+      zones: [null, [this.validators.required]],
+      //options: [[]]
     })
   }
   onMapReady(map) {
@@ -55,8 +55,9 @@ export class LocationsFormComponent extends FormComponent {
   }
   //Delte selected zones
   deleteZone(index) {
-    this.zones.splice(index, 1);
+    this.zones.splice(index, 0);
     this.mapMgr.deletePoligon(index)
+    this.unsetOption('zones', {'_id':index})
   }
   goLocation(location) {
     let center= location.latsLngs[0]

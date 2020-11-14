@@ -13,7 +13,6 @@ import { MapsService } from 'app/@core/utils';
 export class FormComponent {
   public mapMgr: any;
   public form: FormGroup;
-  private formValidator: FormValidator;
   private submitted: boolean = false;
   public obs$: Observable<any>;
   private _id: any = null
@@ -23,7 +22,7 @@ export class FormComponent {
   private uiName = 'Element'
   @Output() onLoadContent = new EventEmitter();
   @Output() onSubmitComplete = new EventEmitter();
-  public validators: any = {
+  protected validators: any = {
     valueExist: () => FormValidator.valueExist(this.service, this.model),
     required: Validators.required,
     email: Validators.email,
@@ -62,7 +61,7 @@ export class FormComponent {
   @ViewChild('infoModal') public dangerModal: ModalDirective;
 
   constructor(public route: ActivatedRoute, public router: Router, public toastr: ToastrService) { }
-  test2(e) { e.preventDefault(); event.stopImmediatePropagation() }
+
   public loadComponent() { }
   ngOnInit() {
     this.loadComponent();
@@ -98,7 +97,7 @@ export class FormComponent {
 
   onSubmit() {
     this.submitted = true;
-    if (this.form.invalid)
+    if (!this.form.valid)
       return;
     this.saveForm();
   }

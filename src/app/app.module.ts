@@ -82,7 +82,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     LoginComponent,
     RegisterComponent,
     TestComponent,
-    SelectionComponent,
+    SelectionComponent
    // ...routedComponents
   ],
   providers: [AuthGuard,{
