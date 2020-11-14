@@ -8,7 +8,7 @@ export default {
         throw new AuthenticationError('You are not authenticated');
       }
       const result = (input._id) ? await locationModel.findById({ _id: utils.objectId(input._id) }): await locationModel.findOne(input).exec();   
-      return (result)?result:{};
+      return (result)?result:null;
     },
     locations: async (parent,  { input }, { models: { locationModel }, me }, info) => {
       if (!me) {

@@ -4,7 +4,7 @@ declare const google: any;
 const strokeColor = '#ff004c';
 const fillColor = '#ff004c';
 const overFillColor = '#333333';
-const overStrokeColor = '#ffffff';
+const overStrokeColor = '#777777';
 
 export class MapsService {
   center: any = {
@@ -19,26 +19,11 @@ export class MapsService {
   constructor(map) {
     this.map = map
   }
-  //Delte selected zones
-  overZone(polygon, inn) {
-    polygon.setOptions({ fillColor: (inn) ? overFillColor : fillColor, strokeColor: (inn) ? overStrokeColor : strokeColor });
+  selectZone(i) {
+    this.poligons.forEach((e,index) => e.setOptions({ fillColor: (i==index) ? overFillColor : fillColor, strokeColor: (i==index) ? overStrokeColor : strokeColor }));
   }
-
   getDrawingManager() {
     return this.drawingManager;
-  }
-
-  addPoligon(poligon) {
-    this.poligons.push(poligon);
-  }
-  deletePoligon(index) {
-    if (this.poligons[index]) {
-      this.poligons[index].setMap(null);
-      this.poligons.splice(index, 1);
-    }
-  }
-  resetPoligon() {
-    this.poligons.forEach(e => e.setMap(null));
   }
 
   //Load the Drawing manager
@@ -71,14 +56,32 @@ export class MapsService {
     });
     return isIn;
   }
-  //Draw the current areas
-  loadPoligons(zone) {
+
+  areaToPoligon(area) {
     var path = [];
-    if (!zone) return
-    zone.latsLngs.forEach(element => {
-      path.push(new google.maps.LatLng(element.lat, element.lng))
-    });
-    let poligon = new google.maps.Polygon({
+    if (area && area.latsLngs)
+      area.latsLngs.forEach(element => {
+        path.push(new google.maps.LatLng(element.lat, element.lng))
+      });
+      this.addPoligon(this.drawPoligon(path))
+  }
+
+  addPoligon(poligon) {
+    this.poligons.push(poligon);
+  }
+  deletePoligon(index) {
+    if (this.poligons[index]) {
+      this.poligons[index].setMap(null);
+      this.poligons.splice(index, 1);
+    }
+  }
+  resetPoligon() {
+    this.poligons.forEach(e => e.setMap(null));
+    this.poligons=[];
+  }
+  //Draw the current areas
+  drawPoligon(path) {
+    return new google.maps.Polygon({
       strokeColor: strokeColor,
       fillColor: fillColor,
       map: this.map,
@@ -86,7 +89,6 @@ export class MapsService {
       strokeWeight: 5,
       paths: path,
     });
-    this.poligons.push(poligon);
   }
 
   setCurrentPosition(){

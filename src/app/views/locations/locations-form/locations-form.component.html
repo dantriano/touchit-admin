@@ -29,7 +29,7 @@
                   </div>
                   <perfect-scrollbar  *ngIf="f.zones.value?.length>0" class="scroll-area-sm" [config]="config">
                     <ul class="list-group">
-                      <li *ngFor="let option of f.zones.value; let i = index" (click)="goLocation(option)"
+                      <li *ngFor="let option of f.zones.value; let i = index" (mouseover)="mapMgr.selectZone(i)"  (mouseout)="mapMgr.selectZone(-1)" (click)="goZone(i)"
                         class="list-group-item list-group-item-action justify-content-between d-flex ">Zone
                         {{i+1}}<button (click)="deleteZone(i)"
                           class="btn btn-sm btn-primary">

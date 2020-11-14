@@ -85,7 +85,6 @@ export class FormComponent {
       }
       if (data[this.model]) this.form.patchValue(data[this.model])
       this.onLoadContent.emit(data);
-      console.log(data)
       return data
     }, (error) => {
       this.toastr.error(this.msg.error.ups);

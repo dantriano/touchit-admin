@@ -27,7 +27,7 @@ export class LocationsFormComponent extends FormComponent {
       _id: [null],
       //name: [null, [this.validators.required],[this.validators.valueExist()]],
       name: [null, [this.validators.required]],
-      zones: [null, [this.validators.required]],
+      zones: [[], [this.validators.required]],
       //options: [[]]
     })
   }
@@ -36,7 +36,7 @@ export class LocationsFormComponent extends FormComponent {
     this.mapMgr.initDrawingManager();
     this.zones = this.form.value.zones?this.form.value.zones:[];
     if(this.form.value.zones && this.form.value.zones.length>0){
-      this.form.value.zones.forEach(e => this.mapMgr.loadPoligons(e));
+      this.form.value.zones.forEach(e => this.mapMgr.areaToPoligon(e));
       this.mapMgr.center=this.form.value.zones[0].latsLngs[0]
       this.mapMgr.map.setCenter(this.mapMgr.center);
     }else{
@@ -47,23 +47,25 @@ export class LocationsFormComponent extends FormComponent {
     });
   }
   createZone(event){
-    let poligon = event.overlay;
+    let poligon = event.overlay; 
+    let zones = this.form.controls.zones.value;
     let points=poligon.getPath().getArray().map((e)=>e.toJSON());    
-    this.mapMgr.poligons.push(poligon);
-    this.zones.push({latsLngs: points });
-    this.form.controls.zones.setValue(this.zones);
+    zones.push({latsLngs: points })
+    this.form.controls.zones.setValue(zones);
+    this.mapMgr.addPoligon(poligon) 
+    
   }
   //Delte selected zones
   deleteZone(index) {
-    this.zones.splice(index, 0);
-    this.mapMgr.deletePoligon(index)
-    this.unsetOption('zones', {'_id':index})
+    let zones = this.form.controls.zones.value;
+    zones.splice(index, 1);
+    this.form.controls.zones.setValue(zones);
+    this.mapMgr.deletePoligon(index);
   }
-  goLocation(location) {
-    let center= location.latsLngs[0]
-    this.mapMgr.map.setCenter(center);
-    this.mapMgr.resetPoligon()
-      this.mapMgr.loadPoligons(location);
+
+  goZone(index) {
+    let poligon = this.mapMgr.poligons[index]
+    this.mapMgr.map.setCenter(poligon.getPath().getAt(0));
   }
 }
 
