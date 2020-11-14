@@ -1,5 +1,7 @@
 'use strict';
 
+const { ObjectID } = require("mongodb");
+
 var dbm;
 var type;
 var seed;
@@ -17,25 +19,21 @@ exports.setup = function(options, seedLink) {
 exports.up = function (db, callback) {
   //  db.createCollection('users');
     db.insert('locations', [{
-      _id: '5e66204823f1de12a8b03342',
+      _id: ObjectID('5e66204823f1de12a8b03342'),
       name: 'Prueba',
       zones: [
           {
-              _id: '5fa0a838dda0f10112641b9e',
               name: 'noname',
               latsLngs: [
                   {
-                      _id: '5fa0a838dda0f10112641b9f',
                       lat: '33.64149463021332',
                       lng: '-112.1739309828125'
                   },
                   {
-                      _id: '5fa0a838dda0f10112641ba0',
                       lat: '33.49960971965071',
                       lng: '-112.0311087171875'
                   },
                   {
-                      _id: '5fa0a838dda0f10112641ba1',
                       lat: '33.719203413336736',
                       lng: '-111.9651907484375'
                   }
