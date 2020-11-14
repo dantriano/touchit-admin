@@ -3,20 +3,25 @@
     <div class="col-lg-12">
       <div class="card">
         <div class="card-header">
-          <i class="fa fa-pencil-square-o"></i> Locations <button class="btn btn-link" (click)="infoModal.show()"><i
-              class="icon-info"></i></button>
+          <button class="btn btn-link p-0" (click)="infoModal.show()"><i
+            class="icon-info"></i></button> Locations
           <div class="card-header-actions">
             <button (click)="onSubmit()" class="btn btn-sm btn-primary" type="submit"><!--[disabled]="!form.valid">--> 
-              <i class="fa fa-dot-circle-o"></i> Submit</button>
+              <i class="fa fa-save"></i> Submit</button>
             <button class="btn btn-sm btn-danger" type="reset" (click)="onReset()">
               <i class="fa fa-ban"></i> Cancel</button>
           </div>
         </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-6">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-pencil-square-o"></i> Basic Information
+        </div>
         <div class="card-body">
           <div *ngIf="obs$ | async as data; else loading" [formGroup]="form" (ngSubmit)="onSubmit()">
             <input type="hidden" formControlName="_id" class="form-control" />
-            <div class="row">
-              <div class="col-lg-6">
                 <div class="form-col">
                   <div class="form-group">
                      <label>Name</label>
@@ -48,19 +53,19 @@
                   </div>
                 </div>
               </div>
-              <div class="col-lg-6">
-                <div class="card">
-                  <div class="card-header">
-                    <i class="fa fa-map"></i> Select different zones
-                    <input type="hidden" formControlName="zones" class="form-control" [ngClass]="{ 'is-invalid': (submitted && f.zones.errors)}"  />              
-                    <div *ngIf="f.zones.errors" class="invalid-feedback">
-                      <div *ngIf="f.zones.errors.required">Zone is required</div>
-                    </div>
-                  </div>
-                      <agm-map [zoom]="m.zoom" [latitude]="m.center.lat" [longitude]="m.center.lng" (mapReady)="onMapReady($event)"></agm-map>
-                </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card">
+            <div class="card-header">
+              <i class="fa fa-map"></i> Select different zones
+              <input type="hidden" formControlName="zones" class="form-control" [ngClass]="{ 'is-invalid': (submitted && f.zones.errors)}"  />              
+              <div *ngIf="f.zones.errors" class="invalid-feedback">
+                <div *ngIf="f.zones.errors.required">Zone is required</div>
               </div>
             </div>
+                <agm-map [zoom]="m.zoom" [latitude]="m.center.lat" [longitude]="m.center.lng" (mapReady)="onMapReady($event)"></agm-map>
           </div>
         </div>
       </div>

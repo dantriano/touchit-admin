@@ -20,8 +20,9 @@ export class GroupsFormComponent extends FormComponent {
     this.set('service',this.componentService);
     this.set('formInputs', {
       _id: [''],
-      name: ['', [validators.required],[validators.valueExist()]],
-      main: [[]],
+      //name: ['', [validators.required],[validators.valueExist()]],
+      name: ['', [validators.required]],
+      main: [''],
       activities: [[]],
       options: [[]]
     })

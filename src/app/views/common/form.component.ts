@@ -18,6 +18,7 @@ export class FormComponent {
   private _id: any = null
   private model: string;
   private service: any;
+  private formChanged: boolean = false;
   private formInputs: any = {};
   private uiName = 'Element'
   @Output() onLoadContent = new EventEmitter();
@@ -73,6 +74,7 @@ export class FormComponent {
   }
   loadForm() {
     this.form = new FormBuilder().group(this.formInputs)
+    this.onFormChanges();
   }
   loadMap() {
     this.mapMgr = new MapsService();
@@ -155,7 +157,11 @@ export class FormComponent {
     let object = { '_id': _id, 'status': status };
     this.setOption(input, object);
   }
-
+  onFormChanges(): void {
+    this.form.valueChanges.subscribe(val => {
+      this.formChanged=true;
+    });
+  }
   public loadAutocomplete(source: any[], control: FormControl, by: string) {
     return control.valueChanges
       .pipe(

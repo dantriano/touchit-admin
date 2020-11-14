@@ -45,24 +45,6 @@
                 </div>
                 <div class="card">
                   <div class="card-header">
-                    <i class="fa fa-map"></i> Select group for this user
-                  </div>
-                  <div class="card-body">
-                    <div class="list-group">
-                      <mat-nav-list>
-                        <mat-selection-list #groups formControlName="groups" (selectionChange)="groupSelected(groups,$event)">
-                          <mat-list-option *ngFor="let option of data.groups" [value]="option._id">
-                            {{option.name}}
-                          </mat-list-option>
-                        </mat-selection-list>
-                      </mat-nav-list>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-6">
-                <div class="card">
-                  <div class="card-header">
                     <i class="fa fa-settings"></i> Configuration
                     <div class="card-header-actions">
                       <div class="btn-group" dropdown>
@@ -88,7 +70,38 @@
                     </div>
                   </div>
                 </div>
-
+                
+              </div>
+              <div class="col-lg-6">
+                
+                <div class="form-group">
+                  <label>Main Service</label>
+                  <select formControlName="main" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && f.main.errors }">
+                    <option disabled>Please select</option>
+                    <ng-container *ngFor="let option of data.configuration.value">
+                    </ng-container>
+                  </select>
+                  <div *ngIf="submitted && f.main.errors" class="invalid-feedback">
+                    <div *ngIf="f.main.errors.required">Please select a main activity for this group</div>
+                  </div>
+                </div>
+                <div class="card">
+                  <div class="card-header">
+                    <i class="fa fa-map"></i> Select group for this user
+                  </div>
+                  <div class="card-body">
+                    <div class="list-group">
+                      <mat-nav-list>
+                        <mat-selection-list #groups formControlName="groups" (selectionChange)="groupSelected(groups,$event)">
+                          <mat-list-option *ngFor="let option of data.groups" [value]="option._id">
+                            {{option.name}}
+                          </mat-list-option>
+                        </mat-selection-list>
+                      </mat-nav-list>
+                    </div>
+                  </div>
+                </div>
                 <div class="card">
                   <div class="card-header">
                     <i class="fa fa-settings"></i> Custom Activities<button class="btn btn-link"
@@ -133,6 +146,8 @@
                           </div>
                         </div>
                         <span class="label">{{option.name}}</span>
+                        <div class="card-header-actions" style="height: 21px;width: 150px;"><label class="switch switch-sm switch-label switch-danger"><input checked="" class="switch-input" type="checkbox"><span class="switch-slider" data-checked="Deny" data-unchecked="Off"></span></label></div>
+                        <div class="card-header-actions" style="height: 21px;"><label class="switch switch-sm switch-label switch-info"><input checked="" class="switch-input" type="checkbox"><span class="switch-slider" data-checked="On" data-unchecked="Off"></span></label></div>
                       </div>
                     </ng-container>
                   </div>
