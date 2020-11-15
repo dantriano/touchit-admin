@@ -5,28 +5,10 @@
         <div class="card-header">
           <i class="fa fa-map"></i> Locations
           <div class="card-header-actions">
-            <div class="btn-group" dropdown>
-              <button id="button-basic" dropdownToggle type="button"
-                class="btn-min btn btn-block btn-link dropdown-toggle" aria-controls="dropdown-basic">
-                <i class="fa fa-align-justify"></i> <span class="caret"></span>
-              </button>
-              <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu"
-                aria-labelledby="button-basic">
-                <li role="menuitem"><a class="dropdown-item" routerLink="/settings/location" href="#">Add
-                    location</a></li>
-              </ul>
-            </div>
+            <a routerLink="/settings/location" href="#"><button class="btn btn-sm btn-primary float-right">New Location</button></a>
           </div>
         </div>
         <div class="card-body">
-          <div class="row">
-            <div class="col-sm-12 col-md-6"></div>
-            <div class="col-sm-12 col-md-6 text-right">
-              <div class="dataTables_filter"><label><input matInput (keyup)="applyFilter($event)" placeholder="Filter"
-                    type="search" class="form-control form-control-sm" aria-controls="DataTables_Table_0"></label></div>
-
-            </div>
-          </div>
           <table mat-table [dataSource]="dataSource"
             class="table table-striped table-bordered datatable dataTable no-footer" matSort>
 
@@ -46,10 +28,10 @@
             <ng-container matColumnDef="options">
               <th *matHeaderCellDef> Options </th>
               <td *matCellDef="let element">
-                <button routerLink="/settings/location/{{element._id}}" class="btn btn-warning" href="#">
+                <button routerLink="/settings/location/{{element._id}}" class="btn-sm btn btn-warning" href="#">
                   <i class="fa fa-pencil"></i>
                 </button>
-                <button data-toggle="modal" class="btn btn-danger" (click)="set('_id',element._id);dangerModal.show()">
+                <button data-toggle="modal" class="btn btn-sm btn-danger" (click)="set('_id',element._id);dangerModal.show()">
                   <i class="fa fa fa-trash-o"></i>
                 </button>
               </td>
@@ -58,6 +40,9 @@
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
           </table>
+          <div class="dataTables_filter p-2 float-left"><label><input matInput (keyup)="applyFilter($event)" placeholder="Filter"
+            type="search" class="form-control form-control-sm" aria-controls="DataTables_Table_0"></label></div>
+
           <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
 
         </div>

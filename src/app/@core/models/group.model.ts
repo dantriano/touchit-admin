@@ -31,6 +31,10 @@ export class GroupModel extends GroupData {
       groups(input:$input) {
         _id
         name
+        activities
+        _activities{
+          name
+        }
         options
       }
     }

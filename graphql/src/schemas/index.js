@@ -18,5 +18,21 @@ const linkSchema = gql`
   }
 
 `;
+/*const schema = mergeSchemas({
+  schemas: [activitySchema, groupSchema],
+  links: [
+    {
+      name: 'group',
+      from: 'Group',
+      to: 'Activity',
+      resolveArgs: parent => ({ _id: parent.cityName }),
+      fragment: `
+        fragment WeatherLocationArgs on Event {
+          cityName
+        }
+      `,
+    },
+  ],
+});*/
 
 export default [linkSchema, companySchema,userSchema,employeeSchema, locationSchema,configurationSchema,activitySchema,groupSchema,registerSchema];

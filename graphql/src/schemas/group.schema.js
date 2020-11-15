@@ -25,5 +25,9 @@ const groupSchema= gql`
     removeGroup(_id: ID!): Boolean
   }
 
+  extend type Group {
+    _activities: [Activity]
+  }
+
 `;
 export default groupSchema;

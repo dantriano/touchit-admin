@@ -39,5 +39,8 @@ export default {
     },
   },
   Group: {
-  },
+    _activities: async ({ activities }, args, { models: { activityModel } }, info) => {
+      return await activityModel.find({ _id: activities }).exec();
+    }
+  }
 };

@@ -16,6 +16,9 @@ export class ActivityModel extends ActivityData {
       activities(input:$input) {
         _id
         name
+        _locations{
+          name
+        }
       }
     }
     `;

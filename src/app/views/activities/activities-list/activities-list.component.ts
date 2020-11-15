@@ -14,7 +14,7 @@ export class ActivitiesListComponent extends ListComponent implements OnInit {
   public loadComponent() {
     this.set('model', 'activities');
     this.set('service', this.componentService);
-    this.set('displayedColumns', [ 'name', 'options']);
+    this.set('displayedColumns', [ 'name', 'locations','options']);
 
   }
 }
