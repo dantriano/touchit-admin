@@ -67,6 +67,9 @@ export class EmployeeModel extends EmployeeData {
         employeeCode
         firstName
         lastName
+        _groups{
+          name
+        }
         status
       }
     }

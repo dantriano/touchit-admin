@@ -3,19 +3,26 @@
     <div class="col-lg-12">
       <div class="card">
         <div class="card-header">
-          <i class="fa fa-pencil-square-o"></i> Employees <button class="btn btn-link" (click)="infoModal.show()"><i
-              class="icon-info"></i></button>
-          <div class="card-header-actions">
-            <button (click)="onSubmit()" class="btn btn-sm btn-primary" type="submit">
-              <i class="fa fa-dot-circle-o"></i> Submit</button>
-            <button class="btn btn-sm btn-danger" type="reset" (click)="onReset()">
-              <i class="fa fa-ban"></i> Cancel</button>
-          </div>
+          <button class="btn btn-link p-0" (click)="infoModal.show()"><i
+            class="icon-info"></i></button> Employees 
+            <div class="card-header-actions">
+              <button (click)="onSubmit()" class="btn btn-sm btn-primary" type="submit">
+                <i class="fa fa-dot-circle-o"></i> Submit</button>
+              <button class="btn btn-sm btn-danger" type="reset" (click)="onReset()">
+                <i class="fa fa-ban"></i> Cancel</button>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="obs$ | async as data; else loading" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-pencil-square-o"></i> Basic Information 
         </div>
         <div class="card-body">
-          <div *ngIf="obs$ | async as data; else loading" [formGroup]="form" (ngSubmit)="onSubmit()">
-            <div class="row">
-              <div class="col-lg-6">
                 <div class="form-group">
                   <input type="hidden" formControlName="_id" class="form-control" />
                   <label>First Name</label>
@@ -43,117 +50,115 @@
                     <div *ngIf="f.email.errors.exist">Email already exist</div>
                   </div>
                 </div>
-                <div class="card">
-                  <div class="card-header">
-                    <i class="fa fa-settings"></i> Configuration
-                    <div class="card-header-actions">
-                      <div class="btn-group" dropdown>
-                        <button id="button-basic" dropdownToggle type="button"
-                          class="btn-min btn btn-block btn-link dropdown-toggle" aria-controls="dropdown-basic">
-                          <i class="fa fa-align-justify"></i> <span class="caret"></span>
-                        </button>
-                        <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu"
-                          aria-labelledby="button-basic">
-                          <li *ngIf="f.isLinked.value==false" role="menuitem">
-                            <span class="dropdown-item" (click)="f.linkCode.setValue(makeCode())" href="#">Reset link
-                              number</span></li>
-                           <li *ngIf="f.isLinked.value==true"> <span class="dropdown-item" (click)="dangerModal.show()" href="#">Unlink device</span></li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="card-body">
-                    <div *ngIf="f.isLinked.value==false else unlinked">
-                      <p>No existe un dispositivo vinculado a esta cuenta</p>
-                      El numero de vinculacion es el <span class="h1">{{f.linkCode.value}}</span>
-                    </div>
-                  </div>
-                </div>
-                
-              </div>
-              <div class="col-lg-6">
-                
-                <div class="form-group">
-                  <label>Main Service</label>
-                  <select formControlName="main" class="form-control"
-                    [ngClass]="{ 'is-invalid': submitted && f.main.errors }">
-                    <option disabled>Please select</option>
-                    <ng-container *ngFor="let option of data.configuration.value">
-                    </ng-container>
-                  </select>
-                  <div *ngIf="submitted && f.main.errors" class="invalid-feedback">
-                    <div *ngIf="f.main.errors.required">Please select a main activity for this group</div>
-                  </div>
-                </div>
-                <div class="card">
-                  <div class="card-header">
-                    <i class="fa fa-map"></i> Select group for this user
-                  </div>
-                  <div class="card-body">
-                    <div class="list-group">
-                      <mat-nav-list>
-                        <mat-selection-list #groups formControlName="groups" (selectionChange)="groupSelected(groups,$event)">
-                          <mat-list-option *ngFor="let option of data.groups" [value]="option._id">
-                            {{option.name}}
-                          </mat-list-option>
-                        </mat-selection-list>
-                      </mat-nav-list>
-                    </div>
-                  </div>
-                </div>
-                <div class="card">
-                  <div class="card-header">
-                    <i class="fa fa-settings"></i> Custom Activities<button class="btn btn-link"
-                      (click)="customModal.show()"><i class="icon-info"></i></button>
-                  </div>
-                  <div class="card-body">
-                    <input type="hidden" #mainActivity formControlName="mainActivity" class="form-control"
-                      [ngClass]="{ 'is-invalid': submitted && f.mainActivity.errors }" />
-                    <div *ngIf="submitted && f.mainActivity.errors" class="invalid-feedback">
-                      <div *ngIf="f.mainActivity.errors.required">Main activity is required</div>
-                    </div>
-                    <input type="hidden" #customActivities formControlName="customActivities" class="form-control" />
-                    <div *ngIf="groups.ngAfterContentInit">
-                      <ng-container *ngFor="let option of groups.selectedOptions.selected">
-                        <div class="row">
-                          <span (click)="setOption('mainActivity',{'_id':option.value,'type':'group'},true)">
-                            <div *ngIf="getOption(option.value,'mainActivity'); let element; else neutral">
-                              <span class="checkbox tricheck favorite"></span>
-                            </div>
-                          </span>
-                          <div (click)="switchTriStatus(option.value,'customActivities')">
-                            <div *ngIf="getOption(option.value,'customActivities'); let element; else neutral">
-                              <span class="checkbox tricheck"
-                                [ngClass]="{'positive':element.status=='allow','negative':element.status=='deny'}"></span>
-                            </div>
-                          </div>
-                          <span class="label"> {{option._text.nativeElement.innerText}}</span>
-                        </div>
-                      </ng-container>
-                    </div>
-                    <ng-container *ngFor="let option of data.activities;">
-                      <div class="row">
-                        <div (click)="setOption('mainActivity',{'_id':option._id,'type':'activity'},true)">
-                          <div *ngIf="getOption(option._id,'mainActivity'); let element; else neutral">
-                            <span class="checkbox tricheck favorite"></span>
-                          </div>
-                        </div>
-                        <div (click)="switchTriStatus(option._id,'customActivities')">
-                          <div *ngIf="getOption(option._id,'customActivities'); let element; else neutral">
-                            <span class="checkbox tricheck"
-                              [ngClass]="{'positive':element.status=='allow','negative':element.status=='deny'}"></span>
-                          </div>
-                        </div>
-                        <span class="label">{{option.name}}</span>
-                        <div class="card-header-actions" style="height: 21px;width: 150px;"><label class="switch switch-sm switch-label switch-danger"><input checked="" class="switch-input" type="checkbox"><span class="switch-slider" data-checked="Deny" data-unchecked="Off"></span></label></div>
-                        <div class="card-header-actions" style="height: 21px;"><label class="switch switch-sm switch-label switch-info"><input checked="" class="switch-input" type="checkbox"><span class="switch-slider" data-checked="On" data-unchecked="Off"></span></label></div>
-                      </div>
-                    </ng-container>
-                  </div>
-                </div>
+          </div>
+        </div>
+         
+        <div class="card">
+          <div class="card-header">
+            <i class="fa fa-tasks"></i> Select available services for this user
+          </div>
+          <div class="card-body">
+            <div class="form-group">
+              <label>Main Service</label>
+              <select formControlName="main" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.main.errors }">
+                <option disabled>Please select</option>
+                <ng-container *ngFor="let option of data.configuration.value">
+                </ng-container>
+              </select>
+              <div *ngIf="submitted && f.main.errors" class="invalid-feedback">
+                <div *ngIf="f.main.errors.required">Please select a main activity for this group</div>
               </div>
             </div>
+            <div class="list-group">
+              <mat-nav-list>
+                <mat-selection-list #groups formControlName="groups" (selectionChange)="groupSelected(groups,$event)">
+                  <mat-list-option *ngFor="let option of data.groups" [value]="option._id">
+                    {{option.name}}
+                  </mat-list-option>
+                </mat-selection-list>
+              </mat-nav-list>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="card">
+          <div class="card-header">
+            <i class="fa fa-wrench"></i> Configuration <button class="btn btn-link"
+            (click)="customModal.show()"><i class="icon-info"></i></button>
+            <div class="card-header-actions">
+              <div class="btn-group" dropdown>
+                <button id="button-basic" dropdownToggle type="button"
+                  class="btn-min btn btn-block btn-link dropdown-toggle" aria-controls="dropdown-basic">
+                  <i class="fa fa-align-justify"></i> <span class="caret"></span>
+                </button>
+                <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu"
+                  aria-labelledby="button-basic">
+                  <li *ngIf="f.isLinked.value==false" role="menuitem">
+                    <span class="btn btn-sm" (click)="f.linkCode.setValue(makeCode())" href="#"><i class="fa fa-refresh"></i> Reset link
+                      code</span></li>
+                   <li *ngIf="f.isLinked.value==true"> <span class="btn btn-sm" (click)="dangerModal.show()" href="#"><i class="text-danger fa fa-remove"></i> Unlink device</span></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <h1 class="card-title text-center">{{f.linkCode.value}}</h1>
+            <div *ngIf="f.isLinked.value==false else unlinked">
+              <div class="align-text-bottom">
+              <p><i class="text-danger fa fa-mobile"></i> No existe un dispositivo vinculado a esta cuenta</p>
+            </div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <i class="fa fa-cog"></i>  Custom Activities<button class="btn btn-link"
+              (click)="customModal.show()"><i class="icon-info"></i></button>
+          </div>
+          <div class="card-body">
+            <table mat-table [dataSource]="data.activities"
+            class="table table-bordered table-striped table-sm  no-footer" matSort>
+            <ng-container matColumnDef="status">
+              <th *matHeaderCellDef><i class="fa fa-eye"></i> </th>
+              <td *matCellDef="let element">
+                <i class="fa fa-cog"></i> 
+              </td>
+            </ng-container>
+            <!-- User ID Column -->
+            <ng-container matColumnDef="name">
+              <th *matHeaderCellDef> Service Name </th>
+              <td *matCellDef="let element">
+                {{element.name}}
+              </td>
+            </ng-container>
+            <!-- Buttons Column -->
+            <ng-container matColumnDef="options">
+              <th *matHeaderCellDef> Options </th>
+              <td *matCellDef="let element">
+                <div class="btn-group" data-toggle="buttons">
+                  <label class="btn btn-success">
+                    <input type="radio" name="custom" id="option2" autocomplete="off">
+                    <span class="fa fa-check"></span>
+                  </label>
+                  <label class="btn btn-secondary">
+                    <input type="radio" name="custom" id="option2" autocomplete="off" checked>
+                    <span class="fa fa-circle-o"></span>
+                  </label>
+            
+                  <label class="btn btn-danger">
+                    <input type="radio" name="custom" id="option2" autocomplete="off">
+                    <span class="fa fa-close"></span>
+                  </label>
+                
+                </div>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+            
           </div>
         </div>
       </div>

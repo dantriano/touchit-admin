@@ -59,24 +59,23 @@
               <td *matCellDef="let element"> {{element.lastName}} </td>
             </ng-container>
 
-            <ng-container matColumnDef="status">
-              <th *matHeaderCellDef> Status </th>
-              <td *matCellDef="let element"> 
-                <span class="badge badge-success">Active</span> <span
-                  class="badge badge-danger">Banned</span> <span class="badge badge-danger">Banned</span> <span
-                  class="badge badge-danger">Banned</span> </td>
+            <ng-container matColumnDef="groups">
+              <th *matHeaderCellDef> Groups </th>
+              <td *matCellDef="let element">
+                <span *ngFor="let item of element._groups" class="badge badge-success mr-1">{{item.name}}</span>
+               </td>
             </ng-container>
             <!-- Buttons Column -->
             <ng-container matColumnDef="options">
               <th *matHeaderCellDef> Options </th>
               <td *matCellDef="let element">
-                <button routerLink="/employees/profile/{{element._id}}" class="btn btn-primary" href="#">
+                <button routerLink="/employees/profile/{{element._id}}" class="btn  btn-sm  btn-primary" href="#">
                   <i class="fa fa-eye"></i>
                 </button>
-                <button routerLink="/employees/edit/{{element._id}}" class="btn btn-warning" href="#">
+                <button routerLink="/employees/edit/{{element._id}}" class="btn  btn-sm  btn-warning" href="#">
                   <i class="fa fa-pencil"></i>
                 </button>
-                <button data-toggle="modal" class="btn btn-danger" (click)="set('_id',element._id);dangerModal.show()">
+                <button data-toggle="modal" class="btn  btn-sm btn-danger" (click)="set('_id',element._id);dangerModal.show()">
                   <i class="fa fa fa-trash-o"></i>
                 </button>
               </td>

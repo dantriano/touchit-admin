@@ -4,7 +4,6 @@ import { Router, ActivatedRoute } from "@angular/router";
 import { EmployeeData } from './../../../@core/data'
 import { ToastrService } from 'ngx-toastr';
 import { FormComponent } from 'app/views/common/form.component';
-import { Validators } from '@angular/forms';
 
 @Component({
   selector: 'employees-form',
@@ -21,7 +20,8 @@ export class EmployeesFormComponent extends FormComponent {
     this.set('service',this.componentService);
     let config=this.get('config')
     config.redirect='employees';
-    this.set('config',config)
+    this.set('config',config);
+    this.set('displayedColumns', ['status','name', 'options']);
     this.set('formInputs', {
       _id: [''],
       options: [[]],

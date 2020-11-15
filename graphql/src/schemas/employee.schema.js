@@ -31,9 +31,7 @@ const employeeSchema = gql`
     options: [String]
   }
 
-  extend type Employee {
-    getCustomActivities:[selectionType]
-  }
+
   type selectionType{
     _id: ID
     name: String
@@ -69,6 +67,11 @@ const employeeSchema = gql`
   extend type Mutation {
     removeEmployee(_id: ID!): Boolean
     saveEmployee(input:employeeInput!): Boolean
+  }
+
+  extend type Employee {
+    getCustomActivities:[selectionType]
+    _groups: [Group]
   }
 `;
 export default employeeSchema;
