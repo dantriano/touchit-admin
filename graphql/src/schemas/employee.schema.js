@@ -26,7 +26,7 @@ const employeeSchema = gql`
     avatar: String
     groups:[ID]
     company:ID
-    mainActivity:[selectionType]
+    mainActivity: ID
     customActivities:[selectionType]
     options: [String]
   }
@@ -49,7 +49,7 @@ const employeeSchema = gql`
     avatar:String,
     status:String,
     customActivities:[selectionInput],
-    mainActivity:[selectionInput],
+    mainActivity: ID,
     options: [String]
   }
   

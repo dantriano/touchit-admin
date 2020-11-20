@@ -4,7 +4,7 @@ import { Router, ActivatedRoute } from "@angular/router";
 import { first, tap, map } from 'rxjs/operators';
 import { Subscription, Observable } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
-import { commonsService } from 'app/@core/utils';
+import { CommonServices } from 'app/@core/utils';
 import { UserModel } from 'app/@core/models';
 import { UserData } from 'app/@core/data';
 
@@ -30,7 +30,7 @@ export class SelectionComponent {
       let data = res['data']
       return data
     }, (error) => {
-      this.toastr.error(commonsService.graphqlError(error));
+      this.toastr.error(CommonServices.graphqlError(error));
       if (error.graphQLErrors.length > 0 && error.graphQLErrors[0].extensions.code == 'UNAUTHENTICATED')
         this.loading = false;
     }));

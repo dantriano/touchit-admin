@@ -32,7 +32,7 @@ const employeeSchema = new mongoose.Schema({
     type: [String],
   },
   mainActivity: {
-    type: [Object],
+    type: String,
   },
   customActivities: {
     type: [Object],

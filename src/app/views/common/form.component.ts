@@ -8,10 +8,12 @@ import { map, startWith } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { FormValidator } from './form.validator';
 import { MapsService } from 'app/@core/utils';
+import { CommonServices } from 'app/@core/utils';
 
 
 export class FormComponent {
   public mapMgr: MapsService = new MapsService();
+  public common: CommonServices = new CommonServices();
   public form: FormGroup;
   private submitted: boolean = false;
   public obs$: Observable<any>;
@@ -21,6 +23,7 @@ export class FormComponent {
   private formChanged: boolean = false;
   private formInputs: any = {};
   private uiName = 'Element'
+  public formData:any = {};
   @Output() onLoadContent = new EventEmitter();
   @Output() onSubmitComplete = new EventEmitter();
   protected validators: any = {
@@ -69,7 +72,7 @@ export class FormComponent {
     this.route.params.subscribe(params => {
       this._id = params.id || null;
       this.loadForm();
-      this.loadContent();
+      this.formData=this.loadContent();
     });
   }
   loadForm() {
@@ -83,6 +86,7 @@ export class FormComponent {
   loadContent() {
     this.obs$ = this.service.load({ '_id': this._id }).pipe(map(res => {
       let data = res['data']
+      console.log(data)
       if (this._id && !data[this.model]) {
         this.toastr.error(this.msg.error.notFound);
         this.router.navigate([this.config.redirect]);
@@ -99,7 +103,16 @@ export class FormComponent {
   }
   get f() { return this.form.controls; }
   get m() { return this.mapMgr; }
-
+  filter(el,id){return this.common.getObjectByFilter(el,id)}
+  find(el,id){return this.common.getObjectByFind(el,id)}
+  index(el,id){return this.common.getIndexById(el,id)}
+  /*setObject(object,el, reset?) {
+    if (reset) return []
+    let index = this.index(object,el._id)
+    object.splice(index, 1);
+    object.push(el)
+    return object;
+  }*/
   onSubmit() {
     this.submitted = true;
     if (!this.form.valid)

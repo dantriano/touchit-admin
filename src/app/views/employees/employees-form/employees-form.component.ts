@@ -33,14 +33,17 @@ export class EmployeesFormComponent extends FormComponent {
       lastName: [''],
       groups: [[]],
       mainActivity: [, [validators.required]],
-      email: ['', [validators.email, validators.required],[validators.valueExist()]],
-    })
+      email: ['', [validators.email, validators.required]],
+      //email: ['', [validators.email, validators.required],[validators.valueExist()]],
+    });
   }
   makeCode() {
     return this.componentService.generateCode();
   }
-  groupSelected(a,b){
-    
+  groupSelected(list){
+    //let selectedOptions = list.selectedOptions.selected.map(item => ({'id':item.value,'selected':'true'}));
+    let selectedOptions = list.selectedOptions.selected.map(item => item.value);
+    this.form.controls.groups.setValue(selectedOptions);
   }
 }
 

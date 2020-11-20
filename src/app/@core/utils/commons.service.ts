@@ -1,6 +1,5 @@
-import { ToastrService } from 'ngx-toastr';
-
-export class commonsService {
+export class CommonServices {
+    constructor() { }
     static graphqlError(error) {
         if(!error)  return ('Ups... something happend');
         if (error.networkError) {
@@ -16,8 +15,16 @@ export class commonsService {
             return ('Ups... something happend');
         } else return ('Ups... something happend');
     }
-    static center= {
-        lat: 33.5362475,
-        lng: -111.9267386
-      };
+    getObjectByFilter(el,id){
+        return el.filter(x => x._id === id || {});
+    };
+    
+     getObjectByFind(el,id){
+        return el.find(x => x._id === id || {});
+    };
+
+    getIndexById(el,id){
+        return el.findIndex(x => x._id === id || false);
+    };
+
 }

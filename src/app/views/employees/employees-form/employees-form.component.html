@@ -60,20 +60,23 @@
           <div class="card-body">
             <div class="form-group">
               <label>Main Service</label>
-              <select formControlName="main" class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f.main.errors }">
+              <select formControlName="mainActivity" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.mainActivity.errors }">
                 <option disabled>Please select</option>
-                <ng-container *ngFor="let option of data.configuration.value">
-                </ng-container>
+                <option *ngFor='let option of data.activities'
+                [attr.value]='option._id' 
+                [attr.selected]="option._id == data.employee.mainActivity ? true : null">
+                {{option.name}}
+              </option>
               </select>
-              <div *ngIf="submitted && f.main.errors" class="invalid-feedback">
-                <div *ngIf="f.main.errors.required">Please select a main activity for this group</div>
+              <div *ngIf="submitted && f.mainActivity.errors" class="invalid-feedback">
+                <div *ngIf="f.mainActivity.errors.required">Please select a main activity for this group</div>
               </div>
             </div>
             <div class="list-group">
               <mat-nav-list>
-                <mat-selection-list #groups formControlName="groups" (selectionChange)="groupSelected(groups,$event)">
-                  <mat-list-option *ngFor="let option of data.groups" [value]="option._id">
+                <mat-selection-list #groups formControlName="groups" (selectionChange)="groupSelected(groups)">
+                  <mat-list-option *ngFor="let option of data.groups" [value]="option._id" [selected]="find(data.groups,'5fafda88bd55cb00061e4d7ba').selected">
                     {{option.name}}
                   </mat-list-option>
                 </mat-selection-list>
@@ -139,16 +142,16 @@
               <td *matCellDef="let element">
                 <div class="btn-group" data-toggle="buttons">
                   <label class="btn btn-success">
-                    <input type="radio" name="custom" id="option2" autocomplete="off">
+                    <input type="radio" name="custom[{{element._id}}]" id="option2" autocomplete="off">
                     <span class="fa fa-check"></span>
                   </label>
                   <label class="btn btn-secondary">
-                    <input type="radio" name="custom" id="option2" autocomplete="off" checked>
+                    <input type="radio" name="custom[{{element._id}}]" id="option2" autocomplete="off" checked>
                     <span class="fa fa-circle-o"></span>
                   </label>
             
                   <label class="btn btn-danger">
-                    <input type="radio" name="custom" id="option2" autocomplete="off">
+                    <input type="radio" name="custom[{{element._id}}]" id="option2" autocomplete="off">
                     <span class="fa fa-close"></span>
                   </label>
                 

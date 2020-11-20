@@ -22,16 +22,13 @@ export class EmployeeModel extends EmployeeData {
   static getFragment() {
     return gql`
     fragment employeeFragment on Employee{
-      _id
+        _id
         email
         firstName
         lastName
         groups
         options
-        mainActivity{
-          _id
-          status
-        }
+        mainActivity
         customActivities{
           _id
           status
