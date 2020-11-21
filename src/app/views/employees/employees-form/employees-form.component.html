@@ -64,13 +64,12 @@
                 [ngClass]="{ 'is-invalid': submitted && f.mainActivity.errors }">
                 <option disabled>Please select</option>
                 <option *ngFor='let option of data.activities'
-                [attr.value]='option._id' 
-                [attr.selected]="option._id == data.employee.mainActivity ? true : null">
+                [ngValue]='option._id'>
                 {{option.name}}
               </option>
               </select>
               <div *ngIf="submitted && f.mainActivity.errors" class="invalid-feedback">
-                <div *ngIf="f.mainActivity.errors.required">Please select a main activity for this group</div>
+                <div *ngIf="f.mainActivity.errors.required">Please select a main activity for this user</div>
               </div>
             </div>
             <div class="list-group">

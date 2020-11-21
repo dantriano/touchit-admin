@@ -17,7 +17,6 @@ export class EmployeesFormComponent extends FormComponent {
   }
   @ViewChildren('customSelected') cs;
   public loadComponent(){
-    const validators=this.get('validators');
     this.set('customOptions',[
       {'value':'on','label':'btn btn-success','span':'fa fa-check'},
       {'value':'default','label':'btn btn-secondary','span':'fa fa-circle-o'},
@@ -36,12 +35,12 @@ export class EmployeesFormComponent extends FormComponent {
       employeeCode: [''],
       isLinked:false,
       linkCode:[this.componentService.generateCode()],
-      firstName: [, [validators.required]],
+      firstName: [, [this.validators.required]],
       lastName: [''],
       groups: [[]],
-      mainActivity: [, [validators.required]],
-      email: ['', [validators.email, validators.required]],
-      //email: ['', [validators.email, validators.required],[validators.valueExist()]],
+      mainActivity: ['', [this.validators.required]],
+      //email: ['', [validators.email, validators.required]],
+      email: ['', [this.validators.email, this.validators.required],[this.validators.valueExist()]],
     });
   }
   makeCode() {
@@ -60,7 +59,7 @@ export class EmployeesFormComponent extends FormComponent {
     this.form.controls.customActivities.setValue(selectedOptions);
   }
   getCustomOption(id){
-    return this.find(this.formData.employee.customActivities,id).status||'default'
+    return this.find(this.form.value.customActivities,id).status||'default'
   }
   groupSelected(list){
     var selectedOptions = list.selectedOptions.selected.map(item => item.value);
