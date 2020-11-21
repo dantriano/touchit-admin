@@ -16,15 +16,15 @@ export class CommonServices {
         } else return ('Ups... something happend');
     }
     getObjectByFilter(el,id){
-        return el.filter(x => x._id === id || {});
+        return el.filter(x => x._id == id)|| {};
     };
     
      getObjectByFind(el,id){
-        return el.find(x => x._id === id || {});
+        return el.find(x => x._id == id )|| {};
     };
 
     getIndexById(el,id){
-        return el.findIndex(x => x._id === id || false);
+        return el.findIndex(x => x._id === id)|| false;
     };
 
 }

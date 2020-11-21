@@ -14,6 +14,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { MatListModule } from '@angular/material/list';
+import { FormsModule } from '@angular/forms'; 
 
 @NgModule({
   imports: [
@@ -26,7 +27,8 @@ import { MatListModule } from '@angular/material/list';
     MatSortModule,
     MatListModule,
     ModalModule.forRoot(),
-    BsDropdownModule
+    BsDropdownModule,
+    FormsModule
   ],
   schemas:[CUSTOM_ELEMENTS_SCHEMA],
   entryComponents: [EmployeesListComponent],

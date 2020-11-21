@@ -72,7 +72,7 @@ export class FormComponent {
     this.route.params.subscribe(params => {
       this._id = params.id || null;
       this.loadForm();
-      this.formData=this.loadContent();
+      this.loadContent();
     });
   }
   loadForm() {
@@ -85,16 +85,16 @@ export class FormComponent {
 
   loadContent() {
     this.obs$ = this.service.load({ '_id': this._id }).pipe(map(res => {
-      let data = res['data']
-      console.log(data)
-      if (this._id && !data[this.model]) {
+      this.formData = res['data']
+      console.log(this.formData)
+      if (this._id && !this.formData[this.model]) {
         this.toastr.error(this.msg.error.notFound);
         this.router.navigate([this.config.redirect]);
         return;
       }
-      if (data[this.model]) this.form.patchValue(data[this.model])
-      this.onLoadContent.emit(data);
-      return data
+      if (this.formData[this.model]) this.form.patchValue(this.formData[this.model])
+      this.onLoadContent.emit(this.formData);
+      return this.formData
     }, (error) => {
       this.toastr.error(this.msg.error.ups);
       this.router.navigate([this.config.redirect]);

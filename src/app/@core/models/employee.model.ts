@@ -22,6 +22,7 @@ export class EmployeeModel extends EmployeeData {
   static getFragment() {
     return gql`
     fragment employeeFragment on Employee{
+        __typename
         _id
         email
         firstName
@@ -93,6 +94,7 @@ export class EmployeeModel extends EmployeeData {
   		groups{
         _id
         name
+        activities
       }
       configuration(input:$configuration) {
         ... configFragment

@@ -76,7 +76,7 @@
             <div class="list-group">
               <mat-nav-list>
                 <mat-selection-list #groups formControlName="groups" (selectionChange)="groupSelected(groups)">
-                  <mat-list-option *ngFor="let option of data.groups" [value]="option._id" [selected]="find(data.groups,'5fafda88bd55cb00061e4d7ba').selected">
+                  <mat-list-option *ngFor="let option of data.groups" [value]="option._id">
                     {{option.name}}
                   </mat-list-option>
                 </mat-selection-list>
@@ -126,7 +126,8 @@
             <ng-container matColumnDef="status">
               <th *matHeaderCellDef><i class="fa fa-eye"></i> </th>
               <td *matCellDef="let element">
-                <i class="fa fa-cog"></i> 
+                <i class="fa "
+                [ngClass]="getCustomStatus(element._id)? 'fa-check text-success': 'fa-close text-danger'"></i>
               </td>
             </ng-container>
             <!-- User ID Column -->
@@ -141,20 +142,11 @@
               <th *matHeaderCellDef> Options </th>
               <td *matCellDef="let element">
                 <div class="btn-group" data-toggle="buttons">
-                  <label class="btn btn-success">
-                    <input type="radio" name="custom[{{element._id}}]" id="option2" autocomplete="off">
-                    <span class="fa fa-check"></span>
+                  <label *ngFor="let option of customOptions" [class]="option.label">
+                    <input #customSelected type="radio" [value]="option.value" [attr.custom-id]="element._id" name="custom[{{element._id}}]" 
+                    (click)="setCustomOption()" autocomplete="off" [checked]="getCustomOption(element._id)==option.value">
+                    <span [class]="option.span"></span>
                   </label>
-                  <label class="btn btn-secondary">
-                    <input type="radio" name="custom[{{element._id}}]" id="option2" autocomplete="off" checked>
-                    <span class="fa fa-circle-o"></span>
-                  </label>
-            
-                  <label class="btn btn-danger">
-                    <input type="radio" name="custom[{{element._id}}]" id="option2" autocomplete="off">
-                    <span class="fa fa-close"></span>
-                  </label>
-                
                 </div>
               </td>
             </ng-container>

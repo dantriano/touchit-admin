@@ -23,7 +23,6 @@ import { AgmCoreModule, GoogleMapsAPIWrapper } from "@agm/core";
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import {MatListModule} from '@angular/material/list';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
-
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
 };
