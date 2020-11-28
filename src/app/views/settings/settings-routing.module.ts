@@ -3,14 +3,14 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { SettingsComponent } from './settings.component';
 import { SettingsMainComponent } from './settings-main/settings-main.component';
-import { ActivitiesFormComponent } from './../activities/activities-form/activities-form.component';
-import { ActivitiesListComponent } from './../activities/activities-list/activities-list.component';
+import { ActivitiesFormComponent } from './activities/activities-form/activities-form.component';
+import { ActivitiesListComponent } from './activities/activities-list/activities-list.component';
 
-import { LocationsFormComponent } from './../locations/locations-form/locations-form.component';
-import { LocationsListComponent } from './../locations/locations-list/locations-list.component';
+import { LocationsFormComponent } from './locations/locations-form/locations-form.component';
+import { LocationsListComponent } from './locations/locations-list/locations-list.component';
 
-import { GroupsFormComponent } from './../groups/groups-form/groups-form.component';
-import { GroupsListComponent } from './../groups/groups-list/groups-list.component';
+import { GroupsFormComponent } from './groups/groups-form/groups-form.component';
+import { GroupsListComponent } from './groups/groups-list/groups-list.component';
 
 const routes: Routes = [
   {

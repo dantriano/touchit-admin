@@ -12,26 +12,25 @@ import { CommonServices } from 'app/@core/utils';
 
 
 export class FormComponent {
-  public mapMgr: MapsService = new MapsService();
-  public common: CommonServices = new CommonServices();
-  public form: FormGroup;
-  private submitted: boolean = false;
-  public obs$: Observable<any>;
-  private _id: any = null
-  private model: string;
-  private service: any;
-  private formChanged: boolean = false;
-  private formInputs: any = {};
-  private uiName = 'Element'
-  public formData:any = {};
   @Output() onLoadContent = new EventEmitter();
   @Output() onSubmitComplete = new EventEmitter();
+  protected _id: any = null
+  protected obs$: Observable<any>;
+  protected mapMgr: MapsService = new MapsService();
+  protected common: CommonServices = new CommonServices();
+  protected form: FormGroup;
+  protected submitted: boolean = false;
+  protected formChanged: boolean = false;
+  protected model: string;
+  protected service: any;
+  protected formInputs: any = {};
+  protected formData:any = {};
   protected validators: any = {
     valueExist: () => FormValidator.valueExist(this.service, this.model),
     required: Validators.required,
     email: Validators.email,
   }
-  config: any = {
+  private _config: any = {
     'redirect': 'settings',
     'uiName': 'Element'
   }
@@ -64,7 +63,14 @@ export class FormComponent {
   };
   @ViewChild('infoModal') public dangerModal: ModalDirective;
 
-  constructor(public route: ActivatedRoute, public router: Router, public toastr: ToastrService) { }
+  constructor(public route: ActivatedRoute, public router: Router, public toastr: ToastrService) {}
+
+  get f() { return this.form.controls; }
+  get m() { return this.mapMgr; }
+  set config(obj) { this._config = { ...this._config, ...obj}}
+  get config() { return this._config}
+  set(attr, obj) { this[attr] = obj}
+  get(attr) { return this[attr] }
 
   public loadComponent() { }
   ngOnInit() {
@@ -101,18 +107,7 @@ export class FormComponent {
       return;
     }));
   }
-  get f() { return this.form.controls; }
-  get m() { return this.mapMgr; }
-  filter(el,id){return this.common.getObjectByFilter(el,id)}
-  find(el,id){return this.common.getObjectByFind(el,id)}
-  index(el,id){return this.common.getIndexById(el,id)}
-  /*setObject(object,el, reset?) {
-    if (reset) return []
-    let index = this.index(object,el._id)
-    object.splice(index, 1);
-    object.push(el)
-    return object;
-  }*/
+
   onSubmit() {
     this.submitted = true;
     if (!this.form.valid)
@@ -132,14 +127,19 @@ export class FormComponent {
   onMapReady(map) {
     this.mapMgr.setMap(map);
   }
-  switchElement(el, source, dest) {
+    /*setObject(object,el, reset?) {
+    if (reset) return []
+    let index = this.index(object,el._id)
+    object.splice(index, 1);
+    object.push(el)
+    return object;
+  }*/
+  /*switchElement(el, source, dest) {
     dest.push(el);
     source.splice(source.indexOf(el), 1);
   }
-  set(attr, obj) { this[attr] = obj }
-  get(attr) { return this[attr] }
 
-  setOption(input, object, reset?) {
+  /*setOption(input, object, reset?) {
     let values = this.form.controls[input].value;
     if (reset) values = []
     if (values && values.length > 0 && object._id) {
@@ -149,7 +149,7 @@ export class FormComponent {
     if (object) values.push(object)
     this.form.controls[input].setValue(values);
   }
-  getOption(_id, input) {
+  /*getOption(_id, input) {
     let values = this.form.controls[input].value;
     return (_id && values && values.length > 0) ? values.filter((obj => obj._id == _id))[0] : null;
   }
@@ -160,7 +160,7 @@ export class FormComponent {
     if (index !== -1) values.splice(index, 1);
     this.form.controls[input].setValue(values);
   }
-  switchTriStatus(_id, input) {
+  /*switchTriStatus(_id, input) {
     let el = this.getOption(_id, input)
 
     if (!el || el.status === 'null') status = 'allow'
@@ -169,12 +169,27 @@ export class FormComponent {
 
     let object = { '_id': _id, 'status': status };
     this.setOption(input, object);
-  }
+  }*/
   onFormChanges(): void {
     this.form.valueChanges.subscribe(val => {
       this.formChanged=true;
     });
   }
+
+  /**
+   * 
+   * Group of Helpers
+   * 
+   */
+  filter(el,id){return this.common.getObjectByFilter(el,id)}
+  find(el,id){return this.common.getObjectByFind(el,id)}
+  index(el,id){return this.common.getIndexById(el,id)}
+
+  /**
+   * 
+   * Autocomplete Functions
+   * 
+   */
   public loadAutocomplete(source: any[], control: FormControl, by: string) {
     return control.valueChanges
       .pipe(

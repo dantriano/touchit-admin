@@ -32,8 +32,10 @@
             <!-- User ID Column -->
             <ng-container matColumnDef="avatar">
               <th *matHeaderCellDef> Picture </th>
-              <td *matCellDef="let element">
-                <img class="rounded-circle" height="35" src="{{element.avatar}}"></td>
+              <td *matCellDef="let element" class="text-center">
+               <i class="fa fa-user-circle-o"></i>
+              </td>
+                <!--<img class="rounded-circle" height="35" src="{{element.avatar}}"></td>-->
             </ng-container>
 
             <ng-container matColumnDef="employeeId">

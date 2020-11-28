@@ -28,6 +28,9 @@ export class EmployeeModel extends EmployeeData {
         firstName
         lastName
         groups
+        _groups{
+          name
+        }
         options
         mainActivity
         customActivities{

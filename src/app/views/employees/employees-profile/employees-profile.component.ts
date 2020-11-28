@@ -1,23 +1,27 @@
-import { Component } from '@angular/core';
-import { Router,ActivatedRoute } from "@angular/router";
-import { EmployeeData } from '../../../@core/data/employee';
+import { Component, ViewChildren } from '@angular/core';
+import { Router, ActivatedRoute } from "@angular/router";
+
+import { EmployeeData } from './../../../@core/data'
+import { ToastrService } from 'ngx-toastr';
+import { FormComponent } from 'app/views/common/form.component';
 
 @Component({
   selector: 'employees-profile',
   templateUrl: './employees-profile.component.html',
-  styleUrls: ['./employees-profile.component.scss']
 })
 
-export class EmployeesProfileComponent {
-  employeeData=null;
-  constructor(private route: ActivatedRoute,private service: EmployeeData,private router: Router) {
-    this.route.params.subscribe(params => {
-      if (params.id) {
-        this.doSearch(params.id);
-      }
-    });
+export class EmployeesProfileComponent extends FormComponent {
+  constructor(public componentService: EmployeeData, public route: ActivatedRoute, public router: Router, public toastr: ToastrService) {
+    super(route,router,toastr);
+    this.model='employee'
+    this.service=componentService
   }
-  doSearch(term: string) {
-    this.employeeData = this.service.getOne(term);
+  public loadComponent(){
+    this.config={'redirect':'employees'}
+    this.set('formInputs', {
+      _id: [''],
+      linkCode:[this.componentService.generateCode()],
+      firstName: [, [this.validators.required]],
+      lastName: ['']});
   }
 }

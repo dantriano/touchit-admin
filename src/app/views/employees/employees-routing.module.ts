@@ -11,60 +11,51 @@ import { EmployeesFormComponent } from './employees-form/employees-form.componen
 const routes: Routes = [{
   path: '',
   component: EmployeesComponent,
-  data: {
-    breadcrumbs: true,
-    text: 'Employees'
-  },
   children: [
     {
       path: '',
-      children: [
-        {
-          path: '',
-          component: EmployeesListComponent,
-          data: {
-            breadcrumbs: true,
-            text: 'Employees'
-          }
-        },
-        {
-          path: 'edit',
-          children: [
-            {
-              path: '',
-              component: EmployeesFormComponent,
-              data: {
-                // Uses static text (Home)
-                text: 'Employees'
-              }
-            },
-            {
-              path: ':id',
-              component: EmployeesFormComponent,
-              data: {
-                text: 'Employees'
-              }
-            },
-          ]
-        },
-
-
-        {
-          path: 'profile/:id',
-          component: EmployeesProfileComponent, data: {
-            breadcrumbs: 'Profile'
-          }
-        }
-      ]
-    },
-    {
-      path: 'employees-calendar',
-      component: EmployeesCalendarComponent, data: {
-        // Uses last urlfragment (about) as text
-        breadcrumbs: true
+      component: EmployeesListComponent,
+      data: {
+        title: ''
       }
     },
+    {
+      path: 'edit',
+      data: {
+        title: 'Edit'
+      },
+      children: [
+        {
+          data: {
+            title: 'Create'
+          },
+          path: '',
+          component: EmployeesFormComponent,
+        },
+        {
+          path: ':id',
+          component: EmployeesFormComponent,
+        },
+      ]
+    },
+
+
+    {
+      path: 'profile/:id',
+      data: {
+        title: 'View Profile'
+      },
+      component: EmployeesProfileComponent, 
+    }
   ],
+  /*data: {
+    breadcrumbs: true,
+    text: 'Employees'
+  },*/
+ 
+     
+  
+  
 }];
 
 @NgModule({

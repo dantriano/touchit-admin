@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router, ActivatedRoute } from "@angular/router";
 
-import { LocationData } from './../../../@core/data'
+import { LocationData } from 'app/@core/data';
 import { ToastrService } from 'ngx-toastr';
 import { FormComponent } from 'app/views/common/form.component';
 

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivityData } from './../../../@core/data/';
+import { ActivityData } from 'app/@core/data/';
 import { ToastrService } from 'ngx-toastr';
 import { ListComponent } from 'app/views/common/list.component';
 

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { GroupData } from './../../../@core/data/';
+import { GroupData } from 'app/@core/data/';
 import { ToastrService } from 'ngx-toastr';
 import { ListComponent } from 'app/views/common/list.component';
 
