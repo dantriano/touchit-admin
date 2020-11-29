@@ -1,9 +1,6 @@
 import { Component, ViewChildren } from '@angular/core';
-import { Router, ActivatedRoute } from "@angular/router";
+import { EmployeesComponent } from '../employees.component';
 
-import { EmployeeData } from './../../../@core/data'
-import { ToastrService } from 'ngx-toastr';
-import { FormComponent } from 'app/views/common/form.component';
 
 @Component({
   selector: 'employees-form',
@@ -12,15 +9,10 @@ import { FormComponent } from 'app/views/common/form.component';
 /**
  * Component to generate the Employee Form Page
  */
-export class EmployeesFormComponent extends FormComponent {
+export class EmployeesFormComponent extends EmployeesComponent {
   @ViewChildren('customSelected') cs;
-  constructor(public componentService: EmployeeData, public route: ActivatedRoute, public router: Router, public toastr: ToastrService) {
-    super(route,router,toastr);
-    this.model='employee'
-    this.service=componentService
-  }
-  public loadComponent(){
-    this.config={'redirect':'employees'}
+  loadComponent(){
+    super.loadComponent();
     this.set('customOptions',[
       {'value':'on','label':'btn btn-success','span':'fa fa-check'},
       {'value':'default','label':'btn btn-secondary','span':'fa fa-circle-o'},
@@ -33,7 +25,7 @@ export class EmployeesFormComponent extends FormComponent {
       customActivities: [[]],
       employeeCode: [''],
       isLinked:false,
-      linkCode:[this.componentService.generateCode()],
+      linkCode:[this.makeCode()],
       firstName: [, [this.validators.required]],
       lastName: [''],
       groups: [[]],
@@ -47,19 +39,7 @@ export class EmployeesFormComponent extends FormComponent {
    * Generate a new random Code
    */
   makeCode() {
-    return this.componentService.generateCode();
-  }
-  /**
-   * Foreach available service returns its status for the current users depending on his group and custom option
-   * @param id Service ID
-   */
-  getCustomStatus(id){
-    var customStatus = this.find(this.form.value.customActivities,id).status || 'default';
-    var activitiesByGroup = false
-    this.formData.groups.filter(item => this.form.value.groups.includes(item._id)).filter(item => item.activities.includes(id)).forEach( function(item) {
-      activitiesByGroup=true
-    },activitiesByGroup)
-      return ((customStatus==='on'||activitiesByGroup) && !(customStatus==='off'))
+    return this.service.generateCode();
   }
 
   /**

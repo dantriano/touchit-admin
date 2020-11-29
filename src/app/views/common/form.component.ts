@@ -10,6 +10,8 @@ import { FormValidator } from './form.validator';
 import { MapsService } from 'app/@core/utils';
 import { CommonServices } from 'app/@core/utils';
 
+import { EmployeeData } from 'app/@core/data/employee';
+
 
 export class FormComponent {
   @Output() onLoadContent = new EventEmitter();

@@ -30,6 +30,7 @@ export class EmployeeModel extends EmployeeData {
         groups
         _groups{
           name
+          activities
         }
         options
         mainActivity

@@ -126,7 +126,7 @@
               <th *matHeaderCellDef><i class="fa fa-eye"></i> </th>
               <td *matCellDef="let element">
                 <i class="fa "
-                [ngClass]="getCustomStatus(element._id)? 'fa-check text-success': 'fa-close text-danger'"></i>
+                [ngClass]="getCustomStatus(element._id,f.customActivities.value,f.groups.value)? 'fa-check text-success': 'fa-close text-danger'"></i>
               </td>
             </ng-container>
             <!-- User ID Column -->

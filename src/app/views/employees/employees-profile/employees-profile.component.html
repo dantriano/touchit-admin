@@ -3,11 +3,10 @@
     <div class="col-lg-12">
       <div class="card">
         <div class="card-header">
-          <button class="btn btn-link p-0" (click)="infoModal.show()"><i
-            class="icon-info"></i></button> Employees 
+           Employee Information 
             <div class="card-header-actions">
-              <button (click)="onSubmit()" class="btn btn-sm btn-primary" type="submit">
-                <i class="fa fa-dot-circle-o"></i> Submit</button>
+              <button [routerLink]="['/employees/edit/'+_id]" class="btn btn-sm btn-primary" type="submit">
+                <i class="fa fa-dot-circle-o"></i> Edit</button>
               <button class="btn btn-sm btn-danger" type="reset" (click)="onReset()">
                 <i class="fa fa-ban"></i> Cancel</button>
             </div>
@@ -17,27 +16,53 @@
   </div>
   <div *ngIf="obs$ | async as data; else loading" [formGroup]="form" (ngSubmit)="onSubmit()">
   <div class="row">
-    <div class="col-lg-6">
+    <div class="col-lg-4">
       <div class="card">
-        <div class="card-header">
-          <i class="fa fa-pencil-square-o"></i> Basic Information 
-        </div>
         <div class="card-body">
-          {{data.employee.firstName}}
-          {{data.employee.lastName}}
-          {{data.employee.firstName}}
-          </div>
+          <div class="media">
+            <div class="mr-3 float-left">
+              <img class="img-avatar" src="https://affixtheme.com/html/dashy/demo/media/figure/user_1.jpg" alt="User">
+            </div>
+            <div class="media-body">
+                <h4 class="mb-0">{{data.employee.firstName}} {{data.employee.lastName}} {{data.employee.firstName}}</h4>
+                <div class="user-email">{{data.employee.email}}</div>
+            </div>
         </div>
-         
-        <div class="card">
-          <div class="card-header">
-            <i class="fa fa-tasks"></i> Select available services for this user
+        <hr class="mt-2">
+        <h6 class="text-muted text-uppercase font-weight-bold"><i class="fa fa-object-ungroup"></i>  <u>Groups</u></h6>
+        <div *ngFor='let option of data.activities'>{{option.name}}</div>
           </div>
-          <div class="card-body">
-                <div *ngFor='let option of data.activities'>{{option.name}}</div>
+          <div class="card-footer">        
+            <p><i class="text-danger fa fa-mobile"></i> No existe un dispositivo vinculado a esta cuenta</p>
           </div>
         </div>
       </div>
+      <div class="col-lg-8">
+        <div class="card">
+          <div class="card-body">
+            <h4> Custom Activities</h4>
+            <table mat-table [dataSource]="data.activities"
+            class="table table-bordered table-striped table-sm  no-footer" matSort>
+            <ng-container matColumnDef="status">
+              <th *matHeaderCellDef><i class="fa fa-eye"></i> </th>
+              <td *matCellDef="let element">
+                <i class="fa "
+                [ngClass]="getCustomStatus(element._id,data.employee.customActivities,data.employee.groups)? 'fa-check text-success': 'fa-close text-danger'"></i>
+              </td>
+            </ng-container>
+            <!-- User ID Column -->
+            <ng-container matColumnDef="name">
+              <th *matHeaderCellDef> Service Name </th>
+              <td *matCellDef="let element">
+                {{element.name}}
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+            </div>
+            </div>
+            </div>
     </div>
   </div>
 </div>
