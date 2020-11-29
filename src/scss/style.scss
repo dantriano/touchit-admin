@@ -9,8 +9,9 @@
 @import "~@coreui/coreui/scss/coreui";
 @import '~ngx-toastr/toastr';
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
-@import './timeline';
+
 @import './_forms';
 // If you want to add something do it here
-@import "custom";
+@import "./_custom";
+//@import './timeline';
 

@@ -28,24 +28,14 @@
             </div>
           </div>
           <table mat-table [dataSource]="dataSource"
-            class="table table-striped table-bordered datatable dataTable no-footer" matSort>
+            class="table table-bordered table-striped table-sm" matSort>
             <ng-container matColumnDef="_id">
               <th *matHeaderCellDef> ID </th>
-              <td *matCellDef="let element">
-                <img class="rounded-circle" height="35" src="{{element._id}}"></td>
+              <td *matCellDef="let element">{{element._id}}</td>
             </ng-container>
             <ng-container matColumnDef="options">
               <th *matHeaderCellDef> Options </th>
               <td *matCellDef="let element">
-                <button routerLink="/registers/profile/{{element._id}}" class="btn btn-primary" href="#">
-                  <i class="fa fa-eye"></i>
-                </button>
-                <button routerLink="/registers/edit/{{element._id}}" class="btn btn-warning" href="#">
-                  <i class="fa fa-pencil"></i>
-                </button>
-                <button data-toggle="modal" class="btn btn-danger" (click)="set('_id',element._id);dangerModal.show()">
-                  <i class="fa fa fa-trash-o"></i>
-                </button>
               </td>
             </ng-container>
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
