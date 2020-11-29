@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EmployeeData } from 'app/@core/data/employee';
 import { ToastrService } from 'ngx-toastr';
-import { FormComponent } from '../common/form.component';
+import { FormComponent } from 'app/common/form.component';
 
 @Component({
   selector: 'ngx-employees',

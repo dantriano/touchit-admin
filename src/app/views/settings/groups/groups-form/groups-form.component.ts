@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from "@angular/router";
 
 import { GroupData } from 'app/@core/data';
 import { ToastrService } from 'ngx-toastr';
-import { FormComponent } from 'app/views/common/form.component';
+import { FormComponent } from 'app/common/form.component';
 
 @Component({
   selector: 'groups-form',
@@ -11,17 +11,16 @@ import { FormComponent } from 'app/views/common/form.component';
 })
 
 export class GroupsFormComponent extends FormComponent {
-  constructor(public componentService: GroupData, public route: ActivatedRoute, public router: Router, public toastr: ToastrService) {
+  protected model:string = 'group';
+  constructor(public service: GroupData, public route: ActivatedRoute, public router: Router, public toastr: ToastrService) {
     super(route,router,toastr);
   }
   public loadComponent(){
-    const validators=this.get('validators');
-    this.set('model','group');
-    this.set('service',this.componentService);
+    this.config={'redirect':'settings','uiName':'Groups'}
     this.set('formInputs', {
       _id: [''],
       //name: ['', [validators.required],[validators.valueExist()]],
-      name: ['', [validators.required]],
+      name: ['', [this.validators.required]],
       main: [''],
       activities: [[]],
       options: [[]]

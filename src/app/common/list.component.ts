@@ -7,12 +7,11 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 import { Subscription } from 'rxjs';
 
 export class ListComponent implements OnInit {
-  private displayedColumns: string[] = [];
-  private dataSource = new MatTableDataSource<any>();
-  private _id: string;
-  private subscription: Subscription;
-  private service: any;
-  private model: string;
+  protected dataSource = new MatTableDataSource<any>();
+  protected _id: string;
+  protected subscription: Subscription;
+  protected service: any;
+  protected model: string;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
@@ -21,7 +20,10 @@ export class ListComponent implements OnInit {
   constructor(public toastr: ToastrService) { }
   set(attr, service) { this[attr] = service }
   get(attr) { return this[attr] }
-  public loadComponent() { }
+  
+  /**
+   *  Execution on Page Load
+   */
   ngOnInit() {
     this.loadComponent();
     this.subscription = this.service.getList().subscribe((res) => {
@@ -31,9 +33,17 @@ export class ListComponent implements OnInit {
       this.dataSource.sort = this.sort;
     });
   }
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
-  }
+  
+  /**
+   * First Function to be executed. Used to load all configurations in the components
+   * Destroy suscription when page change
+   */ 
+  loadComponent() { }
+  ngOnDestroy() { this.subscription.unsubscribe()}
+  
+  /**
+   * Alert before remove from DB
+   */
   confirmDelete() {
     this.service.remove(this._id).subscribe(
       (data) => {
@@ -41,8 +51,12 @@ export class ListComponent implements OnInit {
         this.toastr.success('Group deleted')
       })
   }
+  /**
+   * Filters by string any row
+   * @param event Object that throw the filter
+   */
   applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
+    let filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();

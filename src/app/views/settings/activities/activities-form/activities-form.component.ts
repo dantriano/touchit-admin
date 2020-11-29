@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from "@angular/router";
 
 import { ActivityData } from 'app/@core/data'
 import { ToastrService } from 'ngx-toastr';
-import { FormComponent } from 'app/views/common/form.component';
+import { FormComponent } from 'app/common/form.component';
 
 @Component({
   selector: 'activites-form',
@@ -21,13 +21,12 @@ export class ActivitiesFormComponent extends FormComponent {
     {_id:6,name:'Sunday'}
 
   ]
-  constructor(public componentService: ActivityData, public route: ActivatedRoute, public router: Router, public toastr: ToastrService) {
+  protected model:string = 'activity';
+  constructor(public service: ActivityData, public route: ActivatedRoute, public router: Router, public toastr: ToastrService) {
     super(route,router,toastr);
   }
-  public loadComponent(){
-    this.set('uiName','Activity');
-    this.set('model','activity');
-    this.set('service',this.componentService);
+  loadComponent(){
+    this.config={'redirect':'settings','uiName':'Activity'}
     this.set('formInputs', {
       _id: [''],
       //name: ['', [validators.required],[validators.valueExist()]],

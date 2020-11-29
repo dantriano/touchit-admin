@@ -10,8 +10,6 @@ import { FormValidator } from './form.validator';
 import { MapsService } from 'app/@core/utils';
 import { CommonServices } from 'app/@core/utils';
 
-import { EmployeeData } from 'app/@core/data/employee';
-
 
 export class FormComponent {
   @Output() onLoadContent = new EventEmitter();
@@ -74,7 +72,9 @@ export class FormComponent {
   set(attr, obj) { this[attr] = obj}
   get(attr) { return this[attr] }
 
-  public loadComponent() { }
+  /**
+   *  Execution on Page Load
+   */
   ngOnInit() {
     this.loadComponent();
     this.route.params.subscribe(params => {
@@ -83,14 +83,28 @@ export class FormComponent {
       this.loadContent();
     });
   }
-  loadForm() {
-    this.form = new FormBuilder().group(this.formInputs)
-    this.onFormChanges();
-  }
+  /**
+   * First Function to be executed. Used to load all configurations in the components
+   */
+  loadComponent() { }
+
+  /**
+   * Init the service to show a Map in the components
+   */
   loadMap() {
     this.mapMgr = new MapsService();
   }
 
+  /**
+   * Defined the component map with the object in the view 
+   * @param map Object Map defined in the view
+   */
+  onMapReady(map) {
+    this.mapMgr.setMap(map);
+  }
+  /**
+   * Get all the data from the DataBase using the Load function of the current service
+   */
   loadContent() {
     this.obs$ = this.service.load({ '_id': this._id }).pipe(map(res => {
       this.formData = res['data']
@@ -110,25 +124,92 @@ export class FormComponent {
     }));
   }
 
+  /**
+   * Load the components with all the fields defined in the child components
+   */
+  loadForm() {
+    this.form = new FormBuilder().group(this.formInputs)
+    this.onFormChanges();
+  }
+  /**
+   * Action when the user submit a form
+   */
   onSubmit() {
     this.submitted = true;
     if (!this.form.valid)
       return;
     this.saveForm();
   }
+
+  /**
+   * Save data in the DataBase and attach an Observer when the data are stored
+   */
   saveForm() {
     console.log(this.form.value)
     return this.service.save(this.form.value).subscribe((this.submitObserver));
   }
 
+  /**
+   * Action when the user cancel a form
+   */
   onReset() {
     this.submitted = false;
     this.form.reset();
     this.router.navigate([this.config.redirect]);
   }
-  onMapReady(map) {
-    this.mapMgr.setMap(map);
+
+  /**
+   * Action when the user types in any form field
+   */
+  onFormChanges(): void {
+    this.form.valueChanges.subscribe(val => {
+      this.formChanged=true;
+    });
   }
+
+
+
+  /**
+   * 
+   * Group of Helpers
+   * 
+   */
+  filter(el,id){return this.common.getObjectByFilter(el,id)}
+  find(el,id){return this.common.getObjectByFind(el,id)}
+  index(el,id){return this.common.getIndexById(el,id)}
+
+  /**
+   * 
+   * Autocomplete Functions
+   * 
+   */
+
+  /**
+   * 
+   * @param source List of the elements to find a match. Forexemple data from DB
+   * @param control Form field
+   * @param by 
+   */
+  public loadAutocomplete(source: any[], control: FormControl, by: string) {
+    return control.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => value ? this._filterAutocomplete(source, value, by) : source.slice())
+      );
+  }
+
+  /**
+   * Filter to transform the showed messages in the autocomplete
+   * @param source 
+   * @param value 
+   * @param by 
+   */
+  private _filterAutocomplete(source: any[], value: string, by: string): any[] {
+    const filterValue = value.toLowerCase();
+    return source.filter(x => x[by].toLowerCase().indexOf(filterValue) === 0);
+  }
+
+
     /*setObject(object,el, reset?) {
     if (reset) return []
     let index = this.index(object,el._id)
@@ -172,35 +253,5 @@ export class FormComponent {
     let object = { '_id': _id, 'status': status };
     this.setOption(input, object);
   }*/
-  onFormChanges(): void {
-    this.form.valueChanges.subscribe(val => {
-      this.formChanged=true;
-    });
-  }
-
-  /**
-   * 
-   * Group of Helpers
-   * 
-   */
-  filter(el,id){return this.common.getObjectByFilter(el,id)}
-  find(el,id){return this.common.getObjectByFind(el,id)}
-  index(el,id){return this.common.getIndexById(el,id)}
-
-  /**
-   * 
-   * Autocomplete Functions
-   * 
-   */
-  public loadAutocomplete(source: any[], control: FormControl, by: string) {
-    return control.valueChanges
-      .pipe(
-        startWith(''),
-        map(value => value ? this._filterAutocomplete(source, value, by) : source.slice())
-      );
-  }
-  private _filterAutocomplete(source: any[], value: string, by: string): any[] {
-    const filterValue = value.toLowerCase();
-    return source.filter(x => x[by].toLowerCase().indexOf(filterValue) === 0);
-  }
+  
 }

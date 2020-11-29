@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { RegisterData } from '../../../@core/data';
+import { RegisterData } from 'app/@core/data';
 import { ToastrService } from 'ngx-toastr';
-import { ListComponent } from 'app/views/common/list.component';
+import { ListComponent } from 'app/common/list.component';
 
 @Component({
   selector: 'registers-list',

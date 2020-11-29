@@ -5,10 +5,6 @@ import { CommonModule } from '@angular/common';
 import { TablesRoutingModule, routedComponents } from './settings-routing.module';
 import { SettingsMainComponent } from './settings-main/settings-main.component';
 
-import { LocationsListComponent } from './locations/locations-list/locations-list.component';
-import { GroupsListComponent } from './groups/groups-list/groups-list.component';
-import { ActivitiesListComponent } from './activities/activities-list/activities-list.component';
-
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RegisterData } from '../../@core/data'
+import { RegisterData } from 'app/@core/data';
 
 @Component({
   selector: 'ngx-timeline',
