@@ -4,7 +4,7 @@ services:
   #"start": "ng serve --host=0.0.0.0 --port 4200",
   node:
     image: node:10
-    container_name: node
+    container_name: node_${PROJECT_NAME}
     working_dir: /app
     command: sh -c "npm install && npm install -g migrate-mongo && npm run dev"
     environment:
@@ -18,7 +18,7 @@ services:
 
   graphql:
     image: node:10
-    container_name: graphql
+    container_name: graphql_${PROJECT_NAME}
     working_dir: /app
     command: sh -c "npm install && npm run dev"
     restart: unless-stopped
@@ -33,7 +33,7 @@ services:
   
   mongo:
     image: mongo:4
-    container_name: mongo
+    container_name: mongo_${PROJECT_NAME}
     restart: unless-stopped
     environment:
       - MONGO_INITDB_ROOT_USERNAME=${MONGO_ROOT_USER}
@@ -48,7 +48,7 @@ services:
 
   mongoclient:
     image: mongoclient/mongoclient:4.0.0
-    container_name: mongoclient
+    container_name: mongoclient_${PROJECT_NAME}
     restart: unless-stopped
     environment:
       - MONGO_URL=mongodb://${MONGO_ROOT_USER}:${MONGO_ROOT_PASSWORD}@mongo:27017/${MONGO_DB}?authSource=admin&ssl=false
