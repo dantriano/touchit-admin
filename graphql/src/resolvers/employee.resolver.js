@@ -48,14 +48,4 @@ export default {
       return await groupModel.find({ _id: groups }).exec();
     }
   }
- /* Employee: {
-    getCustomActivities: async ({ customActivities }, args, { models: { activityModel } }, info) => {
-      const activities = await activityModel.find({}).exec();
-      return (customActivities) ? activities.map(activity => {
-        let objIndex = customActivities.findIndex((obj => obj._id == activity._id));
-        activity.status = (objIndex !== -1) ? customActivities[objIndex].status : null
-        return activity
-      }) : activities;
-    }
-  },*/
 };

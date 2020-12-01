@@ -48,32 +48,36 @@ export default {
     },
   },
   User: {
-    _employee: async ({ employee }, args, { models: { employeeModel } }, info) => {
-      if(employee)
-      return await employeeModel.find({ _id: employee }).exec();
+    _employee: async ({ bind }, args, { models: { employeeModel } }, info) => {
+      const employeeIds = bind.map((x) => {
+        return x.employee
+      });
+      const asyncRes= await employeeModel.find({ _id: employeeIds}).exec();
+      console.log(asyncRes)
+      return asyncRes;
     },
-    _company: async ({ company }, args, { models: { companyModel } }, info) => {
-      if(company)
-      return await companyModel.find({ _id: company }).exec();
-    },
+    _company: async ({ bind }, args, { models: { companyModel } }, info) => {
+      const companies = bind.map((x) => {
+        return x.company
+      });
+      const asyncRes = await companyModel.find({ _id: companies }).exec();
 
+      console.log(asyncRes)
+      return asyncRes
     },
+  },
 };
-
-/*
-  function ok(body?) {
-            return of(new HttpResponse({ status: 200, body }))
-        }
-
-        function error(message) {
-            return throwError({ error: { message } });
-        }
-
-        function unauthorized() {
-            return throwError({ status: 401, error: { message: 'Unauthorised' } });
-        }
-
-        function isLoggedIn() {
-            return headers.get('Authorization') === 'Bearer fake-jwt-token';
-        }
-*/
+/* 
+const asyncRes = await Promise.all(bind.map(async (x) => {
+        return await companyModel.find({ _id: x.company }).exec();
+      }));
+Employee: {
+    getCustomActivities: async ({ customActivities }, args, { models: { activityModel } }, info) => {
+      const activities = await activityModel.find({}).exec();
+      return (customActivities) ? activities.map(activity => {
+        let objIndex = customActivities.findIndex((obj => obj._id == activity._id));
+        activity.status = (objIndex !== -1) ? customActivities[objIndex].status : null
+        return activity
+      }) : activities;
+    }
+  },*/

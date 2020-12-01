@@ -92,6 +92,16 @@ export class UserModel extends UserData {
         query login($input: userInput!) {
             login(input:$input) {
                 _id
+                firstName
+                lastName
+                picture
+                email
+                _company{
+                  name
+                }
+                _employee{
+                  firstName
+                }
                 token
             }
         }

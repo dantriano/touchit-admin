@@ -38,6 +38,9 @@ const userSchema = new mongoose.Schema({
   picture: {
     type: String,
   },
+  bind: {
+    type: [Object],
+  },
 });
 
 userSchema.pre('save', function() {

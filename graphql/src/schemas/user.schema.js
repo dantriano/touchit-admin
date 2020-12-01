@@ -8,19 +8,12 @@ const userSchema=gql`
     picture: String
     email: String
     token: String
-    employee:[ID]
-    company:[ID]
+    bind:[Bind]
   }
 
-  type Token { 
-    _id: ID
-    email: String
-    firstName: String
-    lastName: String
-    picture: String
-    employee: [ID]
-    company: [ID]
-    token: String
+  type Bind { 
+    employee: ID
+    company: ID
   }
   input userInput  {
     _id: ID,

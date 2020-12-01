@@ -16,7 +16,7 @@ import { SelectionComponent } from './views/selection/selection.component';
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'dashboard',
+    redirectTo: 'login',
     pathMatch: 'full',
   },
   {

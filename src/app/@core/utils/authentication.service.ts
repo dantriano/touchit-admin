@@ -4,7 +4,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
-import { Users } from '../data/users';
+import { Users } from 'app/@core/data/users';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
@@ -22,7 +22,7 @@ export class AuthenticationService {
     public get currentUserValue(): Users {
         return this.currentUserSubject.value;
     }
-    login(email: string, password: string) {
+   /* login(email: string, password: string) {
         const query = gql`
             query login($email: String!,$password: String!) {
                 login(email: $email ,password: $password) {
@@ -32,6 +32,7 @@ export class AuthenticationService {
     				picture
                     token
                     email
+                    bind
                 }
             }
             `;
@@ -47,7 +48,7 @@ export class AuthenticationService {
                 localStorage.setItem('currentUser', JSON.stringify(data.login));
                 this.currentUserSubject.next(data.login);
             }));
-    }
+    }*/
 
     logout() {
         // remove user from local storage to log user out

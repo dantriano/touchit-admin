@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Injectable } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from "@angular/router";
 import { first, tap, map } from 'rxjs/operators';
@@ -12,7 +12,7 @@ import { UserData } from 'app/@core/data';
   selector: 'app-dashboard',
   templateUrl: 'login.component.html'
 })
-
+@Injectable()
 export class LoginComponent {
   form: FormGroup;
   submitted = false;
@@ -20,10 +20,11 @@ export class LoginComponent {
   loading = false;
   returnUrl: string;
   error = '';
+  protected currentUser:any = {};
   private querySubscription: Subscription;
   constructor(private formBuilder: FormBuilder, private service: UserData, private route: ActivatedRoute, private router: Router, private toastr: ToastrService) {
     if (this.service.currentUserValue) {
-      this.router.navigate(['/']);
+      this.router.navigate(['/dashboard']);
     }
   }
 
@@ -51,6 +52,8 @@ export class LoginComponent {
           localStorage.setItem('currentUser', JSON.stringify(user.login));
           this.service.currentSubject.next(user.login);
           this.router.navigate([this.returnUrl]);
+          this.currentUser = user.login
+          console.log( this.currentUser)
         },
         error => {
           this.toastr.error(CommonServices.graphqlError(error));
