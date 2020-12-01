@@ -1,8 +1,5 @@
 // Here you can add other styles
-.table th,
-.table td {
-  padding: 0.75rem;
-}
+
 .card-header-actions .btn-min {
   padding: 0;
 }
@@ -39,3 +36,7 @@ agm-map {
     }
   }
 }
+.mat-row{
+  height: 0 !important;
+}
+mat-list-option:hover{background: rgba(0,0,0,.04);}

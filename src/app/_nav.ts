@@ -25,6 +25,11 @@ export const navItems: INavData[] = [
     url: '/registers',
     icon: 'icon-registers'
   },
+  {
+    name: 'Test',
+    url: '/test',
+    icon: 'icon-registers'
+  },
  
   {
     divider: true
