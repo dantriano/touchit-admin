@@ -8,20 +8,12 @@ import { RegistersFormComponent } from './registers-form/registers-form.componen
 const routes: Routes = [{
   path: '',
   component: RegistersComponent,
-  data: {
-    breadcrumbs: false,
-    text: 'Registers'
-  },
   children: [
-    {
-      path: '',
-      children: [
         {
           path: '',
           component: RegistersListComponent,
           data: {
-            breadcrumbs: false,
-            text: ''
+            title: ''
           }
         },
         {
@@ -44,8 +36,7 @@ const routes: Routes = [{
             },
           ]
         },
-      ]
-    },
+      
   ],
 }];
 

@@ -7,17 +7,20 @@
   [asideMenuToggler]="'lg'">
   <ul class="nav navbar-nav d-md-down-none">
     <li class="nav-item px-3">
-      <a class="nav-link" href="#">Dashboard</a>
+      <a class="nav-link" routerLink="/dashboard" >Dashboard</a>
     </li>
     <li class="nav-item px-3">
-      <a class="nav-link" href="#">Users</a>
+      <a class="nav-link" routerLink="/employees" >Employees</a>
     </li>
     <li class="nav-item px-3">
-      <a class="nav-link" href="#">Settings</a>
+      <a class="nav-link" routerLink="/settings" >Settings</a>
+    </li>
+    <li class="nav-item px-3">
+      <a class="nav-link" routerLink="/registers" >Registers</a>
     </li>
   </ul>
   <ul class="nav navbar-nav ml-auto">
-    <li class="nav-item dropdown d-md-down-none" dropdown="" placement="bottom right"><a aria-haspopup="true" class="nav-link" data-toggle="dropdown" dropdowntoggle="" href="#" role="button" aria-expanded="false"><i class="icon-bell"></i><span class="badge badge-pill badge-danger">5</span></a></li>
+    <li class="nav-item dropdown d-md-down-none" dropdown="" placement="bottom right"><a aria-haspopup="true" class="nav-link" data-toggle="dropdown" dropdowntoggle="" routerLink="/dashboard" role="button" aria-expanded="false"><i class="icon-bell"></i><span class="badge badge-pill badge-danger">5</span></a></li>
     <li class="nav-item dropdown" dropdown placement="bottom right">
       <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" dropdownToggle (click)="false">
         <i class="icon-list"></i>
@@ -39,7 +42,7 @@
       </div>
     </li>
     <li class="nav-item dropdown">
-      <a class="nav-link" href="#" role="button">
+      <a class="nav-link" role="button">
         <img src="assets/img/avatars/6.jpg" class="img-avatar" alt="admin@bootstrapmaster.com"/>
       </a>
     </li>
