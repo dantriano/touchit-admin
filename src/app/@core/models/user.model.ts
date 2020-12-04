@@ -91,9 +91,11 @@ export class UserModel extends UserData {
                 picture
                 email
                 _company{
+                  _id
                   name
                 }
                 _employee{
+                  _id
                   firstName
                 }
                 token

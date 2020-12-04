@@ -25,18 +25,27 @@ export class AuthenticationService {
     getUser(){
         return this.currentUserSubject.getValue();
     }
+    getCompany(){
+        return JSON.parse(localStorage.getItem('currentCompany'));
+    }
     setAuth(user: User) {
         this.currentUserSubject.next(user);
+        localStorage.setItem('currentUser', JSON.stringify(user));
         this.isAuthenticated=true
+    }
+
+    setCompany(company) {
+        localStorage.setItem('currentCompany', JSON.stringify(company));
     }
     attemptAuth(credentials){
       return this.userService.login({ email: credentials.username, password: credentials.password })
       .pipe(first())
       .subscribe(
         data => {
-          const user = data.data.login
+          const user = data.data.login;
+          const company = (user._company.length>0)?user._company[0]:null;
           this.setAuth(user);
-          localStorage.setItem('currentUser', JSON.stringify(user));
+          this.setCompany(company)
           return;
         },
         error => {

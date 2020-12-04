@@ -15,6 +15,15 @@ export class DefaultLayoutComponent {
   toggleMinimize(e) {
     this.sidebarMinimized = e;
   }
+  get user(){
+    return this.authService.currentUserSubject.getValue();
+  }
+  get company(){
+    return this.authService.getCompany();
+  }
+  set company(company){
+    this.authService.setCompany(company);
+  }
   logout() {
     this.authService.logout()
     this.router.navigate(['/']);
