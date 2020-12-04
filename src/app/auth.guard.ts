@@ -3,7 +3,7 @@ import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from
 import { Observable } from 'rxjs';
 
 import { take } from 'rxjs/operators';
-import { AuthenticationService } from './@core/utils/authentication.service';
+import { AuthenticationService } from 'app/@core/utils/authentication.service';
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(
@@ -15,7 +15,7 @@ export class AuthGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): boolean {
-    const currentUser = this.authenticationService.currentUserValue;
+    const currentUser = this.authenticationService.getUser();
     if (currentUser) {
       // logged in so return true
       return true;

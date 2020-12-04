@@ -1,9 +1,9 @@
 import { of as observableOf, Observable,throwError } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { UsersData, Users } from '../data/users';
+import { User } from 'app/@core/data/user';
 
 @Injectable()
-export class UsersService extends UsersData {
+export class UserService  {
   private time: Date = new Date;
   public currentUser;
   public isAuthenticated=false;
@@ -16,11 +16,11 @@ export class UsersService extends UsersData {
   getUsers(): Observable<any> {
     return observableOf(this.users);
   }
-  setAuth(user: Users) {
+  setAuth(user: User) {
     this.currentUser=user;
     this.isAuthenticated=true;
   }
-  attemptAuth(credentials):Observable<Users>{
+  attemptAuth(credentials):Observable<User>{
    const user= this.users.filter(function(user) {
       return (user.email == credentials.email && user.password == credentials.password);
     });

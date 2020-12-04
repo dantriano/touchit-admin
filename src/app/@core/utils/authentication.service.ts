@@ -1,58 +1,55 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { BehaviorSubject, Observable, Subscription, throwError, of} from 'rxjs';
+import { first, map} from 'rxjs/operators';
 import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
-import { Users } from 'app/@core/data/users';
+import { User, UserData } from 'app/@core/data';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
-    private currentUserSubject: BehaviorSubject<Users>;
-    public currentUser: Observable<Users>;
     posts: any[];
     loading = true;
     error: any;
     data: any;
-    constructor(private http: HttpClient, private apollo: Apollo) {
-        this.currentUserSubject = new BehaviorSubject<Users>(JSON.parse(localStorage.getItem('currentUser')));
-        this.currentUser = this.currentUserSubject.asObservable();
-    }
+    isAuthenticated: boolean = false;
+    querySubscription: Subscription;
+    currentUserSubject:BehaviorSubject<User> = new BehaviorSubject<User>(null);
+    currentUser:Observable<User> = this.currentUserSubject.asObservable();
 
-    public get currentUserValue(): Users {
-        return this.currentUserSubject.value;
+    constructor(private userService: UserData) {
+        if(localStorage.getItem('currentUser')){
+            this.setAuth(JSON.parse(localStorage.getItem('currentUser')))
+        }
     }
-   /* login(email: string, password: string) {
-        const query = gql`
-            query login($email: String!,$password: String!) {
-                login(email: $email ,password: $password) {
-                    _id
-                    firstName
-    				lastName
-    				picture
-                    token
-                    email
-                    bind
-                }
-            }
-            `;
-        return this.apollo
-            .watchQuery<any>({
-                query: query,
-                variables: {
-                    email: email,
-                    password: password,
-                }
-            })
-            .valueChanges.pipe(map(({ data }) => {
-                localStorage.setItem('currentUser', JSON.stringify(data.login));
-                this.currentUserSubject.next(data.login);
-            }));
-    }*/
+    getUser(){
+        return this.currentUserSubject.getValue();
+    }
+    setAuth(user: User) {
+        this.currentUserSubject.next(user);
+        this.isAuthenticated=true
+    }
+    attemptAuth(credentials){
+      return this.userService.login({ email: credentials.username, password: credentials.password })
+      .pipe(first())
+      .subscribe(
+        data => {
+          const user = data.data.login
+          this.setAuth(user);
+          localStorage.setItem('currentUser', JSON.stringify(user));
+          return;
+        },
+        error => {
+            this.logout()
+            return;
+            return throwError('Error');  
+        });
+    
+    }
 
     logout() {
-        // remove user from local storage to log user out
         localStorage.removeItem('currentUser');
         this.currentUserSubject.next(null);
+        this.isAuthenticated=false
     }
 }

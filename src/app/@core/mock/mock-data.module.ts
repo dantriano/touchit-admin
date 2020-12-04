@@ -4,7 +4,7 @@ import * as mocks from "./";
 import * as data from "../data";
 
 const SERVICES = [
-  { provide: data.UsersData, useClass: mocks.UsersService },
+  //{ provide: data.UsersData, useClass: mocks.UsersService },
   //{ provide: data.EmployeeData, useClass: mocks.EmployeeService },
   //{ provide: data.EventsData, useClass: mocks.EventsService },
   //{ provide: data.GroupData, useClass: mocks.GroupService },

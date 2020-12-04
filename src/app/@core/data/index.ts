@@ -1,5 +1,4 @@
 export * from './common';
-export * from './users';
 export * from './employee';
 export * from './companies';
 export * from './activity';

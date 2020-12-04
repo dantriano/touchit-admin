@@ -1,19 +1,20 @@
 import { Component, Injectable } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router, ActivatedRoute } from "@angular/router";
+import { Router, ActivatedRoute, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from "@angular/router";
 import { first, tap, map } from 'rxjs/operators';
 import { Subscription, Observable } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { CommonServices } from 'app/@core/utils';
 import { UserModel } from 'app/@core/models';
 import { UserData } from 'app/@core/data';
+import { AuthenticationService } from 'app/@core/utils/authentication.service';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: 'login.component.html'
 })
 @Injectable()
-export class LoginComponent {
+export class LoginComponent{
   form: FormGroup;
   submitted = false;
   errorsLogin: boolean;
@@ -21,19 +22,30 @@ export class LoginComponent {
   returnUrl: string;
   error = '';
   protected currentUser:any = {};
-  private querySubscription: Subscription;
-  constructor(private formBuilder: FormBuilder, private service: UserData, private route: ActivatedRoute, private router: Router, private toastr: ToastrService) {
-    if (this.service.currentUserValue) {
-      this.router.navigate(['/dashboard']);
+  private auth: Subscription;
+
+  msg: any = {
+    error: {
+      'ups': 'Ups..Something happend'
     }
   }
-
+  constructor(private formBuilder: FormBuilder, private authService: AuthenticationService, private route: ActivatedRoute, private router: Router, private toastr: ToastrService) {}
+  
   ngOnInit() {
     this.form = this.formBuilder.group({
       username: [null, [Validators.required, Validators.email]],
       password: [null, Validators.required],
     });
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
+    console.log(this.returnUrl )
+    this.auth = this.authService.currentUser.subscribe(
+      data => {
+        if(data) 
+          this.router.navigate([this.returnUrl]);
+        if(data==null)
+          this.toastr.error("error");   
+        return;
+    })
   }
   get f() { return this.form.controls; }
 
@@ -42,29 +54,11 @@ export class LoginComponent {
     if (this.form.invalid) {
       return;
     }
-    localStorage.removeItem('currentUser')
-  
-    this.querySubscription = this.service.login({ email: this.f.username.value, password: this.f.password.value })
-      .pipe(first())
-      .subscribe(
-        data => {
-          const user = data.data
-          localStorage.setItem('currentUser', JSON.stringify(user.login));
-          this.service.currentSubject.next(user.login);
-          this.router.navigate([this.returnUrl]);
-          this.currentUser = user.login
-          console.log( this.currentUser)
-        },
-        error => {
-          this.toastr.error(CommonServices.graphqlError(error));
-          if (error.graphQLErrors.length > 0 && error.graphQLErrors[0].extensions.code == 'UNAUTHENTICATED')
-            this.errorsLogin = true;
-          this.loading = false;
-        });
+    this.authService.attemptAuth(this.form.value);
   }
 
   ngOnDestroy() {
-    this.querySubscription.unsubscribe();
+    this.auth?.unsubscribe();
   }
 
 }

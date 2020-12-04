@@ -8,18 +8,12 @@ import { map } from 'rxjs/operators';
 
 @Injectable()
 export class UserModel extends UserData {
-  private currentUserSubject: BehaviorSubject<User>;
-  public currentUser: Observable<User>;
+  //private currentUserSubject= new BehaviorSubject<User>({});
+  //public currentUser= this.currentUserSubject.asObservable();
   constructor(private apollo: Apollo) {
     super();
-    this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
-    this.currentUser = this.currentUserSubject.asObservable();
-  }
-  public get currentSubject():  BehaviorSubject<User>{
-    return this.currentUserSubject;
-  }
-  public get currentUserValue(): User {
-    return this.currentUserSubject.value;
+    //this.currentUserSubject.next = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
+    //this.currentUser = this.currentUserSubject.asObservable();
   }
   getOne(input: any) {
     const query = gql`
@@ -137,11 +131,4 @@ export class UserModel extends UserData {
         this.currentUserSubject.next(data.login);
       }));
   }*/
-
-  logout() {
-    // remove user from local storage to log user out
-    localStorage.removeItem('currentUser');
-    this.currentUserSubject.next(null);
-  }
-
 }
