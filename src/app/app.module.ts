@@ -17,7 +17,6 @@ import { LoginComponent } from './views/login/login.component';
 import { RegisterComponent } from './views/register/register.component';
 import { ReactiveFormsModule } from '@angular/forms';
 
-
 const APP_CONTAINERS = [
   DefaultLayoutComponent
 ];
@@ -28,7 +27,7 @@ import {
   AppHeaderModule,
   AppFooterModule,
   AppSidebarModule,
-} from 'app/../../coreui/public-api';
+} from '@coreui/angular';
 
 // Import routing module
 import { AppRoutingModule,routedComponents } from './app.routing';
@@ -46,6 +45,7 @@ import { GraphQLModule } from './graphql.module';
 import { HttpClientModule } from '@angular/common/http';
 import { TestComponent } from './views/test/test.component';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+import { from } from 'zen-observable';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
@@ -55,11 +55,14 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
+
+
     AppAsideModule,
     AppBreadcrumbModule.forRoot(),
     AppFooterModule,
     AppHeaderModule,
     AppSidebarModule,
+    
     ReactiveFormsModule,
     PerfectScrollbarModule,
     BsDropdownModule.forRoot(),
@@ -80,7 +83,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     P500Component,
     LoginComponent,
     RegisterComponent,
-    TestComponent
+    TestComponent,
    // ...routedComponents
   ],
   providers: [AuthGuard,{

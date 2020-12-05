@@ -27,7 +27,7 @@
       </a>
       <div class="dropdown-menu dropdown-menu-right" *dropdownMenu aria-labelledby="simple-dropdown">
         <div class="dropdown-header text-center"><strong>Companies</strong></div>
-        <a *ngFor="let option of user._company" class="dropdown-item"  [ngClass]="{ 'active': option._id == company._id}" (click)="company=option" href="{{router.url}}"> {{option._id}} {{company._id}}</a>
+        <a *ngFor="let option of user._company" class="dropdown-item"  [ngClass]="{ 'active': option._id == company._id}" (click)="company=option" href="{{router.url}}"> {{option.name}}</a>
       </div>
     </li>
     <li class="nav-item dropdown" dropdown placement="bottom right">
