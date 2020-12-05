@@ -50,7 +50,7 @@ export class MapsService {
       },
       drawingMode: google.maps.drawing.OverlayType.POLYGON
     };
-    this.drawingManager = google.maps.drawing.DrawingManager(options);
+    this.drawingManager = new google.maps.drawing.DrawingManager(options);
   }
 
   //IF position is in any of the designed areas for this location
@@ -69,7 +69,7 @@ export class MapsService {
     var path = [];
     if (area && area.latsLngs)
       area.latsLngs.forEach(element => {
-        path.push(google.maps.LatLng(element.lat, element.lng))
+        path.push(new google.maps.LatLng(element.lat, element.lng))
       });
       this.addPoligon(this.drawPoligon(path))
   }
@@ -89,7 +89,7 @@ export class MapsService {
   }
   //Draw the current areas
   drawPoligon(path) {
-    return google.maps.Polygon({
+    return new google.maps.Polygon({
       strokeColor: strokeColor,
       fillColor: fillColor,
       map: this.map,
