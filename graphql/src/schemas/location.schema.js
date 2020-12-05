@@ -7,6 +7,7 @@ const locationSchema= gql`
     center: latLng
     zones: [zones]
     options: [String]
+    company: ID,
   }
   type latLng  {
     lat: Float
@@ -28,6 +29,7 @@ const locationSchema= gql`
     center: latLngInput, 
     zones: [zonesInput],
     options: [String]
+    company: ID,
   }
   extend type Query {
     location(input: locationInput): Location

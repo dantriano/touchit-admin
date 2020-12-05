@@ -24,6 +24,9 @@ const activitySchema = new mongoose.Schema({
   locations: {
     type: Object,
   },
+  company: {
+    type: String,
+  },
   options: {
     type: Object,
   }

@@ -50,6 +50,7 @@ const employeeSchema = gql`
     status:String,
     customActivities:[selectionInput],
     mainActivity: ID,
+    company: ID,
     options: [String]
   }
   

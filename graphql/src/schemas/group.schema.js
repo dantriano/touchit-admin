@@ -7,6 +7,7 @@ const groupSchema= gql`
     main: String
     activities: [String]
     options: [String]
+    company: ID,
   }
   input groupInput  {
     _id: ID, 
@@ -14,6 +15,7 @@ const groupSchema= gql`
     main: String,
     activities: [ID],
     options: [String]
+    company: ID,
   }
 
   extend type Query {

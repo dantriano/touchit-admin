@@ -19,7 +19,7 @@ export class DefaultLayoutComponent {
     return this.authService.currentUserSubject.getValue();
   }
   get company(){
-    return this.authService.getCompany();
+    return this.authService.company;
   }
   set company(company){
     this.authService.setCompany(company);

@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from "@angular/router";
 import { LocationData } from 'app/@core/data';
 import { ToastrService } from 'ngx-toastr';
 import { FormComponent } from 'app/common/form.component';
+import { AuthenticationService } from 'app/@core/utils';
 
 declare const google: any;
 @Component({
@@ -14,7 +15,7 @@ declare const google: any;
 export class LocationsFormComponent extends FormComponent {
   zones =[]
   protected model:string = 'location';
-  constructor(public service: LocationData, public route: ActivatedRoute, public router: Router, public toastr: ToastrService) {
+  constructor(public service: LocationData, public route: ActivatedRoute, public router: Router, public toastr: ToastrService,public authService: AuthenticationService) {
     super(route,router,toastr);
   }
   public loadComponent(){
@@ -24,6 +25,7 @@ export class LocationsFormComponent extends FormComponent {
       //name: [null, [this.validators.required],[this.validators.valueExist()]],
       name: [null, [this.validators.required]],
       zones: [[], [this.validators.required]],
+      company: [this.authService.company._id],
       //options: [[]]
     })
   }

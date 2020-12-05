@@ -10,7 +10,7 @@ export class ActivityModel extends ActivityData {
   constructor(private apollo: Apollo) {
     super();
   }
-  getList() {
+  getList(input:object) {
     const query = gql`
     query activities($input:activityInput){
       activities(input:$input) {
@@ -25,6 +25,7 @@ export class ActivityModel extends ActivityData {
     return this.apollo
       .watchQuery<any>({
         query: query,
+        variables: { 'input': input},
         fetchPolicy: 'network-only'
       }).valueChanges;
   }

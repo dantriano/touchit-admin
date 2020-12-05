@@ -6,6 +6,7 @@ const configurationSchema= gql`
     type: String
     desc: String
     status: String
+    company: ID,
     value: [configurationType]
   }
   type configurationType{
@@ -16,6 +17,7 @@ const configurationSchema= gql`
   input configurationsInput{
     id: String
     type: String 
+    company: ID,
     status: String
   }
   extend type Query {

@@ -50,7 +50,7 @@ export class RegisterModel extends RegisterData {
         fetchPolicy: 'network-only'
       }).valueChanges;
   }
-  getList(register: object) {
+  getList(input: object) {
    
     const query = gql`
     query($register:registerInput){
@@ -62,7 +62,7 @@ export class RegisterModel extends RegisterData {
     return this.apollo
       .watchQuery<any>({
         query: query,
-        variables: { 'register': register },
+        variables: { 'register': input },
         fetchPolicy: 'network-only'
       }).valueChanges;
   }

@@ -5,6 +5,7 @@ import { MatSort } from '@angular/material/sort';
 import { ToastrService } from 'ngx-toastr';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { Subscription } from 'rxjs';
+import { AuthenticationService } from 'app/@core/utils';
 
 export class ListComponent implements OnInit {
   protected dataSource = new MatTableDataSource<any>();
@@ -12,12 +13,15 @@ export class ListComponent implements OnInit {
   protected subscription: Subscription;
   protected service: any;
   protected model: string;
+  protected company:string = null;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   @ViewChild('dangerModal') public dangerModal: ModalDirective;
 
-  constructor(public toastr: ToastrService) { }
+  constructor(public toastr: ToastrService,public authService: AuthenticationService  ) { 
+    this.company = this.authService.company._id;
+  }
   set(attr, service) { this[attr] = service }
   get(attr) { return this[attr] }
   
@@ -25,8 +29,9 @@ export class ListComponent implements OnInit {
    *  Execution on Page Load
    */
   ngOnInit() {
+    const input = {'company':this.company}
     this.loadComponent();
-    this.subscription = this.service.getList().subscribe((res) => {
+    this.subscription = this.service.getList(input).subscribe((res) => {
       const data = res.data
       this.dataSource.data = data[this.model]||[];
       this.dataSource.paginator = this.paginator;

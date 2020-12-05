@@ -15,6 +15,9 @@ const configurationSchema = new mongoose.Schema({
   desc: {
     type: String,
   },
+  company: {
+    type: String,
+  },
   value: {
     type: Object,
   },

@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { EmployeeData } from 'app/@core/data/employee';
 import { ToastrService } from 'ngx-toastr';
 import { FormComponent } from 'app/common/form.component';
+import { AuthenticationService } from 'app/@core/utils';
 
 @Component({
   selector: 'ngx-employees',
@@ -10,7 +11,7 @@ import { FormComponent } from 'app/common/form.component';
 })
 export class EmployeesComponent extends FormComponent {
   protected model:string = 'employee';
-  constructor(public service: EmployeeData, public route: ActivatedRoute, public router: Router, public toastr: ToastrService) {
+  constructor(public service: EmployeeData, public route: ActivatedRoute, public router: Router, public toastr: ToastrService,public authService: AuthenticationService  ) {
     super(route,router,toastr);
   }
   

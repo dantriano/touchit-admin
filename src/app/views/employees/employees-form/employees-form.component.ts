@@ -29,6 +29,7 @@ export class EmployeesFormComponent extends EmployeesComponent {
       firstName: [, [this.validators.required]],
       lastName: [''],
       groups: [[]],
+      company: [this.authService.company._id],
       mainActivity: ['', [this.validators.required]],
       //email: ['', [validators.email, validators.required]],
       email: ['', [this.validators.email, this.validators.required],[this.validators.valueExist()]],

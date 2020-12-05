@@ -22,6 +22,9 @@ const locationSchema = new mongoose.Schema({
   zones: {
     type: [zone],
   },
+  company: {
+    type: String,
+  },
   options: {
     type: Object,
   }

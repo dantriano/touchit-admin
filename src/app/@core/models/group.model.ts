@@ -25,7 +25,7 @@ export class GroupModel extends GroupData {
         fetchPolicy: 'network-only'
       }).valueChanges;
   }
-  getList() {
+  getList(input: object) {
     const query = gql`
     query groups($input:groupInput){
       groups(input:$input) {
@@ -42,6 +42,7 @@ export class GroupModel extends GroupData {
     return this.apollo
       .watchQuery<any>({
         query: query,
+        variables: { 'input': input },
         fetchPolicy: 'network-only'
       }).valueChanges;
   }

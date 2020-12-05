@@ -5,6 +5,7 @@ const registerSchema= gql`
     _id: ID
     activity: String
     employee: String
+    company: ID,
   }
   extend type Register{
     _activity: Activity
@@ -14,6 +15,7 @@ const registerSchema= gql`
     _id: ID,
     activity: String
     employee: String
+    company: ID,
   }
   extend type Query {
     register(input: registerInput): Register

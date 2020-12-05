@@ -25,7 +25,7 @@ export class AuthenticationService {
     getUser(){
         return this.currentUserSubject.getValue();
     }
-    getCompany(){
+    get company(){
         return JSON.parse(localStorage.getItem('currentCompany'));
     }
     setAuth(user: User) {

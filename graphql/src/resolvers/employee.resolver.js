@@ -14,11 +14,10 @@ export default {
       const employee = (await employeeModel.findOne({ email: email }));
       return employee;
     },
-    employees: async (parent, { }, { models: { employeeModel }, me }, info) => {
-      console.log(me)
+    employees: async (parent, { input }, { models: { employeeModel }, me }, info) => {
       if (!me)
         throw new AuthenticationError('You are not authenticated');
-      const employees = (await employeeModel.find({})).map(utils.prepare);
+      const employees = (await employeeModel.find(input)).map(utils.prepare);
       return employees;
     },
   },

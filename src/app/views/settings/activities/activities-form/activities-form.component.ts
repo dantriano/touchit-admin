@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from "@angular/router";
 import { ActivityData } from 'app/@core/data'
 import { ToastrService } from 'ngx-toastr';
 import { FormComponent } from 'app/common/form.component';
+import { AuthenticationService } from 'app/@core/utils';
 
 @Component({
   selector: 'activites-form',
@@ -22,7 +23,7 @@ export class ActivitiesFormComponent extends FormComponent {
 
   ]
   protected model:string = 'activity';
-  constructor(public service: ActivityData, public route: ActivatedRoute, public router: Router, public toastr: ToastrService) {
+  constructor(public service: ActivityData, public route: ActivatedRoute, public router: Router, public toastr: ToastrService,public authService: AuthenticationService) {
     super(route,router,toastr);
   }
   loadComponent(){
@@ -35,6 +36,7 @@ export class ActivitiesFormComponent extends FormComponent {
       options: [[]],
       startFrom:[''],
       startTo:[''],
+      company: [this.authService.company._id],
       days:[[]],
       duration:['']
     })

@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from "@angular/router";
 import { GroupData } from 'app/@core/data';
 import { ToastrService } from 'ngx-toastr';
 import { FormComponent } from 'app/common/form.component';
+import { AuthenticationService } from 'app/@core/utils';
 
 @Component({
   selector: 'groups-form',
@@ -12,7 +13,7 @@ import { FormComponent } from 'app/common/form.component';
 
 export class GroupsFormComponent extends FormComponent {
   protected model:string = 'group';
-  constructor(public service: GroupData, public route: ActivatedRoute, public router: Router, public toastr: ToastrService) {
+  constructor(public service: GroupData, public route: ActivatedRoute, public router: Router, public toastr: ToastrService,public authService: AuthenticationService) {
     super(route,router,toastr);
   }
   public loadComponent(){
@@ -21,6 +22,7 @@ export class GroupsFormComponent extends FormComponent {
       _id: [''],
       //name: ['', [validators.required],[validators.valueExist()]],
       name: ['', [this.validators.required]],
+      company: [this.authService.company._id],
       main: [''],
       activities: [[]],
       options: [[]]

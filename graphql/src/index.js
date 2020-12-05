@@ -32,6 +32,7 @@ const server = new ApolloServer({
     typeDefs: schemas,
     resolvers,
     context: async ({ req }) => {
+        console.log(req)
         if (req) {
             const isLocal = (['same-origin', 'same-site'].includes(req.headers['sec-fetch-site']));
             const me = await getUser(req) || isLocal;

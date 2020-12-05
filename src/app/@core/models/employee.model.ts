@@ -60,7 +60,7 @@ export class EmployeeModel extends EmployeeData {
         fetchPolicy: 'network-only'
       }).valueChanges;
   }
-  getList() {
+  getList(input:any) {
     const query = gql`
     query employees($input:employeeInput){
       employees(input:$input) {
@@ -80,6 +80,7 @@ export class EmployeeModel extends EmployeeData {
     return this.apollo
       .watchQuery<any>({
         query: query,
+        variables: { 'input': input },
         fetchPolicy: 'network-only'
       }).valueChanges;
   }

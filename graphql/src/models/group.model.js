@@ -15,6 +15,9 @@ const groupSchema = new mongoose.Schema({
   activities: {
     type: Object,
   },
+  company: {
+    type: String,
+  },
   options: {
     type: Object,
   }

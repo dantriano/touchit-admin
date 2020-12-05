@@ -10,6 +10,7 @@ const activitySchema = gql`
     days: [Int]
     locations: [String]
     _locations: [Location]
+    company: ID,
     options: [String]
   }
   input activityInput  {
@@ -19,6 +20,7 @@ const activitySchema = gql`
     startFrom:String,
     duration:String,
     days:[Int]
+    company: ID,
     locations: [String],
     options: [String]
   }

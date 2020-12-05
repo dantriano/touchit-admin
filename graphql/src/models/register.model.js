@@ -13,6 +13,9 @@ const registerSchema = new mongoose.Schema({
     type: String,
     require:true
   },
+  company: {
+    type: String,
+  },
   _activity: {
     type: Object,
   },
