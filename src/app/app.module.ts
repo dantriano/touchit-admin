@@ -14,7 +14,6 @@ import { DefaultLayoutComponent } from './containers';
 import { P404Component } from './views/error/404.component';
 import { P500Component } from './views/error/500.component';
 import { LoginComponent } from './views/login/login.component';
-import { SelectionComponent } from './views/selection/selection.component';
 import { RegisterComponent } from './views/register/register.component';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -29,7 +28,7 @@ import {
   AppHeaderModule,
   AppFooterModule,
   AppSidebarModule,
-} from '@coreui/angular';
+} from 'app/../../coreui/public-api';
 
 // Import routing module
 import { AppRoutingModule,routedComponents } from './app.routing';
@@ -81,8 +80,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     P500Component,
     LoginComponent,
     RegisterComponent,
-    TestComponent,
-    SelectionComponent
+    TestComponent
    // ...routedComponents
   ],
   providers: [AuthGuard,{

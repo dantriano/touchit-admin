@@ -2,6 +2,7 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import * as mocks from "./";
 import * as data from "../data";
+import { Route } from '@angular/router';
 
 const SERVICES = [
   //{ provide: data.UsersData, useClass: mocks.UsersService },
@@ -21,8 +22,8 @@ const SERVICES = [
   ],
 })
 export class MockDataModule {
-  static forRoot(): ModuleWithProviders {
-    return <ModuleWithProviders>{
+  static forRoot(): ModuleWithProviders<Route>  {
+    return <ModuleWithProviders<Route> >{
       ngModule: MockDataModule,
       providers: [
         ...SERVICES,

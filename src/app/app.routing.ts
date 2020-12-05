@@ -11,7 +11,6 @@ import { RegisterComponent } from './views/register/register.component';
 
 import { AuthGuard } from './auth.guard';
 import { TestComponent } from './views/test/test.component';
-import { SelectionComponent } from './views/selection/selection.component';
 
 export const routes: Routes = [
   {
@@ -42,13 +41,6 @@ export const routes: Routes = [
     component: LoginComponent,
     data: {
       title: 'Login Page'
-    }
-  },
-  {
-    path: 'selection',
-    component: SelectionComponent,
-    data: {
-      title: 'Selection Page'
     }
   },
   {

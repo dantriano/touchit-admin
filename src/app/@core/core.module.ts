@@ -8,6 +8,7 @@ import { AnalyticsService } from './utils';
 import * as data from "./data";
 import * as models from "./models";
 import { MockDataModule } from './mock/mock-data.module';
+import { Route } from '@angular/router';
 
 const socialLinks = [
   {
@@ -60,8 +61,8 @@ export class CoreModule {
     throwIfAlreadyLoaded(parentModule, 'CoreModule');
   }
 
-  static forRoot(): ModuleWithProviders {
-    return <ModuleWithProviders>{
+  static forRoot(): ModuleWithProviders<Route>  {
+    return <ModuleWithProviders<Route>>{
       ngModule: CoreModule,
       providers: [
         ...NB_CORE_PROVIDERS,
