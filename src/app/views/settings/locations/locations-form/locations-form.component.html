@@ -13,14 +13,14 @@
           </div>
         </div>
       </div>
+      <div *ngIf="obs$ | async as data; else loading" [formGroup]="form" (ngSubmit)="onSubmit()">
       <div class="row">
         <div class="col-lg-6">
-      <div class="card">
+            <div class="card">
         <div class="card-header">
           <i class="fa fa-pencil-square-o"></i> Basic Information
         </div>
         <div class="card-body">
-          <div *ngIf="obs$ | async as data; else loading" [formGroup]="form" (ngSubmit)="onSubmit()">
             <input type="hidden" formControlName="_id" class="form-control" />
                 <div class="form-col">
                   <div class="form-group">
@@ -55,7 +55,6 @@
               </div>
             </div>
           </div>
-        </div>
         <div class="col-lg-6">
           <div class="card">
             <div class="card-header">
@@ -67,6 +66,7 @@
             </div>
                 <agm-map [zoom]="m.zoom" [latitude]="m.center.lat" [longitude]="m.center.lng" (mapReady)="onMapReady($event)"></agm-map>
           </div>
+        </div>
         </div>
       </div>
     </div>

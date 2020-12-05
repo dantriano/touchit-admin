@@ -19,7 +19,7 @@ export class LocationsFormComponent extends FormComponent {
     super(route,router,toastr);
   }
   public loadComponent(){
-    this.config={'redirect':'employees','uiName':'Location'}
+    this.config={'redirect':'settings','uiName':'Location'}
     this.set('formInputs', {
       _id: [null],
       //name: [null, [this.validators.required],[this.validators.valueExist()]],
