@@ -12,7 +12,8 @@ import { EmployeesComponent } from '../employees.component';
 export class EmployeesFormComponent extends EmployeesComponent {
   @ViewChildren('customSelected') cs;
   loadComponent(){
-    super.loadComponent();
+    super.loadComponent();    
+    this.company=this.authService.company._id
     this.set('customOptions',[
       {'value':'on','label':'btn btn-success','span':'fa fa-check'},
       {'value':'default','label':'btn btn-secondary','span':'fa fa-circle-o'},
@@ -29,7 +30,7 @@ export class EmployeesFormComponent extends EmployeesComponent {
       firstName: [, [this.validators.required]],
       lastName: [''],
       groups: [[]],
-      company: [this.authService.company._id],
+      company: [this.company],
       mainActivity: ['', [this.validators.required]],
       //email: ['', [validators.email, validators.required]],
       email: ['', [this.validators.email, this.validators.required],[this.validators.valueExist()]],

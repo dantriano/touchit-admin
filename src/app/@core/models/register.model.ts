@@ -3,6 +3,8 @@ import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
 import { ConfigurationModel } from './configuration.model';
 import { RegisterData } from '../data';
+import { ActivityModel } from './activity.model';
+import { EmployeeModel } from './employee.model';
 
 @Injectable()
 export class RegisterModel extends RegisterData {
@@ -16,42 +18,55 @@ export class RegisterModel extends RegisterData {
   set locations(locations: Location[]) { this._locations = locations }
   get locations() { return this._locations }
 
-
-  load(registerInput: any) {
-    const activityInput={}
-    const employeeInput={}
-    const configInput = ConfigurationModel.getInputById('registerOptions');
-    const configFragment = ConfigurationModel.getFragment();
-    const location = {}
-    const query = gql`
-    query($register:registerInput,$activity:activityInput,$employee:employeeInput){
-      register(input:$register)  {
-        _id
-        activity
-        employee
-        _employee{
-          firstName
-        }
-      }
-      activities(input:$activity) {
-        _id
-        name
-      }
-      employees(input:$employee) {
-        _id
+  static getFragment() {
+    return gql`
+    fragment registerFragment on Register{
+      _id
+      activity
+      employee
+      _employee{
         firstName
       }
     }
     `;
+  }
+  load(input: any) {
+    const configFragment = ConfigurationModel.getFragment();
+    const activityFragment = ActivityModel.getFragment();
+    const employeeFragment = EmployeeModel.getFragment();
+    const registerFragment = RegisterModel.getFragment();
+
+    const configInput = {'id': 'registerOptions', 'status':'active','company':input.company }
+    const activityInput = {'company':input.company}
+    const employeeInput = {'company':input.company}
+    const query = gql`
+      query($register:registerInput,$activity:activityInput,$employee:employeeInput){
+        register(input:$register)  {
+          ... registerFragment  
+        }
+        configuration(input:$configuration) {
+          ... configFragment
+        }
+        activities(input:$activity) {
+          ... activityFragment
+        }
+        employees(input:$employee) {
+          ... employeeFragment
+        }
+      }
+      ${registerFragment}
+      ${configFragment}
+      ${activityFragment}
+      ${employeeFragment}
+    `;
     return this.apollo
       .watchQuery<any>({
         query: query,
-        variables: { 'register': registerInput,'activity': activityInput,'employee': employeeInput },
+        variables: { 'register': input,'configuration': configInput,'activity': activityInput,'employee': employeeInput },
         fetchPolicy: 'network-only'
       }).valueChanges;
   }
   getList(input: object) {
-   
     const query = gql`
     query($register:registerInput){
       registers(input:$register) {
@@ -121,13 +136,6 @@ export class RegisterModel extends RegisterData {
         mutation: mutation,
         variables: { 'id': id }
       });
-  }
-  static getFragment() {
-    return gql`
-    fragment register on Register{
-      _id
-    }
-    `;
   }
 
 }

@@ -25,6 +25,7 @@ export class FormComponent {
   protected service: any;
   protected formInputs: any = {};
   protected formData:any = {};
+  protected company:string = null;
   protected validators: any = {
     valueExist: () => FormValidator.valueExist(this.service, this.model),
     required: Validators.required,
@@ -106,7 +107,7 @@ export class FormComponent {
    * Get all the data from the DataBase using the Load function of the current service
    */
   loadContent() {
-    this.obs$ = this.service.load({ '_id': this._id }).pipe(map(res => {
+    this.obs$ = this.service.load({ '_id': this._id ,'company': this.company }).pipe(map(res => {
       this.formData = res['data']
       console.log(this.formData)
       if (this._id && !this.formData[this.model]) {

@@ -10,6 +10,21 @@ export class ActivityModel extends ActivityData {
   constructor(private apollo: Apollo) {
     super();
   }
+  static getFragment() {
+    return gql`
+    fragment activityFragment on Activity {
+        __typename
+        _id
+        name
+        options
+        startFrom
+        startTo
+        duration
+        days
+        locations
+    }
+  `;
+  }
   getList(input:object) {
     const query = gql`
     query activities($input:activityInput){
@@ -30,12 +45,14 @@ export class ActivityModel extends ActivityData {
       }).valueChanges;
   }
   getOne(input:any) {
+    const activityFragment = ActivityModel.getFragment();
     const query = gql`
     query activity($input:activityInput){
       activity(input:$input) {
-        _id
+        ... activityFragment
       }
     }
+    ${activityFragment}
     `;
     return this.apollo
       .watchQuery<any>({
@@ -45,21 +62,15 @@ export class ActivityModel extends ActivityData {
       }).valueChanges;
   }
   load(input: any) {
-    const configInput = ConfigurationModel.getInputById('activityOptions');
+    const activityFragment = ActivityModel.getFragment();
     const configFragment = ConfigurationModel.getFragment();
     const locationFragment = LocationModel.getFragment();
-    const locationInput = {}
+    const locationInput = {'company':input.company}
+    const configInput = {'id': 'activityOptions', 'status':'active','company':input.company }
     const query = gql`
     query($activity:activityInput,$configuration:configurationsInput!,$location:locationInput){
       activity(input:$activity) {
-        _id
-        name
-        options
-        startFrom
-        startTo
-        duration
-        days
-        locations
+        ... activityFragment
       }
       configuration(input:$configuration) {
         ... configFragment
@@ -68,8 +79,9 @@ export class ActivityModel extends ActivityData {
         ...locationFragment
       }
     }
-  ${locationFragment}
-  ${configFragment}
+    ${activityFragment}
+    ${locationFragment}
+    ${configFragment}
     `;
     return this.apollo
       .watchQuery<any>({

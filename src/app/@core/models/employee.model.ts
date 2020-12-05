@@ -2,22 +2,14 @@ import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
 import { EmployeeData, Employee } from '../data';
+import { ActivityModel } from './activity.model';
 import { ConfigurationModel } from './configuration.model';
+import { GroupModel } from './group.model';
 
 @Injectable()
 export class EmployeeModel extends EmployeeData {
   constructor(private apollo: Apollo) {
     super();
-  }
-  generateCode() {
-    var length = 4;
-    var result = '';
-    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    var charactersLength = characters.length;
-    for (var i = 0; i < length; i++) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-    return result;
   }
   static getFragment() {
     return gql`
@@ -42,6 +34,16 @@ export class EmployeeModel extends EmployeeData {
     		isLinked
   }
     `;
+  }
+  generateCode() {
+    var length = 4;
+    var result = '';
+    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for (var i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
   }
   getOne(input: any) {
     const query = gql`
@@ -86,35 +88,37 @@ export class EmployeeModel extends EmployeeData {
   }
   load(input: any) {
     const employeeFragment= EmployeeModel.getFragment();
-    const configInput = ConfigurationModel.getInputById('groupOptions');
     const configFragment = ConfigurationModel.getFragment();
-    const activityInput = {}
-    const groupInput = {}
+    const activityFragment= ActivityModel.getFragment();
+    const groupFragment= GroupModel.getFragment();
+
+    const groupInput = {'company':input.company}
+    const activityInput = {'company':input.company}
+    const configInput = {'id': 'employeeOptions', 'status':'active','company':input.company }
     const query = gql`
-    query($input:employeeInput,$configuration:configurationsInput!){
-      activities {
-        _id
-        name
+    query($input:employeeInput,$configuration:configurationsInput!,$activity:activityInput,$group:groupInput){
+      employee(input:$input)  {
+        ... employeeFragment
       }
-  		groups{
-        _id
-        name
-        activities
+      activities(input:$activity) {
+        ... activityFragment
+      }
+  		groups(input:$group) {
+        ... groupFragment
       }
       configuration(input:$configuration) {
         ... configFragment
       }
-      employee(input:$input)  {
-        ... employeeFragment
-      }
     }
     ${employeeFragment}
+    ${activityFragment}
+    ${groupFragment}
     ${configFragment}
     `;
     return this.apollo
       .watchQuery<any>({
         query: query,
-        variables: { 'input': input, 'configuration': configInput },
+        variables: { 'input': input, 'activity': activityInput , 'group': groupInput , 'configuration': configInput },
         fetchPolicy: 'network-only'
       }).valueChanges;
   }

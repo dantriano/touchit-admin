@@ -27,6 +27,7 @@ export class ActivitiesFormComponent extends FormComponent {
     super(route,router,toastr);
   }
   loadComponent(){
+    this.company=this.authService.company._id
     this.config={'redirect':'settings','uiName':'Activity'}
     this.set('formInputs', {
       _id: [''],
@@ -36,7 +37,7 @@ export class ActivitiesFormComponent extends FormComponent {
       options: [[]],
       startFrom:[''],
       startTo:[''],
-      company: [this.authService.company._id],
+      company: [this.company],
       days:[[]],
       duration:['']
     })

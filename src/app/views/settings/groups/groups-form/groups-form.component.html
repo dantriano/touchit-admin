@@ -33,21 +33,7 @@
                     <div *ngIf="f.name.errors.exist">Name already exist</div>
                   </div>
                 </div>
-                <!--
-                <div class="form-group">
-                  <label>Main Service</label>
-                  <select formControlName="main" class="form-control"
-                    [ngClass]="{ 'is-invalid': submitted && f.main.errors }">
-                    <option disabled>Please select</option>
-                    <ng-container *ngFor="let option of data.configuration.value">
-                    </ng-container>
-                  </select>
-                  <div *ngIf="submitted && f.main.errors" class="invalid-feedback">
-                    <div *ngIf="f.main.errors.required">Please select a main activity for this group</div>
-                  </div>
-                </div>
-                -->
-                <div class="form-group">
+                <div *ngIf="data.configuration?.value.length>0" class="form-group">
                   <label class="form-col-form-label">Options</label>
                   <div class="list-group">
                     <mat-nav-list>

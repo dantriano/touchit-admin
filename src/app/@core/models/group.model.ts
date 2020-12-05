@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
+import { ActivityModel } from './activity.model';
 import { GroupData, Group } from '../data';
 import { ConfigurationModel } from './configuration.model';
 
@@ -46,27 +47,38 @@ export class GroupModel extends GroupData {
         fetchPolicy: 'network-only'
       }).valueChanges;
   }
-  load(input: any) {
-    const configInput = ConfigurationModel.getInputById('groupOptions');
-    const configFragment = ConfigurationModel.getFragment();
-    const activityInput = {}
-    const query = gql`
-    query($input:groupInput,$configuration:configurationsInput!,$activity:activityInput){
-      activities(input:$activity) {
-        _id
-        name
-      }
-      configuration(input:$configuration) {
-        ... configFragment
-      }
-      group(input:$input)  {
+  static getFragment() {
+    return gql`
+    fragment groupFragment on Group {
+        __typename
         _id
         name
         options
         main
         activities
+    }
+  `;
+  }
+  load(input: any) {
+    const configFragment = ConfigurationModel.getFragment();
+    const groupFragment = GroupModel.getFragment();
+    const activityFragment = ActivityModel.getFragment();
+    const activityInput = {'company':input.company}
+    const configInput = {'id': 'groupOptions', 'status':'active','company':input.company }
+    const query = gql`
+    query($input:groupInput,$configuration:configurationsInput!,$activity:activityInput){
+      group(input:$input)  {
+        ... groupFragment
+      }
+      activities(input:$activity) {
+        ... activityFragment
+      }
+      configuration(input:$configuration) {
+        ... configFragment
       }
     }
+    ${groupFragment}
+    ${activityFragment}
     ${configFragment}
     `;
     return this.apollo

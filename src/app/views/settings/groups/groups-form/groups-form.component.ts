@@ -17,12 +17,13 @@ export class GroupsFormComponent extends FormComponent {
     super(route,router,toastr);
   }
   public loadComponent(){
+    this.company=this.authService.company._id
     this.config={'redirect':'settings','uiName':'Groups'}
     this.set('formInputs', {
       _id: [''],
       //name: ['', [validators.required],[validators.valueExist()]],
       name: ['', [this.validators.required]],
-      company: [this.authService.company._id],
+      company: [this.company],
       main: [''],
       activities: [[]],
       options: [[]]

@@ -37,7 +37,7 @@
                     </div>
                   </div>
 
-                  <div class="form-group" *ngIf="f.locations.value?.length>0">
+                  <div class="form-group" *ngIf="f.locations?.value.length>0">
                     <label>Locations</label>
                     <ul class="list-group">
                       <li href="#" *ngFor="let option of data.locations; let i = index"
@@ -48,8 +48,8 @@
                           <i class="fa fa-trash-o"></i> Remove location</button></li>
                     </ul>
                   </div>
-                  <div *ngIf="data.configuration.value?.length>0" class="form-group">
-                    <mat-nav-list>
+                  <div class="form-group">
+                    <mat-nav-list *ngIf="data.configuration?.value.length>0">
                       <label class="form-col-form-label">Options</label>
                       <mat-selection-list #options formControlName="options">
                         <mat-list-option *ngFor="let option of data.configuration.value" [value]="option._id">

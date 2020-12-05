@@ -19,13 +19,14 @@ export class LocationsFormComponent extends FormComponent {
     super(route,router,toastr);
   }
   public loadComponent(){
+    this.company=this.authService.company._id
     this.config={'redirect':'settings','uiName':'Location'}
     this.set('formInputs', {
       _id: [null],
       //name: [null, [this.validators.required],[this.validators.valueExist()]],
       name: [null, [this.validators.required]],
       zones: [[], [this.validators.required]],
-      company: [this.authService.company._id],
+      company: [this.company],
       //options: [[]]
     })
   }
