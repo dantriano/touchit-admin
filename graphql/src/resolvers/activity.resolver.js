@@ -25,7 +25,6 @@ export default {
       if (!me)
         throw new AuthenticationError('You are not authenticated');
         if(input._id){
-          console.log(input)
           input._id = utils.objectId(input._id);
           status = await activityModel.updateOne({ _id: input._id }, input);
           return (status.ok&&status.nModified>0)
@@ -34,7 +33,6 @@ export default {
           status = await activityModel.create(input);
           return (status!==undefined)
         }
-      return true
     },
     removeActivity: async (parent, { _id }, { models: { activityModel }, me }, info) => {
       if (!me)

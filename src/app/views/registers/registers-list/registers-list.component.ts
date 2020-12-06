@@ -15,6 +15,6 @@ export class RegistersListComponent extends ListComponent implements OnInit {
   public loadComponent() {
     this.set('model', 'registers');
     this.set('service', this.componentService);
-    this.set('displayedColumns', ['_id', 'options']);
+    this.set('displayedColumns', ['employee','activity','time','position','delay', 'options']);
   }
 }

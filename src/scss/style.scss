@@ -2,17 +2,12 @@
 @import "variables";
 @import "~@coreui/coreui/scss/coreui";
 
-/*@import '~bootstrap/scss/functions';
+@import '~ngx-toastr/toastr';
+@import '~bootstrap/scss/functions';
 @import '~bootstrap/scss/variables';
 @import '~bootstrap/scss/mixins';
 @import '~bootstrap/scss/grid';
-// Import styles
-@import '~ngx-toastr/toastr';
+//@import '~@angular/cdk/overlay-prebuilt.css';
+//@import "forms";
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
-
-@import './_forms';
-// If you want to add something do it here
-@import "./_custom";
-//@import './timeline';
-*/
 @import "custom";

@@ -1,21 +1,32 @@
 import { gql } from 'apollo-server';
 
 const registerSchema= gql`
+  scalar Date
   type Register {
     _id: ID
     activity: String
     employee: String
-    company: ID,
+    company: ID
+    start: Date
+    end: Date 
+    delay: Int
+    inPosition: Boolean
+    location: latLng
   }
   extend type Register{
     _activity: Activity
     _employee: Employee
   }
   input registerInput  {
-    _id: ID,
+    _id: ID
+    company: ID
     activity: String
     employee: String
-    company: ID,
+    start: Date
+    end: Date
+    delay: Int
+    inPosition: Boolean
+    location: latLngInput
   }
   extend type Query {
     register(input: registerInput): Register

@@ -189,25 +189,42 @@ export class FormComponent {
    * 
    * @param source List of the elements to find a match. Forexemple data from DB
    * @param control Form field
-   * @param by 
+   * @param by Fields to be filtered
    */
-  public loadAutocomplete(source: any[], control: FormControl, by: string) {
+  public loadAutocomplete(source: any[], control: FormControl, by: any) {
     return control.valueChanges
       .pipe(
         startWith(''),
-        map(value => value ? this._filterAutocomplete(source, value, by) : source.slice())
+        map(value => value ? this._filterAutocompleteMultiple(source, value, by) : source.slice())
       );
   }
 
   /**
    * Filter to transform the showed messages in the autocomplete
-   * @param source 
-   * @param value 
-   * @param by 
+   * @param source  List of the elements to find a match. Forexemple data from DB
+   * @param value Value type for the user in the field
+   * @param by Field to be filtered
    */
   private _filterAutocomplete(source: any[], value: string, by: string): any[] {
     const filterValue = value.toLowerCase();
     return source.filter(x => x[by].toLowerCase().indexOf(filterValue) === 0);
+  }
+
+  /**
+   * Filter improved to accept multiples fields
+   * @param source  List of the elements to find a match. Forexemple data from DB
+   * @param value Value type for the user in the field
+   * @param filters Fields to be filtered
+   */
+  private _filterAutocompleteMultiple(source: Array<any>,  value: string, filters: Array<string>): Array<any> {
+    const filterValue = value.toLowerCase();
+    return source.filter(item => {
+      var matches = false;
+      filters.forEach( function(valor) {
+        if(item[valor].toLowerCase().indexOf(filterValue) === 0) matches=true
+      })
+      return matches
+    })
   }
 
 

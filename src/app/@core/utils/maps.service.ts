@@ -101,9 +101,10 @@ export class MapsService {
 
   setCurrentPosition(){
     if ("geolocation" in navigator) { 
-    navigator.geolocation.getCurrentPosition((position) => { 
+    return navigator.geolocation.getCurrentPosition((position) => { 
       this.center.lat = position.coords.latitude;
       this.center.lng = position.coords.longitude;
+      return this.center
     }, failure => {  
             switch (failure.code) {
               case 3:// ...deal with timeout

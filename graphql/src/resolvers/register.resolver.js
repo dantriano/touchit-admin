@@ -1,6 +1,6 @@
 import { AuthenticationError } from 'apollo-server';
 import * as utils from './utils';
-
+let status
 export default {
   Query: {
     register: async (parent, { input }, { models: { registerModel }, me }, info) => {
@@ -22,14 +22,16 @@ export default {
     saveRegister: async (parent, { input }, { models: { registerModel }, me }, info) => {
       if (!me)
         throw new AuthenticationError('You are not authenticated');
+        console.log(input)
         if(input._id){
           input._id = utils.objectId(input._id);
-          let status = await registerModel.updateOne({ _id: input._id }, input);
+          status = await registerModel.updateOne({ _id: input._id }, input);
+          return (status.ok&&status.nModified>0)
         }else{
           input._id = utils.objectId();
-          let result = await registerModel.create(input);
+          status = await registerModel.create(input);
+          return (status!==undefined)
         }
-      return true
     },
     removeRegister: async (parent, { _id }, { models: { registerModel }, me }, info) => {
       if (!me)

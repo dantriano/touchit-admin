@@ -21,11 +21,24 @@ export class RegisterModel extends RegisterData {
   static getFragment() {
     return gql`
     fragment registerFragment on Register{
+      __typename
       _id
       activity
       employee
+      start
+      end
+      inPosition
+      location{
+        lat
+        lng
+      }
+      delay
       _employee{
         firstName
+        lastName
+      }
+      _activity{
+        name
       }
     }
     `;
@@ -40,7 +53,7 @@ export class RegisterModel extends RegisterData {
     const activityInput = {'company':input.company}
     const employeeInput = {'company':input.company}
     const query = gql`
-      query($register:registerInput,$activity:activityInput,$employee:employeeInput){
+      query($register:registerInput,$activity:activityInput,$employee:employeeInput,$configuration:configurationsInput){
         register(input:$register)  {
           ... registerFragment  
         }
@@ -67,12 +80,14 @@ export class RegisterModel extends RegisterData {
       }).valueChanges;
   }
   getList(input: object) {
+    const registerFragment = RegisterModel.getFragment();
     const query = gql`
     query($register:registerInput){
-      registers(input:$register) {
-        _id
+      registers(input:$register)  {
+        ... registerFragment  
       }
     }
+    ${registerFragment}
     `;
     return this.apollo
       .watchQuery<any>({

@@ -24,15 +24,15 @@
                   </div>
                   <div class="card-body">
                     <div class="form-group">
-                      <input type="hidden" class="form-control" formControlName="employee" />
+                      <label>Employee</label>
                       <input class="form-control" matInput placeholder="Employee" aria-label="Employee"
                         [matAutocomplete]="auto" [formControl]="employeeName" (change)="f.employee.setValue('')" [ngClass]="{ 'is-invalid': (submitted && f.employee.errors)}" />
                         <div *ngIf="f.employee.errors" class="invalid-feedback">
                           <div *ngIf="f.employee.errors.required">Employee is required</div>
                         </div>
                       <mat-autocomplete #auto="matAutocomplete">
-                        <mat-option (onSelectionChange)="f.employee.setValue(option._id)" *ngFor="let option of filteredEmployees | async" [value]="option.firstName">
-                          <span>{{option.firstName}}</span>
+                        <mat-option *ngFor="let option of filteredEmployees | async" (onSelectionChange)="f.employee.setValue(option._id)" [value]="option.firstName">
+                          <span>{{option.firstName}} {{option.lastName }}</span>
                         </mat-option>
                       </mat-autocomplete>
                     </div>

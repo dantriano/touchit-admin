@@ -50,7 +50,7 @@ services:
       - app-network
 
   mongoclient:
-    image: mongoclient/mongoclient:4.0.0
+    image: mongoclient/mongoclient:latest
     container_name: mongoclient_${PROJECT_NAME}
     restart: unless-stopped
     environment:
