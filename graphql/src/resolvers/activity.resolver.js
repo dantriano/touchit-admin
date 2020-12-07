@@ -7,9 +7,7 @@ export default {
       if (!me) {
         throw new AuthenticationError('You are not authenticated');
       }
-      console.log(input)
       const result = (input._id) ? await activityModel.findById({ _id: utils.objectId(input._id) }) : await activityModel.findOne(input).exec();
-      console.log(result)
       return (result)?result:null;
     },
     activities: async (parent,  { input }, { models: { activityModel }, me }, info) => {

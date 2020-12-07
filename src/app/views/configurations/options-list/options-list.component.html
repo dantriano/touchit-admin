@@ -1,0 +1,99 @@
+<div class="card">
+  <div class="card-header">
+    <div class="card-header-actions">
+      <div class="btn-group" dropdown>
+        <button
+          id="button-basic"
+          dropdownToggle
+          type="button"
+          class="btn-min btn btn-block btn-link dropdown-toggle"
+          aria-controls="dropdown-basic"
+        >
+          <i class="fa fa-align-justify"></i>
+          <span class="caret"></span>
+        </button>
+        <ul
+          id="dropdown-basic"
+          *dropdownMenu
+          class="dropdown-menu dropdown-menu-right"
+          role="menu"
+          aria-labelledby="button-basic"
+        >
+          <li role="menuitem">
+            <a class="dropdown-item" routerLink="/configurations/options/edit" href="#"
+              >Add option</a
+            >
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-sm-12 col-md-6"></div>
+      <div class="col-sm-12 col-md-6 text-right">
+        <div class="dataTables_filter">
+          <label
+            ><input
+              matInput
+              (keyup)="applyFilter($event)"
+              placeholder="Filter"
+              type="search"
+              class="form-control form-control-sm"
+              aria-controls="DataTables_Table_0"
+          /></label>
+        </div>
+      </div>
+    </div>
+    <table
+      mat-table
+      [dataSource]="dataSource"
+      class="table table-bordered table-striped table-sm"
+      matSort
+    >
+      <ng-container matColumnDef="employee">
+        <th *matHeaderCellDef mat-sort-header>Employee</th>
+        <td *matCellDef="let element">
+          {{ element._employee.lastName }},
+          {{ element._employee.firstName }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="activity">
+        <th *matHeaderCellDef mat-sort-header>Activity</th>
+        <td *matCellDef="let element">
+          {{ element._activity.name }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="time">
+        <th *matHeaderCellDef>Time</th>
+        <td *matCellDef="let element">{{ element.start }}-{{ element.end }}</td>
+      </ng-container>
+      <ng-container matColumnDef="delay">
+        <th *matHeaderCellDef>Delay</th>
+        <td *matCellDef="let element">{{ element.delay / 60 }} min</td>
+      </ng-container>
+      <ng-container matColumnDef="position">
+        <th *matHeaderCellDef>Position</th>
+        <td *matCellDef="let element">{{ element.inPosition }}</td>
+      </ng-container>
+      <ng-container matColumnDef="options">
+        <th *matHeaderCellDef>Options</th>
+        <td *matCellDef="let element">
+          <button
+            data-toggle="modal"
+            class="btn btn-sm btn-danger"
+            (click)="set('_id', element._id); dangerModal.show()"
+          >
+            <i class="fa fa fa-trash-o"></i>
+          </button>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+    <mat-paginator
+      [pageSize]="100"
+      [pageSizeOptions]="[5, 10, 25, 100]"
+    ></mat-paginator>
+  </div>
+</div>

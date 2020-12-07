@@ -1,106 +1,126 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { NgModule } from "@angular/core";
+import { Routes, RouterModule } from "@angular/router";
 
 // Import Containers
-import { DefaultLayoutComponent } from './containers';
+import { DefaultLayoutComponent } from "./containers";
 
-import { P404Component } from './views/error/404.component';
-import { P500Component } from './views/error/500.component';
-import { LoginComponent } from './views/login/login.component';
-import { RegisterComponent } from './views/register/register.component';
+import { P404Component } from "./views/error/404.component";
+import { P500Component } from "./views/error/500.component";
+import { LoginComponent } from "./views/login/login.component";
+import { RegisterComponent } from "./views/register/register.component";
 
-import { AuthGuard } from './auth.guard';
-import { TestComponent } from './views/test/test.component';
+import { AuthGuard } from "./auth.guard";
+import { TestComponent } from "./views/test/test.component";
 
 export const routes: Routes = [
   {
-    path: '',
-    redirectTo: 'login',
-    pathMatch: 'full',
+    path: "",
+    redirectTo: "login",
+    pathMatch: "full",
   },
   {
-    path: 'test',
+    path: "test",
     component: TestComponent,
   },
   {
-    path: '404',
+    path: "404",
     component: P404Component,
     data: {
-      title: 'Page 404'
-    }
+      title: "Page 404",
+    },
   },
   {
-    path: '500',
+    path: "500",
     component: P500Component,
     data: {
-      title: 'Page 500'
-    }
+      title: "Page 500",
+    },
   },
   {
-    path: 'login',
+    path: "login",
     component: LoginComponent,
     data: {
-      title: 'Login Page'
-    }
+      title: "Login Page",
+    },
   },
   {
-    path: 'register',
+    path: "register",
     component: RegisterComponent,
     data: {
-      title: 'Register Page'
-    }
-  },
-  {
-    path: 'employees',
-    component: DefaultLayoutComponent,
-    data: {
-      title: 'Employees'
+      title: "Register Page",
     },
-    loadChildren: () => import('./views/employees/employees.module').then(m => m.EmployeesModule)
-
   },
   {
-    path: 'registers',
+    path: "employees",
     component: DefaultLayoutComponent,
     data: {
-      title: 'Registers',
+      title: "Employees",
     },
-    loadChildren: () => import('./views/registers/registers.module').then(m => m.RegistersModule)
-
+    loadChildren: () =>
+      import("./views/employees/employees.module").then(
+        (m) => m.EmployeesModule
+      ),
   },
   {
-    path: 'settings',
+    path: "registers",
     component: DefaultLayoutComponent,
     data: {
-      title: 'Settings'
+      title: "Registers",
     },
-    loadChildren: () => import('./views/settings/settings.module').then(m => m.SettingsModule)
+    loadChildren: () =>
+      import("./views/registers/registers.module").then(
+        (m) => m.RegistersModule
+      ),
   },
   {
-    path: '',
+    path: "settings",
     component: DefaultLayoutComponent,
     data: {
-      title: 'Home',
-      path: 'dashboard',
+      title: "Settings",
+    },
+    loadChildren: () =>
+      import("./views/settings/settings.module").then((m) => m.SettingsModule),
+  },
+  {
+    path: "configurations",
+    component: DefaultLayoutComponent,
+    data: {
+      title: "Configuration",
+    },
+    loadChildren: () =>
+      import("./views/configurations/configurations.module").then(
+        (m) => m.ConfigurationsModule
+      ),
+  },
+  {
+    path: "",
+    component: DefaultLayoutComponent,
+    data: {
+      title: "Home",
+      path: "dashboard",
     },
     children: [
       {
-        path: 'dashboard',
+        path: "dashboard",
         canActivate: [AuthGuard],
-        loadChildren: () => import('./views/dashboard/dashboard.module').then(m => m.DashboardModule)
+        loadChildren: () =>
+          import("./views/dashboard/dashboard.module").then(
+            (m) => m.DashboardModule
+          ),
       },
       {
-        path: 'theme',
-        loadChildren: () => import('./views/theme/theme.module').then(m => m.ThemeModule)
-      }
-    ]
+        path: "theme",
+        loadChildren: () =>
+          import("./views/theme/theme.module").then((m) => m.ThemeModule),
+      },
+    ],
   },
-  { path: '**', component: P404Component }
+  { path: "**", component: P404Component },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
 export const routedComponents = [];

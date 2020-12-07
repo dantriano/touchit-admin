@@ -1,129 +1,131 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { NgModule } from "@angular/core";
+import { Routes, RouterModule } from "@angular/router";
 
-import { SettingsComponent } from './settings.component';
-import { SettingsMainComponent } from './settings-main/settings-main.component';
-import { ActivitiesFormComponent } from './activities/activities-form/activities-form.component';
-import { ActivitiesListComponent } from './activities/activities-list/activities-list.component';
+import { SettingsComponent } from "./settings.component";
+import { SettingsMainComponent } from "./settings-main/settings-main.component";
+import { ActivitiesFormComponent } from "./activities/activities-form/activities-form.component";
+import { ActivitiesListComponent } from "./activities/activities-list/activities-list.component";
 
-import { LocationsFormComponent } from './locations/locations-form/locations-form.component';
-import { LocationsListComponent } from './locations/locations-list/locations-list.component';
+import { LocationsFormComponent } from "./locations/locations-form/locations-form.component";
+import { LocationsListComponent } from "./locations/locations-list/locations-list.component";
 
-import { GroupsFormComponent } from './groups/groups-form/groups-form.component';
-import { GroupsListComponent } from './groups/groups-list/groups-list.component';
+import { GroupsFormComponent } from "./groups/groups-form/groups-form.component";
+import { GroupsListComponent } from "./groups/groups-list/groups-list.component";
 
 const routes: Routes = [
   {
-    path: '',
+    path: "",
     component: SettingsComponent,
     children: [
       {
-        path: '',
+        path: "",
         component: SettingsMainComponent,
         data: {
-          title: ''
-        }
+          title: "",
+        },
       },
       {
-        path: 'activities',
+        path: "activities",
         children: [
           {
-            path: '',
+            path: "",
             component: ActivitiesListComponent,
             data: {
-              title: 'Activities'
-            }
+              title: "Activities",
+            },
           },
-        ]
+        ],
       },
       {
-        path: 'activity',
+        path: "activity",
         children: [
           {
-            path: '',
+            path: "",
             component: ActivitiesFormComponent,
             data: {
-              title: 'Activities'
-            }
+              title: "Activities",
+            },
           },
           {
-            path: ':id',
+            path: ":id",
             component: ActivitiesFormComponent,
             data: {
-              title: 'Activities'
-            }
-          }
-        ]
+              title: "Activities",
+            },
+          },
+        ],
       },
       {
-        path: 'locations',
+        path: "locations",
         children: [
           {
-            path: '',
+            path: "",
             component: LocationsListComponent,
             data: {
-              title: 'Locations'
-            }
-          }
-        ]
-      },{
-        path: 'location',
+              title: "Locations",
+            },
+          },
+        ],
+      },
+      {
+        path: "location",
         children: [
           {
-            path: '',
+            path: "",
             component: LocationsFormComponent,
             data: {
-              title: 'Locations'
-            }
+              title: "Locations",
+            },
           },
           {
-            path: ':id',
+            path: ":id",
             component: LocationsFormComponent,
             data: {
-              title: 'Locations'
-            }
-          }
-        ]
+              title: "Locations",
+            },
+          },
+        ],
       },
-       {
-        path: 'groups',
+      {
+        path: "groups",
         children: [
           {
-            path: '',
+            path: "",
             component: GroupsListComponent,
             data: {
-              title: 'Groups'
-            }
-          }]
-      }
-      , {
-        path: 'group',
+              title: "Groups",
+            },
+          },
+        ],
+      },
+      {
+        path: "group",
         children: [
           {
-            path: '',
+            path: "",
             component: GroupsFormComponent,
             data: {
-              title: 'Groups'
-            }
+              title: "Groups",
+            },
           },
           {
-            path: ':id',
+            path: ":id",
             component: GroupsFormComponent,
             data: {
-              title: 'Groups'
-            }
-          }
-        ]
-      }
-    ]
-  }
+              title: "Groups",
+            },
+          },
+        ],
+      },
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class TablesRoutingModule { }
+export class TablesRoutingModule {}
 
 export const routedComponents = [
   SettingsComponent,
@@ -133,5 +135,5 @@ export const routedComponents = [
   LocationsFormComponent,
   LocationsListComponent,
   GroupsFormComponent,
-  GroupsListComponent
+  GroupsListComponent,
 ];

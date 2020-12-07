@@ -1,18 +1,30 @@
-import { AuthenticationError } from 'apollo-server';
+import { AuthenticationError } from "apollo-server";
 
 export default {
   Query: {
-    configuration: async (parent, { input }, { models: {configurationModel }, me }, info) => {
+    configuration: async (
+      parent,
+      { input },
+      { models: { configurationModel }, me },
+      info
+    ) => {
       if (!me) {
-        throw new AuthenticationError('You are not authenticated');
+        throw new AuthenticationError("You are not authenticated");
       }
-      return await configurationModel.findOne(input);
+      const result = await configurationModel.findOne(input);
+      return result ? result : null;
     },
-    configurations: async (parent, { input }, { models: {configurationModel }, me }, info) => {
+    configurations: async (
+      parent,
+      { input,value },
+      { models: { configurationModel }, me },
+      info
+    ) => {
       if (!me) {
-        throw new AuthenticationError('You are not authenticated');
+        throw new AuthenticationError("You are not authenticated");
       }
-      return await configurationModel.find(input);
+      const result = await configurationModel.find(input);
+      return result ? result : [];
     },
   },
 };

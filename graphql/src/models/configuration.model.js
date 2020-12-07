@@ -1,26 +1,30 @@
-import mongoose from 'mongoose';
-const configurationSchema = new mongoose.Schema({  
+import mongoose from "mongoose";
+
+const configurationSchema = new mongoose.Schema({
+  id: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    unique: true,
+  },
   type: {
     type: String,
     required: true,
   },
-  id: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  status: {
+  name: {
     type: String,
   },
   desc: {
     type: String,
   },
-  company: {
+  status: {
     type: String,
+  },
+  companies: {
+    type: Object,
   },
   value: {
     type: Object,
   },
 });
-const configurationModel = mongoose.model('configuration', configurationSchema);
+const configurationModel = mongoose.model("configuration", configurationSchema);
 export default configurationModel;

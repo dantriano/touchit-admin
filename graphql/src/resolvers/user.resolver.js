@@ -34,8 +34,6 @@ export default {
     },
 
     token: async (parent, { input }, { models: { userModel } }, info) => {
-      console.log(1)
-      console.log(input)
       return jwt.sign(input, 'riddlemethis', { expiresIn: "7d" });
     }
   },

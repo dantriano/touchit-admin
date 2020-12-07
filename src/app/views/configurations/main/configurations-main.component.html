@@ -1,0 +1,73 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <tabset>
+        <tab>
+          <ng-template tabHeading
+            ><i class="icon-list"></i> Options</ng-template
+          >
+          <options-list></options-list>
+        </tab>
+        <tab>
+          <ng-template tabHeading
+            ><i class="icon-calculator"></i> Calculator &nbsp;<span
+              class="badge badge-pill badge-danger"
+              >29</span
+            ></ng-template
+          >
+          <options-list></options-list>
+        </tab>
+        <tab>
+          <ng-template tabHeading
+            ><i class="icon-pie-chart"></i> Charts</ng-template
+          >
+          <options-list></options-list>
+        </tab>
+      </tabset>
+    </div>
+  </div>
+</div>
+<div
+  bsModal
+  #dangerModal="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="myModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-danger" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Delete element</h4>
+        <button
+          type="button"
+          class="close"
+          (click)="dangerModal.hide()"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to continue?</p>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          (click)="dangerModal.hide()"
+        >
+          Close
+        </button>
+        <button
+          type="button"
+          class="btn btn-danger"
+          (click)="confirmDelete(); dangerModal.hide()"
+        >
+          Yes
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

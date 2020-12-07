@@ -1,29 +1,34 @@
-import { gql } from 'apollo-server';
-
-const configurationSchema= gql`
+import { gql } from "apollo-server";
+const configurationSchema = gql`
   type Configuration {
+    _id: String
+    type: String
+    name: String
+    desc: String
+    status: String
+    companies: [ID]
+    value: configurationType
+  }
+  type configurationType {
+    name: String
+    sections: [ID]
+    status: String
+  }
+  input configurationInput {
     id: String
     type: String
-    desc: String
+    companies: ID
     status: String
-    company: ID,
-    value: [configurationType]
+    value: configurationValueInput
   }
-  type configurationType{
-    _id: String
-    desc: String
-    status: String
-  }
-  input configurationsInput{
-    id: String
-    type: String 
-    company: ID,
+  input configurationValueInput {
+    name: String
+    sections: [ID]
     status: String
   }
   extend type Query {
-    configuration(input: configurationsInput): Configuration
-    configurations(input: configurationsInput): [Configuration]
+    configuration(input: configurationInput): Configuration
+    configurations(input: configurationInput): [Configuration]
   }
-
 `;
 export default configurationSchema;

@@ -36,6 +36,7 @@ const DATA_SERVICES = [
   { provide: data.GroupData, useClass: models.GroupModel },
   { provide: data.ConfigurationData, useClass: models.ConfigurationModel },
   { provide: data.RegisterData, useClass: models.RegisterModel },
+  { provide: models.ConfigurationModel,useClass: models.ConfigurationModel},
   { provide: data.UserData, useClass: models.UserModel },
 ];
 
