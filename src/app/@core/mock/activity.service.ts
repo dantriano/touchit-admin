@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Activity, ActivityData } from '../data/activity';
+import { Activity } from 'app/@core/models';
 
 @Injectable()
 export class ActivityService{// extends ActivityData {
@@ -15,52 +15,23 @@ export class ActivityService{// extends ActivityData {
       id: 'isOutWork',
       desc: 'This Activity can be selected out of the work time'
     }];
-  private Activities: Activity[] = [
+  private Activities: Activity[] /*= [
     {
       _id: '1',
       name: 'Comer',
       options: [],
       locations:['1'],
     },
-    {
-      _id: '2',
-      name: 'Medico',
-      options: [],
-      locations:[],
-    },
-    {
-      _id: '3',
-      name: 'Medico',
-      options: [],
-      locations:[],
-    },
-    {
-      _id: '4',
-      name: 'Medico',
-      options: [],
-      locations:[],
-    },
-    {
-      _id: '5',
-      name: 'Medico',
-      options: [],
-      locations:[],
-    },
-    {
-      _id: '6',
-      name: 'Medico',
-      options: [],
-      locations:[],
-    }
-  ];
+   
+  ];*/
 
   newActivity() {
-    let Activity: Activity = {
+    let Activity: Activity /*= {
       _id: (this.Activities.length + 1).toString(),
       name: '',
       options: [],
       locations:[],
-    }
+    }*/
     return Activity;
   }
   getActivities() {

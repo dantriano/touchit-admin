@@ -1,7 +1,6 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import * as mocks from "./";
-import * as data from "../data";
 import { Route } from '@angular/router';
 
 const SERVICES = [
