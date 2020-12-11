@@ -1,50 +1,51 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { NgModule } from "@angular/core";
+import { Routes, RouterModule } from "@angular/router";
 
-import { RegistersComponent } from './registers.component';
-import { RegistersListComponent } from './registers-list/registers-list.component';
-import { RegistersFormComponent } from './registers-form/registers-form.component';
+import { RegistersComponent } from "./registers.component";
+import { RegistersListComponent } from "./registers-list/registers-list.component";
+import { RegistersFormComponent } from "./registers-form/registers-form.component";
 
-const routes: Routes = [{
-  path: '',
-  component: RegistersComponent,
-  children: [
-        {
-          path: '',
-          component: RegistersListComponent,
-          data: {
-            title: ''
-          }
+const routes: Routes = [
+  {
+    path: "",
+    component: RegistersComponent,
+    children: [
+      {
+        path: "",
+        component: RegistersListComponent,
+        data: {
+          title: "",
         },
-        {
-          path: 'edit',
-          children: [
-            {
-              path: '',
-              component: RegistersFormComponent,
-              data: {
-                // Uses static text (Home)
-                text: 'Registers'
-              }
+      },
+      {
+        path: "edit",
+        children: [
+          {
+            path: "",
+            component: RegistersFormComponent,
+            data: {
+              // Uses static text (Home)
+              text: "Registers",
             },
-            {
-              path: ':id',
-              component: RegistersFormComponent,
-              data: {
-                text: 'Registers'
-              }
+          },
+          {
+            path: ":id",
+            component: RegistersFormComponent,
+            data: {
+              text: "Registers",
             },
-          ]
-        },
-      
-  ],
-}];
+          },
+        ],
+      },
+    ],
+  },
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class TablesRoutingModule { }
+export class TablesRoutingModule {}
 
 export const routedComponents = [
   RegistersComponent,

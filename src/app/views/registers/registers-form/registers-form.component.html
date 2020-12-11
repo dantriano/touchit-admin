@@ -3,20 +3,35 @@
     <div class="col-lg-12">
       <div class="card">
         <div class="card-header">
-          <i class="fa fa-pencil-square-o"></i> Employees <button class="btn btn-link" (click)="infoModal.show()"><i
-              class="icon-info"></i></button>
+          <i class="fa fa-pencil-square-o"></i> Employees
+          <button class="btn btn-link" (click)="infoModal.show()">
+            <i class="icon-info"></i>
+          </button>
           <div class="card-header-actions">
-            <button (click)="onSubmit()" class="btn btn-sm btn-primary" type="submit">
-              <i class="fa fa-dot-circle-o"></i> Submit</button>
-            <button class="btn btn-sm btn-danger" type="reset" (click)="onReset()">
-              <i class="fa fa-ban"></i> Cancel</button>
+            <button
+              (click)="onSubmit()"
+              class="btn btn-sm btn-primary"
+              type="submit"
+            >
+              <i class="fa fa-dot-circle-o"></i> Submit
+            </button>
+            <button
+              class="btn btn-sm btn-danger"
+              type="reset"
+              (click)="onReset()"
+            >
+              <i class="fa fa-ban"></i> Cancel
+            </button>
           </div>
         </div>
         <div class="card-body">
-          <div *ngIf="obs$ | async as data; else loading" [formGroup]="form" (ngSubmit)="onSubmit()">
+          <div
+            *ngIf="obs$ | async as data; else loading"
+            [formGroup]="form"
+            (ngSubmit)="onSubmit()"
+          >
             <input type="hidden" formControlName="_id" class="form-control" />
             <div class="row">
-
               <div class="col-lg-6">
                 <div class="card">
                   <div class="card-header">
@@ -25,26 +40,55 @@
                   <div class="card-body">
                     <div class="form-group">
                       <label>Employee</label>
-                      <input class="form-control" matInput placeholder="Employee" aria-label="Employee"
-                        [matAutocomplete]="auto" [formControl]="employeeName" (change)="f.employee.setValue('')" [ngClass]="{ 'is-invalid': (submitted && f.employee.errors)}" />
-                        <div *ngIf="f.employee.errors" class="invalid-feedback">
-                          <div *ngIf="f.employee.errors.required">Employee is required</div>
+                      <input
+                        class="form-control"
+                        matInput
+                        placeholder="Employee"
+                        aria-label="Employee"
+                        [matAutocomplete]="auto"
+                        [formControl]="employeeName"
+                        (change)="f.employee.setValue('')"
+                        [ngClass]="{
+                          'is-invalid': submitted && f.employee.errors
+                        }"
+                      />
+                      <div *ngIf="f.employee.errors" class="invalid-feedback">
+                        <div *ngIf="f.employee.errors.required">
+                          Employee is required
                         </div>
+                      </div>
                       <mat-autocomplete #auto="matAutocomplete">
-                        <mat-option *ngFor="let option of filteredEmployees | async" (onSelectionChange)="f.employee.setValue(option._id)" [value]="option.firstName">
-                          <span>{{option.firstName}} {{option.lastName }}</span>
+                        <mat-option
+                          *ngFor="let option of filteredEmployees | async"
+                          (onSelectionChange)="f.employee.setValue(option._id)"
+                          [value]="option.firstName"
+                        >
+                          <span
+                            >{{ option.firstName }} {{ option.lastName }}</span
+                          >
                         </mat-option>
                       </mat-autocomplete>
                     </div>
                     <div class="form-group">
                       <mat-label>Activty</mat-label>
-                      <mat-select class="form-control" formControlName="activity" [ngClass]="{ 'is-invalid': (submitted && f.activity.errors)}">
-                        <mat-option *ngFor="let option of data.activities" [value]="option._id">
-                          {{option.name}}
+                      <mat-select
+                        class="form-control"
+                        formControlName="activity"
+                        [ngClass]="{
+                          'is-invalid': submitted && f.activity.errors
+                        }"
+                      >
+                        <mat-option
+                          *ngFor="let option of data.activities"
+                          [value]="option._id"
+                        >
+                          {{ option.name }}
                         </mat-option>
                       </mat-select>
                       <div *ngIf="f.activity.errors" class="invalid-feedback">
-                        <div *ngIf="f.activity.errors.required">Activity is required</div>
+                        <div *ngIf="f.activity.errors.required">
+                          Activity is required
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -58,66 +102,91 @@
   </div>
 </div>
 
-<div bsModal #infoModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-  aria-hidden="true">
+<div
+  bsModal
+  #infoModal="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="myModalLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-info modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title">Information about services</h4>
-        <button type="button" class="close" (click)="infoModal.hide()" aria-label="Close">
+        <button
+          type="button"
+          class="close"
+          (click)="infoModal.hide()"
+          aria-label="Close"
+        >
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
         <h5>Lorem ipsum dolor sit amet</h5>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-          dolore
-          magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-          commodo
-          consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-          est laborum.</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-          dolore
-          magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-          commodo
-          consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-          est laborum.</p>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+          aliquip ex ea commodo consequat. Duis aute irure dolor in
+          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+          culpa qui officia deserunt mollit anim id est laborum.
+        </p>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+          aliquip ex ea commodo consequat. Duis aute irure dolor in
+          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+          culpa qui officia deserunt mollit anim id est laborum.
+        </p>
         <h5>Lorem ipsum dolor sit amet</h5>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-          dolore
-          magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-          commodo
-          consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-          est laborum.</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-          dolore
-          magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-          commodo
-          consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-          est laborum.</p>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+          aliquip ex ea commodo consequat. Duis aute irure dolor in
+          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+          culpa qui officia deserunt mollit anim id est laborum.
+        </p>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+          aliquip ex ea commodo consequat. Duis aute irure dolor in
+          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+          culpa qui officia deserunt mollit anim id est laborum.
+        </p>
       </div>
       <div class="modal-custom">
         <h5>Lorem ipsum dolor sit amet</h5>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-          dolore
-          magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-          commodo
-          consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-          est laborum.</p>
-
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+          aliquip ex ea commodo consequat. Duis aute irure dolor in
+          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+          culpa qui officia deserunt mollit anim id est laborum.
+        </p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="infoModal.hide()">Close</button>
+        <button
+          type="button"
+          class="btn btn-secondary"
+          (click)="infoModal.hide()"
+        >
+          Close
+        </button>
       </div>
     </div>
   </div>
 </div>
 
-<ng-template #loading>
-  Loading User...
-</ng-template>
+<ng-template #loading> Loading User... </ng-template>

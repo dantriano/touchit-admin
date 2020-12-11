@@ -1,20 +1,22 @@
-import { NgModule,CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { FullCalendarModule } from '@fullcalendar/angular';
-import { ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { FullCalendarModule } from "@fullcalendar/angular";
+import { ReactiveFormsModule } from "@angular/forms";
+import { CommonModule } from "@angular/common";
+import { BsDropdownModule } from "ngx-bootstrap/dropdown";
 
-import { TablesRoutingModule, routedComponents } from './configurations-routing.module';
+import {
+  TablesRoutingModule,
+  routedComponents,
+} from "./configurations-routing.module";
 
-
-import {MatTableModule} from '@angular/material/table';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatSortModule } from '@angular/material/sort';
-import { ModalModule } from 'ngx-bootstrap/modal';
-import { MatListModule } from '@angular/material/list';
-import { TabsModule } from 'ngx-bootstrap/tabs';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
-import {MatSelectModule} from '@angular/material/select';
+import { MatTableModule } from "@angular/material/table";
+import { MatPaginatorModule } from "@angular/material/paginator";
+import { MatSortModule } from "@angular/material/sort";
+import { ModalModule } from "ngx-bootstrap/modal";
+import { MatListModule } from "@angular/material/list";
+import { TabsModule } from "ngx-bootstrap/tabs";
+import { MatAutocompleteModule } from "@angular/material/autocomplete";
+import { MatSelectModule } from "@angular/material/select";
 
 @NgModule({
   imports: [
@@ -30,11 +32,9 @@ import {MatSelectModule} from '@angular/material/select';
     BsDropdownModule,
     MatAutocompleteModule,
     MatSelectModule,
-    TabsModule
+    TabsModule,
   ],
-  schemas:[CUSTOM_ELEMENTS_SCHEMA],
-  declarations: [
-    ...routedComponents
-  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  declarations: [...routedComponents],
 })
-export class ConfigurationsModule { }
+export class ConfigurationsModule {}

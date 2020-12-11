@@ -17,7 +17,7 @@ const configurationSchema = gql`
   input configurationInput {
     id: String
     type: String
-    companies: ID
+    companies: [ID]
     status: String
     value: configurationValueInput
   }

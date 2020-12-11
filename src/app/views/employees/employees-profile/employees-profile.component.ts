@@ -1,14 +1,13 @@
-import { Component, ViewChildren } from '@angular/core';
-import { EmployeesComponent } from '../employees.component';
+import { Component, ViewChildren } from "@angular/core";
+import { EmployeesComponent } from "../employees.component";
 
 @Component({
-  selector: 'employees-profile',
-  templateUrl: './employees-profile.component.html',
+  selector: "employees-profile",
+  templateUrl: "./employees-profile.component.html",
 })
-
 export class EmployeesProfileComponent extends EmployeesComponent {
-  loadComponent(){
+  loadComponent() {
     super.loadComponent();
-    this.set('displayedColumns', ['status','name']);
+    this.set("displayedColumns", ["status", "name"]);
   }
 }

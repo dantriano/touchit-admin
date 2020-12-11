@@ -3,171 +3,268 @@
     <div class="col-lg-12">
       <div class="card">
         <div class="card-header">
-           Employee Information 
-            <div class="card-header-actions">
-              <button [routerLink]="['/employees/edit/'+_id]" class="btn btn-sm btn-primary" type="submit">
-                <i class="fa fa-dot-circle-o"></i> Edit</button>
-              <button class="btn btn-sm btn-danger" type="reset" (click)="onReset()">
-                <i class="fa fa-ban"></i> Cancel</button>
-            </div>
+          Employee Information
+          <div class="card-header-actions">
+            <button
+              [routerLink]="['/employees/edit/' + _id]"
+              class="btn btn-sm btn-primary"
+              type="submit"
+            >
+              <i class="fa fa-dot-circle-o"></i> Edit
+            </button>
+            <button
+              class="btn btn-sm btn-danger"
+              type="reset"
+              (click)="onReset()"
+            >
+              <i class="fa fa-ban"></i> Cancel
+            </button>
+          </div>
         </div>
       </div>
     </div>
   </div>
-  <div *ngIf="obs$ | async as data; else loading" [formGroup]="form" (ngSubmit)="onSubmit()">
-  <div class="row">
-    <div class="col-lg-4">
-      <div class="card">
-        <div class="card-body">
-          <div class="media">
-            <div class="mr-3 float-left">
-              <img class="img-avatar" src="https://affixtheme.com/html/dashy/demo/media/figure/user_1.jpg" alt="User">
+  <div
+    *ngIf="obs$ | async as data; else loading"
+    [formGroup]="form"
+    (ngSubmit)="onSubmit()"
+  >
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="card">
+          <div class="card-body">
+            <div class="media">
+              <div class="mr-3 float-left">
+                <img
+                  class="img-avatar"
+                  src="https://affixtheme.com/html/dashy/demo/media/figure/user_1.jpg"
+                  alt="User"
+                />
+              </div>
+              <div class="media-body">
+                <h4 class="mb-0">
+                  {{ data.employee.firstName }} {{ data.employee.lastName }}
+                  {{ data.employee.firstName }}
+                </h4>
+                <div class="user-email">{{ data.employee.email }}</div>
+              </div>
             </div>
-            <div class="media-body">
-                <h4 class="mb-0">{{data.employee.firstName}} {{data.employee.lastName}} {{data.employee.firstName}}</h4>
-                <div class="user-email">{{data.employee.email}}</div>
-            </div>
-        </div>
-        <hr class="mt-2">
-        <h6 class="text-muted text-uppercase font-weight-bold"><i class="fa fa-object-ungroup"></i>  <u>Groups</u></h6>
-        <div *ngFor='let option of data.activities'>{{option.name}}</div>
+            <hr class="mt-2" />
+            <h6 class="text-muted text-uppercase font-weight-bold">
+              <i class="fa fa-object-ungroup"></i> <u>Groups</u>
+            </h6>
+            <div *ngFor="let option of data.activities">{{ option.name }}</div>
           </div>
-          <div class="card-footer">        
-            <p><i class="text-danger fa fa-mobile"></i> No existe un dispositivo vinculado a esta cuenta</p>
+          <div class="card-footer">
+            <p>
+              <i class="text-danger fa fa-mobile"></i> No existe un dispositivo
+              vinculado a esta cuenta
+            </p>
           </div>
         </div>
       </div>
       <div class="col-lg-8">
         <div class="card">
           <div class="card-body">
-            <h4> Custom Activities</h4>
-            <table mat-table [dataSource]="data.activities"
-            class="table table-bordered table-striped table-sm  no-footer" matSort>
-            <ng-container matColumnDef="status">
-              <th *matHeaderCellDef><i class="fa fa-eye"></i> </th>
-              <td *matCellDef="let element">
-                <i class="fa "
-                [ngClass]="getCustomStatus(element._id,data.employee.customActivities,data.employee.groups)? 'fa-check text-success': 'fa-close text-danger'"></i>
-              </td>
-            </ng-container>
-            <!-- User ID Column -->
-            <ng-container matColumnDef="name">
-              <th *matHeaderCellDef> Service Name </th>
-              <td *matCellDef="let element">
-                {{element.name}}
-              </td>
-            </ng-container>
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-          </table>
-            </div>
-            </div>
-            </div>
+            <h4>Custom Activities</h4>
+            <table
+              mat-table
+              [dataSource]="data.activities"
+              class="table table-bordered table-striped table-sm no-footer"
+              matSort
+            >
+              <ng-container matColumnDef="status">
+                <th *matHeaderCellDef><i class="fa fa-eye"></i></th>
+                <td *matCellDef="let element">
+                  <i
+                    class="fa"
+                    [ngClass]="
+                      getCustomStatus(
+                        element._id,
+                        data.employee.customActivities,
+                        data.employee.groups
+                      )
+                        ? 'fa-check text-success'
+                        : 'fa-close text-danger'
+                    "
+                  ></i>
+                </td>
+              </ng-container>
+              <!-- User ID Column -->
+              <ng-container matColumnDef="name">
+                <th *matHeaderCellDef>Service Name</th>
+                <td *matCellDef="let element">
+                  {{ element.name }}
+                </td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            </table>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
-<div bsModal #infoModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-  aria-hidden="true">
+<div
+  bsModal
+  #infoModal="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="myModalLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-info modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title">Information about services</h4>
-        <button type="button" class="close" (click)="infoModal.hide()" aria-label="Close">
+        <button
+          type="button"
+          class="close"
+          (click)="infoModal.hide()"
+          aria-label="Close"
+        >
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
         <h5>Lorem ipsum dolor sit amet</h5>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-          dolore
-          magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-          commodo
-          consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-          est laborum.</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-          dolore
-          magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-          commodo
-          consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-          est laborum.</p>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+          aliquip ex ea commodo consequat. Duis aute irure dolor in
+          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+          culpa qui officia deserunt mollit anim id est laborum.
+        </p>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+          aliquip ex ea commodo consequat. Duis aute irure dolor in
+          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+          culpa qui officia deserunt mollit anim id est laborum.
+        </p>
         <h5>Lorem ipsum dolor sit amet</h5>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-          dolore
-          magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-          commodo
-          consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-          est laborum.</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-          dolore
-          magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-          commodo
-          consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-          est laborum.</p>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+          aliquip ex ea commodo consequat. Duis aute irure dolor in
+          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+          culpa qui officia deserunt mollit anim id est laborum.
+        </p>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+          aliquip ex ea commodo consequat. Duis aute irure dolor in
+          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+          culpa qui officia deserunt mollit anim id est laborum.
+        </p>
       </div>
       <div class="modal-custom">
         <h5>Lorem ipsum dolor sit amet</h5>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-          dolore
-          magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-          commodo
-          consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-          est laborum.</p>
-
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+          aliquip ex ea commodo consequat. Duis aute irure dolor in
+          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+          culpa qui officia deserunt mollit anim id est laborum.
+        </p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="infoModal.hide()">Close</button>
+        <button
+          type="button"
+          class="btn btn-secondary"
+          (click)="infoModal.hide()"
+        >
+          Close
+        </button>
       </div>
     </div>
   </div>
 </div>
-<div bsModal #customModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-  aria-hidden="true">
+<div
+  bsModal
+  #customModal="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="myModalLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-info modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title">Information about services</h4>
-        <button type="button" class="close" (click)="infoModal.hide()" aria-label="Close">
+        <button
+          type="button"
+          class="close"
+          (click)="infoModal.hide()"
+          aria-label="Close"
+        >
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
         <h5>Lorem ipsum dolor sit amet</h5>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-          dolore
-          magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-          commodo
-          consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-          est laborum.</p>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+          aliquip ex ea commodo consequat. Duis aute irure dolor in
+          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+          culpa qui officia deserunt mollit anim id est laborum.
+        </p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="infoModal.hide()">Close</button>
+        <button
+          type="button"
+          class="btn btn-secondary"
+          (click)="infoModal.hide()"
+        >
+          Close
+        </button>
       </div>
     </div>
   </div>
 </div>
 <ng-template #unlinked>
- Ya existe un dispositivo vinculado a esta cuenta
+  Ya existe un dispositivo vinculado a esta cuenta
 </ng-template>
-<ng-template #loading>
-  Loading User...
-</ng-template>
+<ng-template #loading> Loading User... </ng-template>
 <ng-template #neutral>
   <span class="checkbox tricheck"></span>
 </ng-template>
-<div bsModal #dangerModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-  aria-hidden="true">
+<div
+  bsModal
+  #dangerModal="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="myModalLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-danger" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title">Delete element</h4>
-        <button type="button" class="close" (click)="dangerModal.hide()" aria-label="Close">
+        <button
+          type="button"
+          class="close"
+          (click)="dangerModal.hide()"
+          aria-label="Close"
+        >
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -175,9 +272,20 @@
         <p>Are you sure you want to continue?</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="dangerModal.hide()">Close</button>
-        <button type="button" class="btn btn-danger"
-          (click)="f.isLinked.setValue(false);dangerModal.hide()">Yes</button>
+        <button
+          type="button"
+          class="btn btn-secondary"
+          (click)="dangerModal.hide()"
+        >
+          Close
+        </button>
+        <button
+          type="button"
+          class="btn btn-danger"
+          (click)="f.isLinked.setValue(false); dangerModal.hide()"
+        >
+          Yes
+        </button>
       </div>
     </div>
   </div>

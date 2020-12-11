@@ -1,11 +1,12 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { ToastrService } from 'ngx-toastr';
-import { ModalDirective } from 'ngx-bootstrap/modal';
-import { Subscription } from 'rxjs';
-import { AuthenticationService } from 'app/@core/utils';
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { MatTableDataSource } from "@angular/material/table";
+import { MatPaginator } from "@angular/material/paginator";
+import { MatSort } from "@angular/material/sort";
+import { ToastrService } from "ngx-toastr";
+import { ModalDirective } from "ngx-bootstrap/modal";
+import { BehaviorSubject, Observable, Subject, Subscription } from "rxjs";
+import { AuthenticationService } from "app/@core/utils";
+import { AppInjector } from "app/app.module";
 
 export class ListComponent implements OnInit {
   protected dataSource = new MatTableDataSource<any>();
@@ -13,49 +14,71 @@ export class ListComponent implements OnInit {
   protected subscription: Subscription;
   protected service: any;
   protected model: string;
-  protected company:string = null;
+  protected company: string = null;
+  protected private: any;
+  protected obs$: Observable<any>;
+  protected toastr: ToastrService;
+  protected authService: AuthenticationService;
+  protected listData:Subject<any>= new Subject<any>();
+
+  protected fillTable: any = {
+    next: (x) => {
+      this.dataSource.data = x || [];
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      return;
+    },
+    error: (err) => {
+      return;
+    },
+    complete: (x) => console.log("Observer got a complete notification"),
+  };
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild("dangerModal") public dangerModal: ModalDirective;
 
-  @ViewChild('dangerModal') public dangerModal: ModalDirective;
-
-  constructor(public toastr: ToastrService,public authService: AuthenticationService  ) { 
+  constructor(
+    public toastr2: ToastrService,
+    public authService2: AuthenticationService
+  ) {
+    this.toastr = AppInjector.get(ToastrService);
+    this.authService = AppInjector.get(AuthenticationService);
     this.company = this.authService.company._id;
   }
-  set(attr, service) { this[attr] = service }
-  get(attr) { return this[attr] }
-  
+
+  set(attr: string, service: any) {
+    this[attr] = service;
+  }
+  get(attr: string) {
+    return this[attr];
+  }
+
   /**
    *  Execution on Page Load
    */
   ngOnInit() {
-    const input = {'company':this.company}
     this.loadComponent();
-    this.subscription = this.service.getList(input).subscribe((res) => {
-      const data = res.data
-      console.log(data)
-      this.dataSource.data = data[this.model]||[];
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-    });
+    this.listData.subscribe(this.fillTable);
   }
-  
   /**
    * First Function to be executed. Used to load all configurations in the components
    * Destroy suscription when page change
-   */ 
-  loadComponent() { }
-  ngOnDestroy() { this.subscription.unsubscribe()}
-  
+   */
+  loadComponent() {}
+  ngOnDestroy() {
+    this.subscription?.unsubscribe();
+  }
+
   /**
    * Alert before remove from DB
    */
   confirmDelete() {
-    this.service.remove(this._id).subscribe(
-      (data) => {
-        this.dataSource.data = this.dataSource.data.filter(item => item._id != this._id);
-        this.toastr.success('Group deleted')
-      })
+    this.service.remove(this._id).subscribe((data) => {
+      this.dataSource.data = this.dataSource.data.filter(
+        (item) => item._id != this._id
+      );
+      this.toastr.success("Group deleted");
+    });
   }
   /**
    * Filters by string any row

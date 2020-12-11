@@ -4,7 +4,7 @@ import { Routes, RouterModule } from "@angular/router";
 import { ConfigurationsComponent } from "./configurations.component";
 import { ConfigurationsListComponent } from "./options-list/options-list.component";
 import { OptionsFormComponent } from "./options-form/options-form.component";
-import { ConfigurationsMainComponent } from './main/configurations-main.component';
+import { ConfigurationsMainComponent } from "./main/configurations-main.component";
 
 const routes: Routes = [
   {

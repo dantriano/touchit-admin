@@ -1,13 +1,9 @@
 import { Component, Injectable } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from "@angular/router";
-import { first, tap, map } from 'rxjs/operators';
-import { Subscription, Observable } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
-import { CommonServices } from 'app/@core/utils';
-import { UserModel } from 'app/@core/models';
-import { UserData } from 'app/@core/data';
-import { AuthenticationService } from 'app/@core/utils/authentication.service';
+import { AuthenticationService } from 'app/@core/services/authentication.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -32,6 +28,7 @@ export class LoginComponent{
   constructor(private formBuilder: FormBuilder, private authService: AuthenticationService, private route: ActivatedRoute, private router: Router, private toastr: ToastrService) {}
   
   ngOnInit() {
+    console.log(1)
     this.form = this.formBuilder.group({
       username: [null, [Validators.required, Validators.email]],
       password: [null, Validators.required],

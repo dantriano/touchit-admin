@@ -1,25 +1,25 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { HashLocationStrategy, LocationStrategy, PathLocationStrategy } from '@angular/common';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { CoreModule } from './@core/core.module';
+import { BrowserModule } from "@angular/platform-browser";
+import { Injector, NgModule } from "@angular/core";
+import {
+  HashLocationStrategy,
+  LocationStrategy,
+  PathLocationStrategy,
+} from "@angular/common";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { CoreModule } from "./@core/core.module";
 
-
-
-import { AppComponent } from './app.component';
+import { AppComponent } from "./app.component";
 
 // Import containers
-import { DefaultLayoutComponent } from './containers';
+import { DefaultLayoutComponent } from "./containers";
 
-import { P404Component } from './views/error/404.component';
-import { P500Component } from './views/error/500.component';
-import { LoginComponent } from './views/login/login.component';
-import { RegisterComponent } from './views/register/register.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { P404Component } from "./views/error/404.component";
+import { P500Component } from "./views/error/500.component";
+import { LoginComponent } from "./views/login/login.component";
+import { RegisterComponent } from "./views/register/register.component";
+import { ReactiveFormsModule } from "@angular/forms";
 
-const APP_CONTAINERS = [
-  DefaultLayoutComponent
-];
+const APP_CONTAINERS = [DefaultLayoutComponent];
 
 import {
   AppAsideModule,
@@ -27,28 +27,33 @@ import {
   AppHeaderModule,
   AppFooterModule,
   AppSidebarModule,
-} from '@coreui/angular';
+} from "@coreui/angular";
 
 // Import routing module
-import { AppRoutingModule,routedComponents } from './app.routing';
+import { AppRoutingModule, routedComponents } from "./app.routing";
 
 // Import 3rd party components
-import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-import { TabsModule } from 'ngx-bootstrap/tabs';
-import { ChartsModule } from 'ng2-charts';
-import { ToastrModule } from 'ngx-toastr';
-import { ModalModule } from 'ngx-bootstrap/modal';
+import { BsDropdownModule } from "ngx-bootstrap/dropdown";
+import { TabsModule } from "ngx-bootstrap/tabs";
+import { ChartsModule } from "ng2-charts";
+import { ToastrModule } from "ngx-toastr";
+import { ModalModule } from "ngx-bootstrap/modal";
 
-import { PerfectScrollbarModule,PERFECT_SCROLLBAR_CONFIG,PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
-import { AuthGuard } from './auth.guard';
-import { GraphQLModule } from './graphql.module';
-import { HttpClientModule } from '@angular/common/http';
-import { TestComponent } from './views/test/test.component';
-import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
-import { from } from 'zen-observable';
+import {
+  PerfectScrollbarModule,
+  PERFECT_SCROLLBAR_CONFIG,
+  PerfectScrollbarConfigInterface,
+} from "ngx-perfect-scrollbar";
+import { AuthGuard } from "./auth.guard";
+import { GraphQLModule } from "./graphql.module";
+import { HttpClientModule } from "@angular/common/http";
+import { TestComponent } from "./views/test/test.component";
+import { NgxMaterialTimepickerModule } from "ngx-material-timepicker";
+import { from } from "zen-observable";
+export let AppInjector: Injector;
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
-  suppressScrollX: true
+  suppressScrollX: true,
 };
 @NgModule({
   imports: [
@@ -56,13 +61,12 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     BrowserAnimationsModule,
     AppRoutingModule,
 
-
     AppAsideModule,
     AppBreadcrumbModule.forRoot(),
     AppFooterModule,
     AppHeaderModule,
     AppSidebarModule,
-    
+
     ReactiveFormsModule,
     PerfectScrollbarModule,
     BsDropdownModule.forRoot(),
@@ -73,9 +77,9 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     ModalModule.forRoot(),
     GraphQLModule,
     HttpClientModule,
-    NgxMaterialTimepickerModule
-    ],
-    exports:[ModalModule],
+    NgxMaterialTimepickerModule,
+  ],
+  exports: [ModalModule],
   declarations: [
     AppComponent,
     ...APP_CONTAINERS,
@@ -84,13 +88,20 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     LoginComponent,
     RegisterComponent,
     TestComponent,
-   // ...routedComponents
+    // ...routedComponents
   ],
-  providers: [AuthGuard,{
-    provide: LocationStrategy,
-    useClass:HashLocationStrategy,
-    //useClass: PathLocationStrategy
-  }],
-  bootstrap: [ AppComponent ]
+  providers: [
+    AuthGuard,
+    {
+      provide: LocationStrategy,
+      useClass: HashLocationStrategy,
+      //useClass: PathLocationStrategy
+    },
+  ],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {
+  constructor(private injector: Injector) {
+    AppInjector = this.injector;
+  }
+}

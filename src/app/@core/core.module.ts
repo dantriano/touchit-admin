@@ -5,8 +5,8 @@ import { of as observableOf } from 'rxjs';
 import { throwIfAlreadyLoaded } from './module-import-guard';
 import { AnalyticsService } from './utils';
 
-import * as data from "./data";
-import * as models from "./models";
+//import * as data from "./data";
+//import * as services from "./services";
 import { MockDataModule } from './mock/mock-data.module';
 import { Route } from '@angular/router';
 
@@ -28,16 +28,9 @@ const socialLinks = [
   },
 ];
 
-
+//To apply MockData
 const DATA_SERVICES = [
-  { provide: data.EmployeeData, useClass: models.EmployeeModel },
-  { provide: data.LocationData, useClass: models.LocationModel },
-  { provide: data.ActivityData, useClass: models.ActivityModel },
-  { provide: data.GroupData, useClass: models.GroupModel },
-  { provide: data.ConfigurationData, useClass: models.ConfigurationModel },
-  { provide: data.RegisterData, useClass: models.RegisterModel },
-  { provide: models.ConfigurationModel,useClass: models.ConfigurationModel},
-  { provide: data.UserData, useClass: models.UserModel },
+  //{ provide: services.EmployeeModel,useClass: data.EmployeeData },
 ];
 
 

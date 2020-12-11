@@ -20,7 +20,10 @@
           aria-labelledby="button-basic"
         >
           <li role="menuitem">
-            <a class="dropdown-item" routerLink="/configurations/options/edit" href="#"
+            <a
+              class="dropdown-item"
+              routerLink="/configurations/options/edit"
+              href="#"
               >Add option</a
             >
           </li>
@@ -51,30 +54,21 @@
       class="table table-bordered table-striped table-sm"
       matSort
     >
-      <ng-container matColumnDef="employee">
-        <th *matHeaderCellDef mat-sort-header>Employee</th>
-        <td *matCellDef="let element">
-          {{ element._employee.lastName }},
-          {{ element._employee.firstName }}
-        </td>
+      <ng-container matColumnDef="id">
+        <th *matHeaderCellDef mat-sort-header>Name</th>
+        <td *matCellDef="let element">{{ element.name }}</td>
       </ng-container>
-      <ng-container matColumnDef="activity">
-        <th *matHeaderCellDef mat-sort-header>Activity</th>
-        <td *matCellDef="let element">
-          {{ element._activity.name }}
-        </td>
+      <ng-container matColumnDef="desc">
+        <th *matHeaderCellDef mat-sort-header>Description</th>
+        <td *matCellDef="let element">{{ element.desc }}</td>
       </ng-container>
-      <ng-container matColumnDef="time">
-        <th *matHeaderCellDef>Time</th>
-        <td *matCellDef="let element">{{ element.start }}-{{ element.end }}</td>
+      <ng-container matColumnDef="companies">
+        <th *matHeaderCellDef mat-sort-header>Companies</th>
+        <td *matCellDef="let element"></td>
       </ng-container>
-      <ng-container matColumnDef="delay">
-        <th *matHeaderCellDef>Delay</th>
-        <td *matCellDef="let element">{{ element.delay / 60 }} min</td>
-      </ng-container>
-      <ng-container matColumnDef="position">
-        <th *matHeaderCellDef>Position</th>
-        <td *matCellDef="let element">{{ element.inPosition }}</td>
+      <ng-container matColumnDef="status">
+        <th *matHeaderCellDef>Status</th>
+        <td *matCellDef="let element">{{ element.status }}</td>
       </ng-container>
       <ng-container matColumnDef="options">
         <th *matHeaderCellDef>Options</th>

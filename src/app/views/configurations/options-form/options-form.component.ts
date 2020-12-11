@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import { FormComponent } from "app/common/form.component";
 import { AuthenticationService } from "app/@core/utils";
-import { ConfigurationModel } from 'app/@core/models/configuration.model';
+import { ConfigurationService } from "app/@core/services";
 
 @Component({
   selector: "options-form",
@@ -12,7 +12,7 @@ import { ConfigurationModel } from 'app/@core/models/configuration.model';
 export class OptionsFormComponent extends FormComponent {
   protected model: string = "configuration";
   constructor(
-    public service: ConfigurationModel,
+    public service: ConfigurationService,
     public route: ActivatedRoute,
     public router: Router,
     public toastr: ToastrService,
@@ -24,8 +24,8 @@ export class OptionsFormComponent extends FormComponent {
     this.config = { redirect: "configurations" };
     this.set("formInputs", {
       _id: [],
-      type: ['option'],
-      name: ['', [this.validators.required]],
+      type: ["option"],
+      name: ["", [this.validators.required]],
       company: [],
       section: [],
       active: [],
