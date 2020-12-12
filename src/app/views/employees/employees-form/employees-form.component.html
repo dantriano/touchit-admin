@@ -221,7 +221,8 @@
                       getCustomStatus(
                         element._id,
                         f.customActivities.value,
-                        f.groups.value
+                        f.groups.value,
+                        groups | async
                       )
                         ? 'fa-check text-success'
                         : 'fa-close text-danger'
@@ -242,7 +243,7 @@
                 <td *matCellDef="let element">
                   <div class="btn-group" data-toggle="buttons">
                     <label
-                      *ngFor="let option of customOptions"
+                      *ngFor="let option of config.customOptions"
                       [class]="option.label"
                     >
                       <input
@@ -260,8 +261,14 @@
                   </div>
                 </td>
               </ng-container>
-              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+              <tr
+                mat-header-row
+                *matHeaderRowDef="config.displayedColumns"
+              ></tr>
+              <tr
+                mat-row
+                *matRowDef="let row; columns: config.displayedColumns"
+              ></tr>
             </table>
           </div>
         </div>

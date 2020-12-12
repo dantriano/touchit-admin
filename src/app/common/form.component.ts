@@ -1,42 +1,48 @@
-import { Component, ViewChild, Output, EventEmitter } from "@angular/core";
-import {
-  FormBuilder,
-  FormGroup,
-  Validators,
-  FormControl,
-} from "@angular/forms";
-import { Router, ActivatedRoute } from "@angular/router";
+import { Output, EventEmitter } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Router } from "@angular/router";
 import { AppInjector } from "app/app.module";
-import { ModalDirective } from "ngx-bootstrap/modal";
 import { ToastrService } from "ngx-toastr";
-import { map, startWith } from "rxjs/operators";
-import { Observable, Subject, Subscription } from "rxjs";
+import { first } from "rxjs/operators";
+import { BehaviorSubject, Observable, Subject, Subscription } from "rxjs";
 import { FormValidator } from "./form.validator";
 import { AuthenticationService, MapsService } from "app/@core/utils";
-import { CommonServices } from "app/@core/utils";
+import { msg } from "./_options";
+import { loadAutocomplete } from "@utils/commons.service";
 
 export class FormComponent {
+  constructor() {
+    this.router = AppInjector.get(Router);
+    this.toastr = AppInjector.get(ToastrService);
+    this.authService = AppInjector.get(AuthenticationService);
+    this.config = { company: this.authService.company._id };
+  }
   @Output() onLoadContent = new EventEmitter();
   @Output() onSubmitComplete = new EventEmitter();
-  protected subscription: Subscription;
-  protected _id: any = null;
+
+  protected formSubject = new BehaviorSubject<any>(null);
+  get formData(): Observable<any> {
+    return this.formSubject.asObservable();
+  }
+  protected loadAutocomplete = loadAutocomplete;
   protected obs$: Observable<any>;
+  protected subscriptions: Subscription[] = [];
   protected mapMgr: MapsService = new MapsService();
-  protected common: CommonServices = new CommonServices();
   protected form: FormGroup;
   protected submitted: boolean = false;
   protected formChanged: boolean = false;
-  protected model: string;
-  protected service: any;
-  protected formInputs: any = {};
-  protected formData: Subject<any> = new Subject<any>();
-  protected company: string = null;
-  public toastr: ToastrService;
-  public route: ActivatedRoute;
-  public router: Router;
-  public authService:AuthenticationService;
+  protected contentLoad: boolean = false;
+  protected toastr: ToastrService;
+  protected router: Router;
+  protected authService: AuthenticationService;
+  protected services: any;
+
   protected validators: any = {
-    valueExist: () => FormValidator.valueExist(this.service, this.model),
+    valueExist: () =>
+      FormValidator.valueExist(
+        this.services[this.config.service],
+        this.config.service
+      ),
     required: Validators.required,
     email: Validators.email,
   };
@@ -44,61 +50,6 @@ export class FormComponent {
     redirect: "settings",
     uiName: "Element",
   };
-  msg: any = {
-    success: {
-      crated: `${this.config.uiName} created`,
-      updated: `${this.config.uiName}  updated`,
-      saved: `${this.config.uiName}  saved`,
-      deleted: `${this.config.uiName}  deleted`,
-    },
-    error: {
-      notFound: `${this.config.uiName} not found`,
-      ups: "Ups..Something happend",
-    },
-  };
-  dataObserver: any = {
-    next: (x) => { 
-      if(!x && this._id){
-        this.toastr.error(this.msg.error.notFound);
-        this.router.navigate([this.config.redirect]);
-        return
-      }
-      x && this.form.patchValue(x);
-      return;
-    },
-    error: (err) => {
-      return;
-    },
-    complete: (x) => console.log("Observer got a complete notification"),
-  };
-  submitObserver: any = {
-    next: (x) => {
-      this.onSubmitComplete.emit(x);
-      this.toastr.success(this.msg.success.saved);
-      this.router.navigate([this.config.redirect]);
-      return;
-    },
-    error: (err) => {
-      this.onSubmitComplete.emit(err);
-      this.toastr.error(this.msg.error.ups);
-      this.router.navigate([this.config.redirect]);
-      return;
-    },
-    complete: (x) => console.log("Observer got a complete notification"),
-  };
-
-  @ViewChild("infoModal") public dangerModal: ModalDirective;
-
-  constructor(
-    public route2: ActivatedRoute,
-    public router2: Router,
-    public toastr2: ToastrService
-  ) {
-    this.router = AppInjector.get(Router);
-    this.toastr = AppInjector.get(ToastrService);
-    this.authService = AppInjector.get(AuthenticationService);
-  }
-
   get f() {
     return this.form.controls;
   }
@@ -111,35 +62,73 @@ export class FormComponent {
   get config() {
     return this._config;
   }
-  set(attr, obj) {
-    this[attr] = obj;
+
+  dataObserver: any = {
+    next: (x) => {
+      if (!x && this.contentLoad && this.config._id) {
+        this.toastr.error(msg(this.config).error.notFound);
+        this.router.navigate([this.config.redirect]);
+        return;
+      }
+      x && this.form.patchValue(x);
+      return;
+    },
+    error: (err) => {
+      return;
+    },
+    complete: (x) => console.log("Observer got a complete notification"),
+  };
+  submitObserver: any = {
+    next: (x) => {
+      //this.onSubmitComplete.emit(x);
+      this.toastr.success(msg(this.config).success.saved);
+      this.router.navigate([this.config.redirect]);
+      return;
+    },
+    error: (err) => {
+      //this.onSubmitComplete.emit(err);
+      this.toastr.error(msg(this.config).error.ups);
+      this.router.navigate([this.config.redirect]);
+      return;
+    },
+    complete: (x) => console.log("Observer got a complete notification"),
+  };
+
+  //@ViewChild("infoModal") public dangerModal: ModalDirective;
+
+  ngOnInit() {
+    this.loadComponent();
+    this.loadForm();
+    this.subscriptions.push(this.formData.subscribe(this.dataObserver));
   }
-  get(attr) {
-    return this[attr];
+  loadRoute(params) {
+    this.config._id = params.id || null;
+    this.obs$ = this.loadContent().pipe(first());
+    this.subscriptions.push(this.obs$.subscribe(this.onContentLoad));
   }
 
-  /**
-   *  Execution on Page Load
-   */
-  ngOnInit() {
-    this._id=null;
-    this.company = this.authService.company._id;
-    this.loadComponent();
-    this.route.params.subscribe((params) => {
-      this._id = params.id || null;
-      this.loadForm();
-      this.loadContent();
-      this.subscription=this.formData.subscribe(this.dataObserver);
-    });
-  }
+  onContentLoad = {
+    next: (x) => {
+      this.contentLoad = true;
+      this.formSubject.next(
+        this.services[this.config.service].subject.getValue()
+      );
+    },
+  };
   /**
    * First Function to be executed. Used to load all configurations in the components
    */
   loadComponent() {}
-  loadContent(){}
-
+  loadContent(): Observable<any> {
+    return new Observable();
+  }
+  /**
+   * Destroys all subscriptions to avoid memory leak
+   */
   ngOnDestroy() {
-    this.subscription?.unsubscribe();
+    this.subscriptions.forEach((element) => {
+      element?.unsubscribe();
+    });
   }
   /**
    * Init the service to show a Map in the components
@@ -156,34 +145,10 @@ export class FormComponent {
     this.mapMgr.setMap(map);
   }
   /**
-   * Get all the data from the DataBase using the Load function of the current service
-   */
-  loadList() {
-    
-    //this.obs$ =  this.service.load({ '_id': this._id ,'company': this.company });
-    /*this.obs$ = this.service.load({ '_id': this._id ,'company': this.company }).pipe(map(res => {
-      this.formData = res['data']
-      console.log(this.formData)
-      if (this._id && !this.formData[this.model]) {
-        this.toastr.error(this.msg.error.notFound);
-        this.router.navigate([this.config.redirect]);
-        return;
-      }
-      if (this.formData[this.model]) this.form.patchValue(this.formData[this.model])
-      this.onLoadContent.emit(this.formData);
-      return this.formData
-    }, (error) => {
-      this.toastr.error(this.msg.error.ups);
-      this.router.navigate([this.config.redirect]);
-      return;
-    }));*/
-  }
-
-  /**
    * Load the components with all the fields defined in the child components
    */
   loadForm() {
-    this.form = new FormBuilder().group(this.formInputs);
+    this.form = new FormBuilder().group(this.config.formInputs);
     this.onFormChanges();
   }
   /**
@@ -199,7 +164,10 @@ export class FormComponent {
    * Save data in the DataBase and attach an Observer when the data are stored
    */
   saveForm() {
-    return this.service.save(this.form.value).subscribe(this.submitObserver);
+    console.log(this.form.value);
+    this.services[this.config.service]
+      .save(this.form.value)
+      .subscribe(this.submitObserver);
   }
 
   /**
@@ -219,11 +187,35 @@ export class FormComponent {
       this.formChanged = true;
     });
   }
+
+  /**
+   * Get all the data from the DataBase using the Load function of the current service
+   */
+  /*loadList() {
+    //this.obs$ =  this.service.load({ '_id': this._id ,'company': this.company });
+    /*this.obs$ = this.service.load({ '_id': this._id ,'company': this.company }).pipe(map(res => {
+      this.formData = res['data']
+      console.log(this.formData)
+      if (this._id && !this.formData[this.model]) {
+        this.toastr.error(this.msg.error.notFound);
+        this.router.navigate([this.config.redirect]);
+        return;
+      }
+      if (this.formData[this.model]) this.form.patchValue(this.formData[this.model])
+      this.onLoadContent.emit(this.formData);
+      return this.formData
+    }, (error) => {
+      this.toastr.error(this.msg.error.ups);
+      this.router.navigate([this.config.redirect]);
+      return;
+    }));
+  }*/
   /**
    *
    * Group of Helpers
    *
    */
+  /*
   filter(el, id) {
     return this.common.getObjectByFilter(el, id);
   }
@@ -233,62 +225,7 @@ export class FormComponent {
   index(el, id) {
     return this.common.getIndexById(el, id);
   }
-
-  /**
-   *
-   * Autocomplete Functions
-   *
-   */
-
-  /**
-   *
-   * @param source List of the elements to find a match. Forexemple data from DB
-   * @param control Form field
-   * @param by Fields to be filtered
-   */
-  public loadAutocomplete(source: any[], control: FormControl, by: any) {
-    return control.valueChanges.pipe(
-      startWith(""),
-      map((value) =>
-        value
-          ? this._filterAutocompleteMultiple(source, value, by)
-          : source.slice()
-      )
-    );
-  }
-
-  /**
-   * Filter to transform the showed messages in the autocomplete
-   * @param source  List of the elements to find a match. Forexemple data from DB
-   * @param value Value type for the user in the field
-   * @param by Field to be filtered
-   */
-  private _filterAutocomplete(source: any[], value: string, by: string): any[] {
-    const filterValue = value.toLowerCase();
-    return source.filter((x) => x[by].toLowerCase().indexOf(filterValue) === 0);
-  }
-
-  /**
-   * Filter improved to accept multiples fields
-   * @param source  List of the elements to find a match. Forexemple data from DB
-   * @param value Value type for the user in the field
-   * @param filters Fields to be filtered
-   */
-  private _filterAutocompleteMultiple(
-    source: Array<any>,
-    value: string,
-    filters: Array<string>
-  ): Array<any> {
-    const filterValue = value.toLowerCase();
-    return source.filter((item) => {
-      var matches = false;
-      filters.forEach(function (valor) {
-        if (item[valor].toLowerCase().indexOf(filterValue) === 0)
-          matches = true;
-      });
-      return matches;
-    });
-  }
+*/
 
   /*setObject(object,el, reset?) {
     if (reset) return []

@@ -62,7 +62,7 @@
             matSort
           >
             <!-- Employee  Columns -->
-            <ng-container *ngIf="listType == 'employees'">
+            <ng-container *ngIf="config.service == 'employee'">
               <ng-container matColumnDef="employeeCode">
                 <th *matHeaderCellDef mat-sort-header>Employee Code</th>
                 <td *matCellDef="let element">{{ element.employeeCode }}</td>
@@ -95,16 +95,14 @@
               <th *matHeaderCellDef>Options</th>
               <td *matCellDef="let element">
                 <button
-                  *ngFor="let option of config.displayedOptions | keyvalue"
-                  [routerLink]="
-                    option.value.link ? [option.value.link + element._id] : []
-                  "
-                  class="btn btn-sm {{ option.value.class }}"
+                  *ngFor="let option of config.displayedOptions"
+                  [routerLink]="option.link ? [option.link + element._id] : []"
+                  class="btn btn-sm {{ option.class }}"
                   (click)="config._id = element._id"
-                  (click)="option.value.click == true && dangerModal.show()"
+                  (click)="option.click == true && dangerModal.show()"
                   href="#"
                 >
-                  <i class="{{ option.value.icon }}"></i>
+                  <i class="{{ option.icon }}"></i>
                 </button>
               </td>
             </ng-container>

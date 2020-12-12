@@ -1,13 +1,20 @@
-import { Component, ViewChildren } from "@angular/core";
-import { EmployeesComponent } from "../employees.component";
+import { Component } from "@angular/core";
+import { config } from "./_options";
+import { MatTableDataSource } from "@angular/material/table";
 
 @Component({
   selector: "employees-profile",
   templateUrl: "./employees-profile.component.html",
 })
-export class EmployeesProfileComponent extends EmployeesComponent {
+export class EmployeesProfileComponent {
+  private _config: any = {};
+  set config(obj) {
+    this._config = { ...this._config, ...obj };
+  }
+  get config() {
+    return this._config;
+  }
   loadComponent() {
-    super.loadComponent();
-    this.set("displayedColumns", ["status", "name"]);
+    this.config = config;
   }
 }

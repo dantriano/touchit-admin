@@ -1,20 +1,20 @@
-const displayedOptions = {
-  0: {
+const displayedOptions = [
+  {
     link: "/employees/profile/",
     class: "btn-primary",
     icon: "fa fa-eye",
   },
-  1: {
+  {
     link: "/employees/edit/",
     class: "btn-warning",
     icon: "fa fa-pencil",
   },
-  2: {
+  {
     class: "btn-danger",
     icon: "fa fa fa-trash-o",
     click: true,
   },
-};
+];
 const dropdownOptions = {
   0: {
     link: "/employees/edit",

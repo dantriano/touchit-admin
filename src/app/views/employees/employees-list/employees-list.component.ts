@@ -7,15 +7,13 @@ import { concat } from "rxjs";
 @Component({
   //selector: "list-columns",
   templateUrl: '../../../common/views/list.component.html',
-  inputs:['listType'],
 })
 export class EmployeesListComponent extends ListComponent implements OnInit {
-  public listType:string = 'employees';
   constructor(protected employeeService: EmployeeService) {
     super();
+    this.services = { employee: this.employeeService };
   }
   loadComponent() {
-    this.services = { employee: this.employeeService };
     this.config = config;
     this.dataTable = this.services.employee.employees;
   }

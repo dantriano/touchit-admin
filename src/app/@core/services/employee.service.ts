@@ -68,7 +68,6 @@ export class EmployeeService {
     return watch;
   }
   getList(input: any): Observable<any> {
-    console.log(1);
     const variables = { input: input };
     const query = gql`
       query employees($input: employeeInput) {
@@ -95,7 +94,6 @@ export class EmployeeService {
     return of(watch);
   }
   remove(id: string): Observable<any> {
-    console.log("borra");
     const variables = { id: id };
     const mutation = gql`
       mutation removeEmployee($id: ID!) {
