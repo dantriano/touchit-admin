@@ -5,7 +5,12 @@
     "outDir": "./dist/out-tsc",
     "baseUrl": "src",
     "paths": {
+      "@angular/*": ["../node_modules/@angular/*"],
+      "@common/*": ["app/common/*"],
       "@views/*": ["app/views/*"],
+      "@models/*": ["app/@core/models/*"],
+      "@services/*": ["app/@core/services/*"],
+      "@utils/*": ["app/@core/utils/*"]
     },
     "sourceMap": true,
     "declaration": false,
