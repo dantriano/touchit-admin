@@ -1,30 +1,27 @@
-import { OnInit } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { MatTableDataSource } from "@angular/material/table";
 import { ToastrService } from "ngx-toastr";
 import { concat, Observable, of, Subscription } from "rxjs";
 import { AuthenticationService } from "app/@core/utils";
 import { AppInjector } from "app/app.module";
-
+@Component({
+  templateUrl: "views/list.component.html",
+})
 export class ListComponent implements OnInit {
   loadComponent() {}
   protected dataSource = new MatTableDataSource<any>();
   protected dataTable: Observable<any>;
   protected obs$: Observable<any>;
-  protected _id: string;
+  protected _id: string = null;
   protected subscription: Subscription[] = [];
-  protected service: any;
-  protected model: string;
-  protected company: string = null;
+  protected services: any;
   protected toastrService: ToastrService;
   protected authService: AuthenticationService;
-  protected observers;
-  protected services: any;
-  protected displayedColumns: string[] = [];
-  protected displayedOptions;
 
   private _config: any = {
     redirect: "settings",
     uiName: "Element",
+    company: null,
   };
   set config(obj) {
     this._config = { ...this._config, ...obj };
@@ -35,6 +32,7 @@ export class ListComponent implements OnInit {
   constructor() {
     this.toastrService = AppInjector.get(ToastrService);
     this.authService = AppInjector.get(AuthenticationService);
+    this.config = { company: this.authService.company._id };
   }
   fillTable: any = {
     next: (x) => {
@@ -48,18 +46,17 @@ export class ListComponent implements OnInit {
     },
   };
 
-  set(attr: string, service: any) {
+  /*set(attr: string, service: any) {
     this[attr] = service;
   }
   get(attr: string) {
     return this[attr];
-  }
+  }*/
 
   /**
    *  Execution on Page Load
    */
   ngOnInit() {
-    this.company = this.authService.company._id;
     this.loadComponent();
     this.obs$ = this.loadContent();
     this.subscription.push(this.obs$.subscribe(this.onContentLoad));
@@ -87,9 +84,10 @@ export class ListComponent implements OnInit {
    */
   confirmDelete() {
     concat(
-      of(this.services[this.config.service].remove(this._id)),
+      of(this.services[this.config.service].remove(this.config._id)),
       of(this.loadContent())
     );
+    this.config._id=null
   }
   /**
    * Filters by string any row
