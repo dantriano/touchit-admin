@@ -6,9 +6,9 @@ services:
     image: node:10
     container_name: node_${PROJECT_NAME}
     working_dir: /app
-    #command: sh -c "npm install && npm run dev"
+    command: sh -c "npm install && npm run dev"
     #Node with command:
-    command: tail -F anything
+    #command: tail -F anything
     #First Install:
     #command: sh -c "npm install && npm install -g migrate-mongo && npm run dev"
     restart: unless-stopped

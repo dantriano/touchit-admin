@@ -1,50 +1,52 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { OnInit } from "@angular/core";
 import { MatTableDataSource } from "@angular/material/table";
-import { MatPaginator } from "@angular/material/paginator";
-import { MatSort } from "@angular/material/sort";
 import { ToastrService } from "ngx-toastr";
-import { ModalDirective } from "ngx-bootstrap/modal";
-import { BehaviorSubject, Observable, Subject, Subscription } from "rxjs";
+import { concat, Observable, of, Subscription } from "rxjs";
 import { AuthenticationService } from "app/@core/utils";
 import { AppInjector } from "app/app.module";
 
 export class ListComponent implements OnInit {
+  loadComponent() {}
   protected dataSource = new MatTableDataSource<any>();
+  protected dataTable: Observable<any>;
+  protected obs$: Observable<any>;
   protected _id: string;
-  protected subscription: Subscription;
+  protected subscription: Subscription[] = [];
   protected service: any;
   protected model: string;
   protected company: string = null;
-  protected private: any;
-  protected obs$: Observable<any>;
-  protected toastr: ToastrService;
+  protected toastrService: ToastrService;
   protected authService: AuthenticationService;
-  protected listData:Subject<any>= new Subject<any>();
+  protected observers;
+  protected services: any;
+  protected displayedColumns: string[] = [];
+  protected displayedOptions;
 
-  protected fillTable: any = {
+  private _config: any = {
+    redirect: "settings",
+    uiName: "Element",
+  };
+  set config(obj) {
+    this._config = { ...this._config, ...obj };
+  }
+  get config() {
+    return this._config;
+  }
+  constructor() {
+    this.toastrService = AppInjector.get(ToastrService);
+    this.authService = AppInjector.get(AuthenticationService);
+  }
+  fillTable: any = {
     next: (x) => {
       this.dataSource.data = x || [];
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
       return;
     },
-    error: (err) => {
-      return;
-    },
-    complete: (x) => console.log("Observer got a complete notification"),
   };
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
-  @ViewChild("dangerModal") public dangerModal: ModalDirective;
-
-  constructor(
-    public toastr2: ToastrService,
-    public authService2: AuthenticationService
-  ) {
-    this.toastr = AppInjector.get(ToastrService);
-    this.authService = AppInjector.get(AuthenticationService);
-    this.company = this.authService.company._id;
-  }
+  onContentLoad = {
+    next: (x) => {
+      return;
+    },
+  };
 
   set(attr: string, service: any) {
     this[attr] = service;
@@ -57,28 +59,37 @@ export class ListComponent implements OnInit {
    *  Execution on Page Load
    */
   ngOnInit() {
+    this.company = this.authService.company._id;
     this.loadComponent();
-    this.listData.subscribe(this.fillTable);
+    this.obs$ = this.loadContent();
+    this.subscription.push(this.obs$.subscribe(this.onContentLoad));
+    this.subscription.push(this.dataTable.subscribe(this.fillTable));
   }
   /**
    * First Function to be executed. Used to load all configurations in the components
    * Destroy suscription when page change
    */
-  loadComponent() {}
+  loadContent(): Observable<any> {
+    return new Observable();
+  }
+
+  /**
+   * Destroys all subscriptions to avoid memory leak
+   */
   ngOnDestroy() {
-    this.subscription?.unsubscribe();
+    this.subscription.forEach((element) => {
+      element?.unsubscribe();
+    });
   }
 
   /**
    * Alert before remove from DB
    */
   confirmDelete() {
-    this.service.remove(this._id).subscribe((data) => {
-      this.dataSource.data = this.dataSource.data.filter(
-        (item) => item._id != this._id
-      );
-      this.toastr.success("Group deleted");
-    });
+    concat(
+      of(this.services[this.config.service].remove(this._id)),
+      of(this.loadContent())
+    );
   }
   /**
    * Filters by string any row

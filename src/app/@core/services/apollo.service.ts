@@ -1,21 +1,25 @@
 import { Injectable } from "@angular/core";
 import { Apollo } from "apollo-angular";
-import { map } from 'rxjs/operators';
+import { first, map } from "rxjs/operators";
+import { Observable } from "rxjs";
 
 @Injectable({ providedIn: "root" })
 export class ApolloService extends Apollo {
-
-  public watch(query, variables) {
+  watch(query, variables): Observable<any> {
     return this.watchQuery<any>({
       query: query,
       variables: variables,
       fetchPolicy: "network-only",
-    }).valueChanges.pipe(map(query => query.data));
+    })
+      .valueChanges.pipe(first())
+      .pipe(map((query) => query.data));
   }
-  public mutation(mutation,variables){
+  mutation(mutation, variables): Observable<any> {
     return this.mutate<any>({
       mutation: mutation,
       variables: variables,
-    }).pipe(map(query => query));
+    })
+      .pipe(first())
+      .pipe(map((query) => query));
   }
 }

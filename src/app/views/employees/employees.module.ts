@@ -11,7 +11,7 @@ import {
 
 import { EmployeesListComponent } from "./employees-list/employees-list.component";
 import { EmployeesCalendarComponent } from "./employees-calendar/employees-calendar.component";
-import { EmployeesFormComponent } from "./employees-form/employees-form.component";
+//import { EmployeesFormComponent } from "./employees-form/employees-form.component";
 import { MatTableModule } from "@angular/material/table";
 import { MatPaginatorModule } from "@angular/material/paginator";
 import { MatSortModule } from "@angular/material/sort";
@@ -39,7 +39,7 @@ import { FormsModule } from "@angular/forms";
   declarations: [
     ...routedComponents,
     EmployeesCalendarComponent,
-    EmployeesFormComponent,
+    //EmployeesFormComponent,
   ],
 })
 export class EmployeesModule {}

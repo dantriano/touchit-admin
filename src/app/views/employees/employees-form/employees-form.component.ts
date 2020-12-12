@@ -38,7 +38,7 @@ export class EmployeesFormComponent extends FormComponent {
     this.config = {
       redirect: "employees",
       uiName: "Employees",
-    };
+    }
     this.set("customOptions", [
       { value: "on", label: "btn btn-success", span: "fa fa-check" },
       { value: "default", label: "btn btn-secondary", span: "fa fa-circle-o" },
@@ -89,7 +89,7 @@ export class EmployeesFormComponent extends FormComponent {
   }
   ngOnDestroy() {
     this.subscription$.unsubscribe();
-    this.employeeService.set(null);
+    //this.employeeService.set(null);
   }
   /**
    * Change the service option for the current user: on, off, default

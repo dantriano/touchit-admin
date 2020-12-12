@@ -1,33 +1,28 @@
 import { Component, OnInit } from "@angular/core";
-import { ToastrService } from "ngx-toastr";
 import { ListComponent } from "app/common/list.component";
-import { AuthenticationService } from "app/@core/utils";
 import { EmployeeService } from "app/@core/services";
-import { Observable, Subject } from 'rxjs';
-import { Employee } from 'app/@core/models';
+import { displayedColumns, listOptions, config } from "./_options";
+import { concat, merge } from "rxjs";
 
 @Component({
-  selector: "employees-list",
-  templateUrl: "./employees-list.component.html",
+  //selector: "employees-list",
+  templateUrl: "../../../views/common/list.component.html",
+  //templateUrl: "@views/common/list.component.html",
 })
 export class EmployeesListComponent extends ListComponent implements OnInit {
-  private employees:Observable<Employee[]>
-  constructor(private employeeService: EmployeeService) {
-    super(null, null);
+  constructor(protected employeeService: EmployeeService) {
+    super();
   }
-  public loadComponent() {
-    const input = {'company':this.company}
-    this.service = this.employeeService;
-
-    this.employees=this.employeeService.employees;
-    this.employeeService.getList(input)
-    this.employees.subscribe(x=>this.listData.next(x));
-    this.set("displayedColumns", [
-      /*'avatar', 'employeeId',/* 'employeeCode'*/
-      "firstName",
-      "lastName",
-      "groups",
-      "options",
-    ]);
+  loadComponent() {
+    this.services = { employee: this.employeeService };
+    this.config = config;
+    this.displayedColumns = displayedColumns;
+    this.displayedOptions = listOptions;
+    this.dataTable = this.services.employee.employees;
+  }
+  loadContent(){
+    return concat(
+      this.services.employee.getList({ company: this.company }),
+    );
   }
 }

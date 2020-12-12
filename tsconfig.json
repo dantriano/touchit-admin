@@ -4,6 +4,9 @@
     "importHelpers": true,
     "outDir": "./dist/out-tsc",
     "baseUrl": "src",
+    "paths": {
+      "@views/*": ["app/views/*"],
+    },
     "sourceMap": true,
     "declaration": false,
     "moduleResolution": "node",

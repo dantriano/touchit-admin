@@ -3,9 +3,6 @@ import { ApolloService } from "./apollo.service";
 import gql from "graphql-tag";
 import { Observable, BehaviorSubject, of } from "rxjs";
 import { Employee } from "../models/employee.model";
-import { ActivityService } from "./activity.service";
-import { ConfigurationService } from "./configuration.service";
-import { GroupService } from "./group.service";
 
 @Injectable({ providedIn: "root" })
 export class EmployeeService {
@@ -19,41 +16,30 @@ export class EmployeeService {
   get employees(): Observable<Employee[]> {
     return this.subjectList.asObservable();
   }
-  set(user: Employee) {
-    this.subject.next(user);
-  }
-  setAll(user: Employee[]) {
-    this.subjectList.next(user);
-  }
-  /*get(): Employee {
-    return this.subject.getValue();
-  }
-  getAll(): Employee[] {
-    return this.subjectList.getValue();
-  }*/
-  public getFragment=gql`
-      fragment employeeFragment on Employee {
-        __typename
-        _id
-        email
-        firstName
-        lastName
-        groups
-        _groups {
-          name
-          activities
-        }
-        options
-        mainActivity
-        customActivities {
-          _id
-          status
-        }
-        linkCode
-        isLinked
+
+  public getFragment = gql`
+    fragment employeeFragment on Employee {
+      __typename
+      _id
+      email
+      firstName
+      lastName
+      groups
+      _groups {
+        name
+        activities
       }
-    `;
-  
+      options
+      mainActivity
+      customActivities {
+        _id
+        status
+      }
+      linkCode
+      isLinked
+    }
+  `;
+
   generateCode() {
     var length = 4;
     var result = "";
@@ -75,13 +61,14 @@ export class EmployeeService {
       }
       ${this.getFragment}
     `;
-    const watch = this.apollo.watch(query, variables).subscribe((data) => {
-      this.set(new Employee().deserialize(data.employee));
+    const watch = this.apollo.watch(query, variables);
+    watch.subscribe((data) => {
+      this.subject.next(new Employee().deserialize(data.employee));
     });
-
-    return of(watch);
+    return watch;
   }
   getList(input: any): Observable<any> {
+    console.log(1);
     const variables = { input: input };
     const query = gql`
       query employees($input: employeeInput) {
@@ -91,10 +78,31 @@ export class EmployeeService {
       }
       ${this.getFragment}
     `;
-    const watch = this.apollo.watch(query, variables).subscribe((data) => {
-      const result = data.employees.map((x) => new Employee().deserialize(x));
-      this.setAll(result);
+    const watch = this.apollo.watch(query, variables);
+    watch.subscribe((data) => {
+      this.subjectList.next(data.employees.map((x) => new Employee().deserialize(x)));
     });
+    return watch;
+  }
+  save(input: any): Observable<any> {
+    const variables = { input: input };
+    const mutation = gql`
+      mutation saveEmplyee($input: employeeInput!) {
+        saveEmployee(input: $input)
+      }
+    `;
+    const watch = this.apollo.mutation(mutation, variables).subscribe();
+    return of(watch);
+  }
+  remove(id: string): Observable<any> {
+    console.log("borra");
+    const variables = { id: id };
+    const mutation = gql`
+      mutation removeEmployee($id: ID!) {
+        removeEmployee(_id: $id)
+      }
+    `;
+    const watch = this.apollo.mutation(mutation, variables).subscribe();
     return of(watch);
   }
   /*load(input: any): Observable<any> {
@@ -147,22 +155,4 @@ export class EmployeeService {
     });
     return of(watch);
   }*/
-  save(input: any) {
-    const variables = { input: input };
-    const mutation = gql`
-      mutation saveEmplyee($input: employeeInput!) {
-        saveEmployee(input: $input)
-      }
-    `;
-    return this.apollo.mutation(mutation, variables);
-  }
-  remove(id: string) {
-    const variables = { id: id };
-    const mutation = gql`
-      mutation removeEmployee($id: ID!) {
-        removeEmployee(_id: $id)
-      }
-    `;
-    return this.apollo.mutation(mutation, variables);
-  }
 }
