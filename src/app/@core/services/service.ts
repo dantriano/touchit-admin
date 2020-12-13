@@ -14,15 +14,15 @@ export class Service {
   protected toModel;
 
   get getOneObs(): Observable<any> {
-    return this.subject.asObservable(); //.pipe(x=>this.toModel(x));
+    return this.subject.asObservable();
   }
   get getListObs(): Observable<any[]> {
     return this.subjectList.asObservable();
   }
-  get getOne() {
+  get getOne(): any {
     return this.toModel(this.subject.getValue());
   }
-  get getList() {
+  get getList(): any[] {
     return this.subjectList.getValue().map((x) => this.toModel(x));
   }
 
@@ -63,7 +63,7 @@ export class Service {
     return of(watch);
   }
   remove(input: any): Observable<any> {
-    const variables = { input: input };    
+    const variables = { input: input };
     const mutation = gql`
       ${this.removeQuery}
     `;

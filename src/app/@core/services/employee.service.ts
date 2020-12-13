@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
 import { ApolloService } from "./apollo.service";
 import gql from "graphql-tag";
-import { Observable, BehaviorSubject, of } from "rxjs";
 import { Employee } from "../models/employee.model";
 import { Service } from "./service";
 

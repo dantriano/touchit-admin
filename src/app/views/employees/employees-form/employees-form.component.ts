@@ -43,9 +43,9 @@ export class EmployeesFormComponent extends FormComponent {
    */
   loadComponent() {
     this.config = config;
-    this.employee = this.services.employee.employee;
-    this.activities = this.services.activity.activities;
-    this.groups = this.services.group.groups;
+    this.employee = this.services.employee.getOneObs;
+    this.activities = this.services.activity.getListObs;
+    this.groups = this.services.group.getListObs;
 
     this.config.formInputs = {
       _id: [""],
@@ -76,15 +76,15 @@ export class EmployeesFormComponent extends FormComponent {
   loadContent() {
     return concat(
       super.loadContent(),
-      this.services.activity.getList({ company: this.config.company }),
-      this.services.group.getList({ company: this.config.company })
+      this.services.activity.loadList({ company: this.config.company }),
+      this.services.group.loadList({ company: this.config.company })
     );
   }
   /**
    * Generate a new random Code
    */
   makeCode() {
-    //return this.service.generateCode();
+    return this.services.employee.generateCode();
   }
   /**
    * Change the service option for the current user: on, off, default
