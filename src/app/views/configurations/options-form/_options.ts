@@ -3,7 +3,8 @@ const customOptions = [
   { value: "default", label: "btn btn-secondary", span: "fa fa-circle-o" },
   { value: "off", label: "btn btn-danger", span: "fa fa-close" },
 ];
-export const config = {
+export const config = {  
+  _id: null,
   redirect: "configurations",
   uiName: "Configurations",
   service: "configuration",

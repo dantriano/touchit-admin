@@ -4,7 +4,8 @@ const customOptions = [
   { value: "off", label: "btn btn-danger", span: "fa fa-close" },
 ];
 const displayedColumns = ["status", "name", "options"];
-export const config = {
+export const config = {  
+  _id: null,
   redirect: "employees",
   uiName: "Employees",
   service: "employee",

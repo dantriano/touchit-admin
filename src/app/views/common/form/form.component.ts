@@ -169,7 +169,7 @@ export class FormComponent {
    * Action when the user submit a form
    */
   onSubmit() {
-    //if (this.submitted || !this.form.valid) return;
+    if (this.submitted || !this.form.valid) return;
     this.submitted = true;
     this.saveForm();
   }

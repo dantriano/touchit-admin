@@ -86,6 +86,7 @@ const routes: Routes = [
           },
         ],
       },
+      */
       {
         path: "groups",
         children: [
@@ -116,7 +117,7 @@ const routes: Routes = [
             },
           },
         ],
-      },*/
+      },
     ],
   },
 ];

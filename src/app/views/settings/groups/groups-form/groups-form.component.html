@@ -81,16 +81,16 @@
       <div class="col-lg-6">
         <div class="card">
           <div class="card-header">
-            <i class="fa fa-calendar"></i> Select allowed services for this
+            <i class="fa fa-calendar"></i> Select allowed activities for this
             group
           </div>
           <div class="card-body">
             <perfect-scrollbar class="scroll-area-sm" [config]="config">
               <div class="list-group">
                 <mat-nav-list>
-                  <mat-selection-list #activities formControlName="activities">
+                  <mat-selection-list formControlName="activities">
                     <mat-list-option
-                      *ngFor="let option of data.activities"
+                      *ngFor="let option of activities | async"
                       [value]="option._id"
                     >
                       <span>{{ option.name }}</span>

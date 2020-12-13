@@ -1,36 +1,51 @@
 import { Component } from "@angular/core";
-import { Router, ActivatedRoute } from "@angular/router";
-import { ToastrService } from "ngx-toastr";
+import { ActivatedRoute } from "@angular/router";
 import { FormComponent } from "@views/common/form/form.component";
-import { AuthenticationService } from "app/@core/utils";
-import { GroupService } from "app/@core/services";
+import { Observable, concat } from "rxjs";
+import { config } from "./_options";
+import { ActivityService, GroupService } from "app/@core/services";
 
 @Component({
   selector: "groups-form",
   templateUrl: "./groups-form.component.html",
 })
 export class GroupsFormComponent extends FormComponent {
-  protected model: string = "group";
+  public group: Observable<any>;
+  public activities: Observable<any>;
   constructor(
-    public service: GroupService,
-    public route: ActivatedRoute,
-    public router: Router,
-    public toastr: ToastrService,
-    public authService: AuthenticationService
+    public activatedRoute: ActivatedRoute,
+    public groupService: GroupService,
+    public activityService: ActivityService
   ) {
-    super(route, router, toastr);
+    super(activatedRoute);
+    this.services = {
+      group: this.groupService,
+      activity: this.activityService,
+    };
   }
-  public loadComponent() {
-    this.company = this.authService.company._id;
-    this.config = { redirect: "settings", uiName: "Groups" };
-    this.set("formInputs", {
+  /**
+   * Load the component elements and configuration
+   */
+  loadComponent() {
+    this.config = config;
+    this.group = this.services.group.getOneObs;
+    this.activities = this.services.activity.getListObs;
+
+    this.config.formInputs = {
       _id: [""],
       //name: ['', [validators.required],[validators.valueExist()]],
       name: ["", [this.validators.required]],
-      company: [this.company],
+      company: [this.config.company],
       main: [""],
       activities: [[]],
       options: [[]],
-    });
+    };
+  }
+
+  loadContent() {
+    return concat(
+      super.loadContent(),
+      this.services.activity.loadList({ company: this.config.company })
+    );
   }
 }

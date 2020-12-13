@@ -1,10 +1,9 @@
-import { Component, ViewChildren } from "@angular/core";
+import { Component } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { FormComponent } from "@views/common/form/form.component";
 import { Observable, concat } from "rxjs";
 import { config } from "./_options";
 import { ActivityService, LocationService } from "app/@core/services";
-import { FormControl } from "@angular/forms";
 
 @Component({
   selector: "activites-form",
@@ -16,10 +15,6 @@ import { FormControl } from "@angular/forms";
 export class ActivitiesFormComponent extends FormComponent {
   public activity: Observable<any>;
   public locations: Observable<any>;
-
-  @ViewChildren("customSelected") cs;
-  protected employeeName: FormControl = new FormControl();
-
   constructor(
     public activatedRoute: ActivatedRoute,
     public activityService: ActivityService,
