@@ -13,7 +13,7 @@ export class AuthenticationService {
       this.setAuth(JSON.parse(localStorage.getItem("currentUser")));
     }
     if (!this.isAuthenticated) {
-      this.userService.user.subscribe(
+      this.userService.getOneObs.subscribe(
         (user) => {
           if (user) {
             this.setAuth(user);
@@ -50,16 +50,20 @@ export class AuthenticationService {
     return JSON.parse(localStorage.getItem("currentCompany"));
   }
   getUser() {
-    return this.userService.get();
+    return this.userService.getOneObs;
   }
   setAuth(user: User) {
     this.user = user;
-    this.company = this.company?this.company:user._company.length > 0 ? user._company[0] : null;
+    this.company = this.company
+      ? this.company
+      : user._company.length > 0
+      ? user._company[0]
+      : null;
     this.currentUserSubject.next(user);
     this.isAuthenticated = true;
   }
   attemptAuth(credentials) {
-    this.userService.login({
+    this.userService.getOne({
       email: credentials.username,
       password: credentials.password,
     });
