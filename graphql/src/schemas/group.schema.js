@@ -24,7 +24,7 @@ const groupSchema= gql`
   }
   extend type Mutation {
     saveGroup(input:groupInput!): Boolean
-    removeGroup(_id: ID!): Boolean
+    removeGroup(input:groupInput!): Boolean
   }
 
   extend type Group {

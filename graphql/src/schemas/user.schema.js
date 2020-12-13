@@ -32,6 +32,7 @@ const userSchema=gql`
   }
   extend type Mutation {
     saveUser(input:userInput!): Boolean
+    removeUser(input:userInput!): Boolean
   }
 `;
 export default userSchema;

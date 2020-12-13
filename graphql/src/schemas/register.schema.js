@@ -34,7 +34,7 @@ const registerSchema= gql`
   }
   extend type Mutation {
     saveRegister(input:registerInput!): Boolean
-    removeRegister(_id: ID!): Boolean
+    removeRegister(input:registerInput!): Boolean
   }
 `;
 export default registerSchema;

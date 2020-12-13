@@ -1,6 +1,7 @@
 import { AuthenticationError } from "apollo-server";
 import * as utils from "./utils";
 
+let status;
 export default {
   Query: {
     employee: async (
@@ -45,12 +46,13 @@ export default {
       if (!me) throw new AuthenticationError("You are not authenticated");
       if (input._id) {
         input._id = utils.objectId(input._id);
-        let status = await employeeModel.updateOne({ _id: input._id }, input);
+        status = await employeeModel.updateOne({ _id: input._id }, input);
+        return status.ok && status.nModified > 0;
       } else {
         input._id = utils.objectId();
-        let result = await employeeModel.create(input);
+        status = await employeeModel.create(input);
+        return status !== undefined;
       }
-      return true;
     },
     removeEmployee: async (
       parent,
@@ -61,12 +63,11 @@ export default {
       if (!me) throw new AuthenticationError("You are not authenticated");
       if (input._id) {
         input._id = utils.objectId(input._id);
-        const status = await employeeModel.deleteOne({ _id: input._id });
-        console.log(status)
+        status = await employeeModel.deleteOne({ _id: input._id });
       } else if (input) {
-        const status = await employeeModel.delete(input);
+        status = await employeeModel.delete(input);
       }
-      return true;
+      return status.ok && status.deletedCount > 0;
     },
   },
 

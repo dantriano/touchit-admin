@@ -18,7 +18,7 @@ const companySchema = gql`
   }
   extend type Mutation {
     saveCompany(input: companyInput!): Boolean
-    removeCompany(_id: ID!): Boolean
+    removeCompany(input: companyInput!): Boolean
   }
 `;
 export default companySchema;

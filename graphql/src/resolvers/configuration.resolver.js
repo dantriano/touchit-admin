@@ -16,7 +16,7 @@ export default {
     },
     configurations: async (
       parent,
-      { input,value },
+      { input, value },
       { models: { configurationModel }, me },
       info
     ) => {

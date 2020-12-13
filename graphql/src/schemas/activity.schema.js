@@ -32,7 +32,7 @@ const activitySchema = gql`
   }
   extend type Mutation {
     saveActivity(input:activityInput!): Boolean
-    removeActivity(_id: ID!): Boolean
+    removeActivity(input:activityInput!): Boolean
   }
 
 `;
