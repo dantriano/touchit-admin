@@ -15,7 +15,7 @@ export class LocationService extends Service {
   }
   toModel = this.converToModel;
   saveQuery = gql`
-    mutation saveLocation($input: locationInput) {
+    mutation saveLocation($input: locationInput!) {
       saveLocation(input: $input)
     }
   `;

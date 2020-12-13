@@ -55,7 +55,7 @@ const routes: Routes = [
           },
         ],
       },
-      /*{
+      {
         path: "locations",
         children: [
           {
@@ -86,7 +86,7 @@ const routes: Routes = [
           },
         ],
       },
-      */
+
       {
         path: "groups",
         children: [

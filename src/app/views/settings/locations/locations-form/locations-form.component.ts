@@ -1,8 +1,8 @@
 import { Component } from "@angular/core";
-import { Router, ActivatedRoute } from "@angular/router";
-import { ToastrService } from "ngx-toastr";
+import { ActivatedRoute } from "@angular/router";
 import { FormComponent } from "@views/common/form/form.component";
-import { AuthenticationService } from "app/@core/utils";
+import { Observable, concat } from "rxjs";
+import { config } from "./_options";
 import { LocationService } from "app/@core/services";
 
 declare const google: any;
@@ -11,28 +11,35 @@ declare const google: any;
   templateUrl: "./locations-form.component.html",
 })
 export class LocationsFormComponent extends FormComponent {
-  zones = [];
-  protected model: string = "location";
+  public location: Observable<any>;
   constructor(
-    public service: LocationService,
-    public route: ActivatedRoute,
-    public router: Router,
-    public toastr: ToastrService,
-    public authService: AuthenticationService
+    public activatedRoute: ActivatedRoute,
+    public locationService: LocationService
   ) {
-    super(route, router, toastr);
+    super(activatedRoute);
+    this.services = {
+      location: this.locationService,
+    };
   }
-  public loadComponent() {
-    this.company = this.authService.company._id;
-    this.config = { redirect: "settings", uiName: "Location" };
-    this.set("formInputs", {
+  /**
+   * Load the component elements and configuration
+   */
+  loadComponent() {
+    this.config = config;
+    this.location = this.services.location.getOneObs;
+
+    this.config.formInputs = {
       _id: [null],
       //name: [null, [this.validators.required],[this.validators.valueExist()]],
       name: [null, [this.validators.required]],
       zones: [[], [this.validators.required]],
-      company: [this.company],
+      company: [this.config.company],
       //options: [[]]
-    });
+    };
+  }
+
+  loadContent() {
+    return concat(super.loadContent());
   }
   onMapReady(map) {
     super.onMapReady(map);
