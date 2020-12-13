@@ -4,10 +4,12 @@ import { Routes, RouterModule } from "@angular/router";
 import { EmployeesListComponent } from "./employees-list/employees-list.component";
 import { EmployeesProfileComponent } from "./employees-profile/employees-profile.component";
 import { EmployeesFormComponent } from "./employees-form/employees-form.component";
+import { ListViewComponent } from "@common/views/list.component";
 
 const routes: Routes = [
   {
     path: "",
+    //component: ListViewComponent,
     children: [
       {
         path: "",
@@ -16,7 +18,7 @@ const routes: Routes = [
           title: "",
         },
       },
-      {
+      /*{
         path: "edit",
         data: {
           title: "Edit",
@@ -42,7 +44,7 @@ const routes: Routes = [
           title: "View Profile",
         },
         component: EmployeesProfileComponent,
-      },
+      },*/
     ],
     /*data: {
     breadcrumbs: true,
@@ -58,6 +60,7 @@ const routes: Routes = [
 export class TablesRoutingModule {}
 
 export const routedComponents = [
+  ListViewComponent,
   EmployeesListComponent,
   EmployeesProfileComponent,
   EmployeesFormComponent,

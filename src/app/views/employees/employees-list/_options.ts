@@ -12,7 +12,7 @@ const displayedOptions = [
   {
     class: "btn-danger",
     icon: "fa fa fa-trash-o",
-    click: true,
+    delete: "true",
   },
 ];
 const dropdownOptions = {

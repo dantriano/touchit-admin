@@ -49,6 +49,7 @@ export class Service {
     const watch = this.apollo.watch(query, variables);
     watch.subscribe((data) => {
       const list: any = Object.values(data)[0];
+      console.log(list)
       this.subjectList.next(list.map((x) => this.toModel(x)));
     });
     return watch;

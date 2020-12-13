@@ -6,6 +6,7 @@ import { Service } from "./service";
 
 @Injectable({ providedIn: "root" })
 export class GroupService extends Service {
+  fragment=GroupService.fragment
   constructor(protected apollo: ApolloService) {
     super(apollo);
   }
@@ -37,7 +38,7 @@ export class GroupService extends Service {
       }
     }
   `;
-  fragment = gql`
+  static fragment = gql`
     fragment groupFragment on Group {
       __typename
       _id

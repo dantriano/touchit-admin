@@ -61,7 +61,7 @@ export const routes: Routes = [
         (m) => m.EmployeesModule
       ),
   },
-  /*{
+  {
     path: "registers",
     component: DefaultLayoutComponent,
     data: {
@@ -72,7 +72,7 @@ export const routes: Routes = [
         (m) => m.RegistersModule
       ),
   },
-  {
+  /*{
     path: "settings",
     component: DefaultLayoutComponent,
     data: {

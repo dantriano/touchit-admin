@@ -3,13 +3,16 @@ import { ApolloService } from "./apollo.service";
 import gql from "graphql-tag";
 import { Employee } from "../models/employee.model";
 import { Service } from "./service";
+import { GroupService } from "./group.service";
 
 @Injectable({ providedIn: "root" })
 export class EmployeeService extends Service {
+  fragment = EmployeeService.fragment;
   constructor(protected apollo: ApolloService) {
     super(apollo);
   }
   converToModel(x) {
+    console.log(new Employee().deserialize(x));
     return new Employee().deserialize(x);
   }
   toModel = this.converToModel;
@@ -37,7 +40,7 @@ export class EmployeeService extends Service {
       }
     }
   `;
-  fragment = gql`
+  static fragment = gql`
     fragment employeeFragment on Employee {
       __typename
       _id
@@ -46,8 +49,7 @@ export class EmployeeService extends Service {
       lastName
       groups
       _groups {
-        name
-        activities
+        ...groupFragment
       }
       options
       mainActivity
@@ -58,8 +60,8 @@ export class EmployeeService extends Service {
       linkCode
       isLinked
     }
+    ${GroupService.fragment}
   `;
-
   generateCode() {
     var length = 4;
     var result = "";

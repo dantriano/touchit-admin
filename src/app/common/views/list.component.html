@@ -3,7 +3,7 @@
     <div class="col-lg-12">
       <div class="card">
         <div class="card-header">
-          <i class="fa fa-users"></i> {{ config.uiName }}
+          <i class="fa fa-users"></i> {{ config?.uiName }}
           <div class="card-header-actions">
             <div class="btn-group" dropdown>
               <button
@@ -54,6 +54,7 @@
               </div>
             </div>
           </div>
+          <app-test></app-test>
           <table
             *ngIf="obs$ | async; else loading"
             mat-table
@@ -90,6 +91,35 @@
               </ng-container>
             </ng-container>
 
+            <!-- Register  Columns -->
+            <ng-container *ngIf="config.service == 'register'">
+              <ng-container matColumnDef="employee">
+                <th *matHeaderCellDef mat-sort-header>Employee</th>
+                <td *matCellDef="let element">
+                  {{ element._employee?.lastName }},
+                  {{ element._employee?.firstName }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="activity">
+                <th *matHeaderCellDef mat-sort-header>Activity</th>
+                <td *matCellDef="let element">{{ element._activity?.name }}</td>
+              </ng-container>
+              <ng-container matColumnDef="time">
+                <th *matHeaderCellDef>Time</th>
+                <td *matCellDef="let element">
+                  {{ element.start }}-{{ element.end }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="delay">
+                <th *matHeaderCellDef>Delay</th>
+                <td *matCellDef="let element">{{ element.delay / 60 }} min</td>
+              </ng-container>
+              <ng-container matColumnDef="position">
+                <th *matHeaderCellDef>Position</th>
+                <td *matCellDef="let element">{{ element.inPosition }}</td>
+              </ng-container>
+            </ng-container>
+
             <!-- Buttons Column -->
             <ng-container matColumnDef="options">
               <th *matHeaderCellDef>Options</th>
@@ -99,7 +129,7 @@
                   [routerLink]="option.link ? [option.link + element._id] : []"
                   class="btn btn-sm {{ option.class }}"
                   (click)="config._id = element._id"
-                  (click)="option.click == true && dangerModal.show()"
+                  (click)="option.delete && dangerModal.show()"
                   href="#"
                 >
                   <i class="{{ option.icon }}"></i>
