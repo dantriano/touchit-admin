@@ -7,7 +7,6 @@ import { find } from "@utils/commons.service";
     "<lib-breadcrumbs></lib-breadcrumbs><router-outlet></router-outlet>",
 })
 export class RegistersComponent {
-  
   static getCustomStatus(id, userCustomActivities, userGroups, companyGroups) {
     var customStatus = find(userCustomActivities, id).status || "default";
     var activitiesByGroup = false;

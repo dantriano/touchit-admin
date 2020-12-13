@@ -81,7 +81,7 @@ export const routes: Routes = [
     loadChildren: () =>
       import("./views/settings/settings.module").then((m) => m.SettingsModule),
   },
-  /*{
+  {
     path: "configurations",
     component: DefaultLayoutComponent,
     data: {
@@ -91,7 +91,7 @@ export const routes: Routes = [
       import("./views/configurations/configurations.module").then(
         (m) => m.ConfigurationsModule
       ),
-  },*/
+  },
   {
     path: "",
     component: DefaultLayoutComponent,

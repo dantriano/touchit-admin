@@ -33,6 +33,7 @@ export class ListComponent implements OnInit {
     this.toastrService = AppInjector.get(ToastrService);
     this.authService = AppInjector.get(AuthenticationService);
     this.config = { company: this.authService.company._id };
+    this.config.query = { company: this.config.company };
   }
   fillTable: any = {
     next: (x) => {
@@ -72,9 +73,7 @@ export class ListComponent implements OnInit {
    */
   loadContent(): Observable<any> {
     return concat(
-      this.services[this.config.service].loadList({
-        company: this.config.company,
-      })
+      this.services[this.config.service].loadList(this.config.query)
     );
   }
 

@@ -170,6 +170,26 @@
               </ng-container>
             </ng-container>
 
+            <!-- Configuration  Columns -->
+            <ng-container *ngIf="config.service == 'configuration'">
+              <ng-container matColumnDef="id">
+                <th *matHeaderCellDef mat-sort-header>Name</th>
+                <td *matCellDef="let element">{{ element.name }}</td>
+              </ng-container>
+              <ng-container matColumnDef="desc">
+                <th *matHeaderCellDef mat-sort-header>Description</th>
+                <td *matCellDef="let element">{{ element.desc }}</td>
+              </ng-container>
+              <ng-container matColumnDef="companies">
+                <th *matHeaderCellDef mat-sort-header>Companies</th>
+                <td *matCellDef="let element"></td>
+              </ng-container>
+              <ng-container matColumnDef="status">
+                <th *matHeaderCellDef>Status</th>
+                <td *matCellDef="let element">{{ element.status }}</td>
+              </ng-container>
+            </ng-container>
+
             <!-- Buttons Column -->
             <ng-container matColumnDef="options">
               <th *matHeaderCellDef>Options</th>
