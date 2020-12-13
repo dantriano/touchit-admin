@@ -3,7 +3,7 @@ import { Routes, RouterModule } from "@angular/router";
 
 import { RegistersComponent } from "./registers.component";
 import { RegistersListComponent } from "./registers-list/registers-list.component";
-//import { RegistersFormComponent } from "./registers-form/registers-form.component";
+import { RegistersFormComponent } from "./registers-form/registers-form.component";
 
 const routes: Routes = [
   {
@@ -17,7 +17,7 @@ const routes: Routes = [
           title: "",
         },
       },
-      /*{
+      {
         path: "edit",
         children: [
           {
@@ -36,7 +36,7 @@ const routes: Routes = [
             },
           },
         ],
-      },*/
+      },
     ],
   },
 ];
@@ -49,5 +49,5 @@ export class TablesRoutingModule {}
 export const routedComponents = [
   RegistersComponent,
   RegistersListComponent,
-  //RegistersFormComponent,
+  RegistersFormComponent,
 ];

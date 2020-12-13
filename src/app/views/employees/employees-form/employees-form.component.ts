@@ -5,7 +5,7 @@ import {
   EmployeeService,
   GroupService,
 } from "app/@core/services";
-import { FormComponent } from "app/common/form.component";
+import { FormComponent } from "@views/common/form/form.component";
 import { Observable, concat } from "rxjs";
 import { config } from "./_options";
 import { getCustomStatus } from "../employees";
@@ -26,12 +26,12 @@ export class EmployeesFormComponent extends FormComponent {
   @ViewChildren("customSelected") cs;
 
   constructor(
-    private activatedRoute: ActivatedRoute,
+    public activatedRoute: ActivatedRoute,
     public employeeService: EmployeeService,
     public activityService: ActivityService,
     public groupService: GroupService
   ) {
-    super();
+    super(activatedRoute);
     this.services = {
       employee: this.employeeService,
       activity: this.activityService,
@@ -58,7 +58,7 @@ export class EmployeesFormComponent extends FormComponent {
       lastName: [""],
       groups: [[]],
       company: [this.config.company],
-      mainActivity: ["", [this.validators.required]],
+      mainActivity: [, [this.validators.required]],
       //email: ['', [validators.email, validators.required]],
       email: [
         "",
@@ -66,11 +66,6 @@ export class EmployeesFormComponent extends FormComponent {
         [this.validators.valueExist()],
       ],
     };
-    this.subscriptions.push(
-      this.activatedRoute.params.subscribe((params) => {
-        this.loadRoute(params);
-      })
-    );
   }
 
   loadContent() {

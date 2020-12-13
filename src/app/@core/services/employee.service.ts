@@ -12,7 +12,6 @@ export class EmployeeService extends Service {
     super(apollo);
   }
   converToModel(x) {
-    console.log(new Employee().deserialize(x));
     return new Employee().deserialize(x);
   }
   toModel = this.converToModel;

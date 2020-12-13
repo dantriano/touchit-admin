@@ -4,9 +4,7 @@ import { ToastrService } from "ngx-toastr";
 import { concat, Observable, of, Subscription } from "rxjs";
 import { AuthenticationService } from "app/@core/utils";
 import { AppInjector } from "app/app.module";
-@Component({
-  templateUrl: "views/list.component.html",
-})
+
 export class ListComponent implements OnInit {
   loadComponent() {}
   protected dataSource = new MatTableDataSource<any>();
@@ -67,7 +65,9 @@ export class ListComponent implements OnInit {
    */
   loadContent(): Observable<any> {
     return concat(
-      this.services[this.config.service].loadList({ company: this.config.company }),
+      this.services[this.config.service].loadList({
+        company: this.config.company,
+      })
     );
   }
 
@@ -84,10 +84,9 @@ export class ListComponent implements OnInit {
    * Alert before remove from DB
    */
   confirmDelete() {
-    concat(
-      of(this.services[this.config.service].remove({ _id: this.config._id })),
-      of(this.loadContent())
-    );
+    this.services[this.config.service]
+      .remove({ _id: this.config._id })
+      .subscribe((x) => this.loadContent());
     this.config._id = null;
   }
   /**

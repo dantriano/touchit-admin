@@ -2,6 +2,6 @@ import { Component } from "@angular/core";
 
 @Component({
   selector: "list-view",
-  templateUrl: "./list.component.html",
+  //templateUrl: "../list/list.component.html", 
 })
 export class ListViewComponent {}

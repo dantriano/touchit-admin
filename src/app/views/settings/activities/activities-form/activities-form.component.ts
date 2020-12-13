@@ -2,7 +2,7 @@ import { Component } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
 
 import { ToastrService } from "ngx-toastr";
-import { FormComponent } from "app/common/form.component";
+import { FormComponent } from "@views/common/form/form.component";
 import { AuthenticationService } from "app/@core/utils";
 import { ActivityService } from "app/@core/services";
 

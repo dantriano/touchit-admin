@@ -61,7 +61,7 @@
                         <mat-option
                           *ngFor="let option of filteredEmployees | async"
                           (onSelectionChange)="f.employee.setValue(option._id)"
-                          [value]="option.firstName"
+                          [value]="option.firstName+' '+option.lastName"
                         >
                           <span
                             >{{ option.firstName }} {{ option.lastName }}</span
@@ -79,7 +79,7 @@
                         }"
                       >
                         <mat-option
-                          *ngFor="let option of data.activities"
+                          *ngFor="let option of activities | async"
                           [value]="option._id"
                         >
                           {{ option.name }}

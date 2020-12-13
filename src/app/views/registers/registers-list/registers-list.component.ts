@@ -1,11 +1,10 @@
 import { Component, OnInit } from "@angular/core";
-import { ListComponent } from "app/common/list.component";
+import { ListComponent } from "@views/common/list/list.component";
 import { RegisterService } from "app/@core/services";
 import { config } from "./_options";
 
 @Component({
-  //selector: "list-columns",
-  templateUrl: "../../../common/views/list.component.html",
+  templateUrl: "../../common/list/list.component.html",
 })
 export class RegistersListComponent extends ListComponent implements OnInit {
   constructor(protected registerService: RegisterService) {

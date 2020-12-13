@@ -1,57 +1,95 @@
-import { Component } from "@angular/core";
-import { Router, ActivatedRoute } from "@angular/router";
-import { ToastrService } from "ngx-toastr";
-import { FormComponent } from "app/common/form.component";
-import { Observable } from "rxjs";
+import { Component, ViewChildren } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
+import { FormComponent } from "@views/common/form/form.component";
+import { Observable, concat } from "rxjs";
+import { config } from "./_options";
+import {
+  ActivityService,
+  EmployeeService,
+  RegisterService,
+} from "app/@core/services";
 import { FormControl } from "@angular/forms";
-import { AuthenticationService } from "app/@core/utils";
-import { RegisterService } from "app/@core/services";
 
 @Component({
-  selector: "registers-form",
+  selector: "register-form",
   templateUrl: "./registers-form.component.html",
 })
+/**
+ * Component to generate the Registers Form Page
+ */
 export class RegistersFormComponent extends FormComponent {
-  protected model: string = "register";
-  protected position = { lat: 0, lng: 0 };
   protected filteredEmployees: Observable<any[]>;
+  private position = { lat: 0, lng: 0 };
+  public register: Observable<any>;
+  public activities: Observable<any>;
+  public employees: Observable<any>;
+
+  @ViewChildren("customSelected") cs;
   protected employeeName: FormControl = new FormControl();
+
   constructor(
-    public service: RegisterService,
-    public route: ActivatedRoute,
-    public router: Router,
-    public toastr: ToastrService,
-    public authService: AuthenticationService
+    public activatedRoute: ActivatedRoute,
+    public registerService: RegisterService,
+    public activityService: ActivityService,
+    public employeeService: EmployeeService
   ) {
-    super(route, router, toastr);
+    super(activatedRoute);
+    this.services = {
+      register: this.registerService,
+      activity: this.activityService,
+      employee: this.employeeService,
+    };
   }
+  /**
+   * Load the component elements and configuration
+   */
   loadComponent() {
-    this.company = this.authService.company._id;
-    navigator.geolocation.getCurrentPosition((position) => {
-      this.position.lat = position.coords.latitude;
-      this.position.lng = position.coords.longitude;
-      this.f.location.setValue(this.position);
-    });
-    console.log(this.position);
-    this.config = { redirect: "registers" };
-    this.set("formInputs", {
-      _id: [""],
-      company: [this.company],
-      employee: ["", this.validators.required],
-      activity: ["", this.validators.required],
+    this.config = config;
+    this.register = this.services.register.getOneObs;
+    this.activities = this.services.activity.getListObs;
+    this.employees = this.services.employee.getListObs;
+
+    this.getLocation();
+    this.employeeAutocomplete();
+
+    this.config.formInputs = {
+      _id: [],
+      company: [this.config.company],
+      employee: [, this.validators.required],
+      activity: [, this.validators.required],
       start: [new Date()],
       end: [new Date()],
       delay: [123],
       inPosition: true,
       location: this.position,
+    };
+  }
+
+  loadContent() {
+    return concat(
+      super.loadContent(),
+      this.services.activity.loadList({ company: this.config.company }),
+      this.services.employee.loadList({ company: this.config.company })
+    );
+  }
+  getLocation() {
+    navigator.geolocation.getCurrentPosition((position) => {
+      this.position.lat = position.coords.latitude;
+      this.position.lng = position.coords.longitude;
+      this.f.location.setValue(this.position);
     });
-    this.onLoadContent.subscribe((data) => {
-      this.filteredEmployees = this.loadAutocomplete(
-        data.employees,
-        this.employeeName,
-        ["firstName", "lastName"]
-      );
-      this.employeeName.setValue(data.register?._employee.firstName);
-    });
+  }
+
+  employeeAutocomplete() {
+    this.subscriptions.push(
+      this.employees.subscribe((data) => {
+        this.filteredEmployees = this.loadAutocomplete(
+          this.services.employee.getList,
+          this.employeeName,
+          ["firstName", "lastName"]
+        );
+        this.employeeName.setValue(data.register?._employee.firstName);
+      })
+    );
   }
 }

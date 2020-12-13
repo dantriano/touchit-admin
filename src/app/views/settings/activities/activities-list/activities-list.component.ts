@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
-import { ListComponent } from "app/common/list.component";
+import { ListComponent } from "@views/common/list/list.component";
 import { AuthenticationService } from "app/@core/utils";
 import { ActivityService } from "app/@core/services";
 

@@ -5,9 +5,10 @@ const customOptions = [
 ];
 const displayedColumns = ["status", "name", "options"];
 export const config = {
-  redirect: "employees",
-  uiName: "Employees",
-  service: "employee",
+  _id: null,
+  redirect: "registers",
+  uiName: "Register",
+  service: "register",
   displayedColumns: displayedColumns,
   customOptions: customOptions,
 };

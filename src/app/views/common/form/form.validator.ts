@@ -1,25 +1,38 @@
-import { ValidationErrors, AbstractControl, AsyncValidatorFn, FormGroup,NG_ASYNC_VALIDATORS,AsyncValidator } from '@angular/forms';
-import { Observable,of } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import {
+  ValidationErrors,
+  AbstractControl,
+  AsyncValidatorFn,
+  FormGroup,
+  NG_ASYNC_VALIDATORS,
+  AsyncValidator,
+} from "@angular/forms";
+import { Observable, of } from "rxjs";
+import { tap } from "rxjs/operators";
 
 export class FormValidator {
-
-  static valueExist(service: any, model:string): AsyncValidatorFn {
-    return (control: AbstractControl): Promise<ValidationErrors | null> | Observable<ValidationErrors | null>=> {
-      if (!control.value) 
-        return of(null)
-      return of(null)
-      const input = { [FormValidator.getName(control)]: control.value }
-      return service.getOne(input).pipe(tap(({ data }) => {
-        console.log(data[model])
-        //If its not and update of the same element
-        if (data[model] && data[model]._id !=null && control.parent.value._id != data[model]._id){
-          control.setErrors({ 'exist': true });
-          return {'exist':true}
-        } 
-        else return null;
-      }
-      ));
+  static valueExist(service: any, model: string): AsyncValidatorFn {
+    return (
+      control: AbstractControl
+    ):
+      | Promise<ValidationErrors | null>
+      | Observable<ValidationErrors | null> => {
+      if (!control.value) return of(null);
+      return of(null);
+      const input = { [FormValidator.getName(control)]: control.value };
+      return service.getOne(input).pipe(
+        tap(({ data }) => {
+          console.log(data[model]);
+          //If its not and update of the same element
+          if (
+            data[model] &&
+            data[model]._id != null &&
+            control.parent.value._id != data[model]._id
+          ) {
+            control.setErrors({ exist: true });
+            return { exist: true };
+          } else return null;
+        })
+      );
     };
   }
   static getName(control: AbstractControl): string | null {
@@ -30,7 +43,7 @@ export class FormValidator {
 
     let name: string;
 
-    Object.keys(group.controls).forEach(key => {
+    Object.keys(group.controls).forEach((key) => {
       let childControl = group.get(key);
 
       if (childControl !== control) {

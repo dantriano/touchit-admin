@@ -6,13 +6,17 @@ export class Service {
   constructor(protected apollo: ApolloService) {}
   protected subject = new BehaviorSubject<any>(null);
   protected subjectList = new BehaviorSubject<any[]>([]);
-  public fragment;
+  protected fragment;
   protected saveQuery;
   protected removeQuery;
   protected oneQuery;
   protected listQuery;
   protected toModel;
 
+  private deserialize(x): any {
+    const obj = this.toModel(x);
+    return obj;
+  }
   get getOneObs(): Observable<any> {
     return this.subject.asObservable();
   }
@@ -20,10 +24,10 @@ export class Service {
     return this.subjectList.asObservable();
   }
   get getOne(): any {
-    return this.toModel(this.subject.getValue());
+    return this.deserialize(this.subject.getValue());
   }
   get getList(): any[] {
-    return this.subjectList.getValue().map((x) => this.toModel(x));
+    return this.subjectList.getValue().map((x) => this.deserialize(x));
   }
 
   loadOne(input: any): Observable<any> {
@@ -35,7 +39,7 @@ export class Service {
     const watch = this.apollo.watch(query, variables);
     watch.subscribe((data) => {
       const result: any = Object.values(data)[0];
-      this.subject.next(this.toModel(result));
+      this.subject.next(this.deserialize(result));
     });
     return watch;
   }
@@ -49,8 +53,7 @@ export class Service {
     const watch = this.apollo.watch(query, variables);
     watch.subscribe((data) => {
       const list: any = Object.values(data)[0];
-      console.log(list)
-      this.subjectList.next(list.map((x) => this.toModel(x)));
+      this.subjectList.next(list.map((x) => this.deserialize(x)));
     });
     return watch;
   }
@@ -60,15 +63,15 @@ export class Service {
     const mutation = gql`
       ${this.saveQuery}
     `;
-    const watch = this.apollo.mutation(mutation, variables).subscribe();
-    return of(watch);
+    const watch = this.apollo.mutation(mutation, variables);
+    return watch;
   }
   remove(input: any): Observable<any> {
     const variables = { input: input };
     const mutation = gql`
       ${this.removeQuery}
     `;
-    const watch = this.apollo.mutation(mutation, variables).subscribe();
-    return of(watch);
+    const watch = this.apollo.mutation(mutation, variables);
+    return watch;
   }
 }

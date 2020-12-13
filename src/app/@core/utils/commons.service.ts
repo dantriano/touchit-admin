@@ -25,7 +25,7 @@ export class CommonServices {
   }
 
 }*/
- /* getObjectByFilter(el, id) {
+/* getObjectByFilter(el, id) {
     return el.filter((x) => x._id == id) || {};
   }
 
@@ -37,10 +37,10 @@ export class CommonServices {
     return el.findIndex((x) => x._id === id) || false;
   }*/
 /**
-   *
-   * Group of Helpers to find elements in Object
-   *
-   */
+ *
+ * Group of Helpers to find elements in Object
+ *
+ */
 function filter(el, id) {
   return el.filter((x) => x._id == id) || {};
 }
@@ -53,13 +53,11 @@ function index(el, id) {
   return el.findIndex((x) => x._id === id) || false;
 }
 
-
 /**
-   *
-   * Autocomplete Functions
-   *
-   */
-
+ *
+ * Autocomplete Functions
+ *
+ */
 
 /**
  *
@@ -67,19 +65,15 @@ function index(el, id) {
  * @param control Form field
  * @param by Fields to be filtered
  */
-function loadAutocomplete(
-  source: any[],
-  control: FormControl,
-  by: any,
-  multiple: boolean = true
-) {
+function loadAutocomplete(source: any[], control: FormControl, by: any) {
+  const multiple = Array.isArray(by);
   return control.valueChanges.pipe(
     startWith(""),
     map((value) =>
       value
         ? multiple
-          ? _filterAutocomplete(source, value, by)
-          : _filterAutocompleteMultiple(source, value, by)
+          ? _filterAutocompleteMultiple(source, value, by)
+          : _filterAutocomplete(source, value, by)
         : source.slice()
     )
   );

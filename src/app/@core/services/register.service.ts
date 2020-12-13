@@ -14,8 +14,8 @@ export class RegisterService extends Service {
   }
   toModel = this.converToModel;
   saveQuery = gql`
-    mutation saveRegister($register: registerInput!) {
-      saveRegister(input: $register)
+    mutation saveRegister($input: registerInput!) {
+      saveRegister(input: $input)
     }
   `;
   removeQuery = gql`
@@ -24,15 +24,15 @@ export class RegisterService extends Service {
     }
   `;
   oneQuery = gql`
-    query($register: registerInput!) {
-      register(input: $register) {
+    query($input: registerInput!) {
+      register(input: $input) {
         ...registerFragment
       }
     }
   `;
   listQuery = gql`
-    query($register: registerInput) {
-      registers(input: $register) {
+    query($input: registerInput) {
+      registers(input: $input) {
         ...registerFragment
       }
     }

@@ -1,21 +1,27 @@
 import { Output, EventEmitter } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { AppInjector } from "app/app.module";
 import { ToastrService } from "ngx-toastr";
 import { first } from "rxjs/operators";
-import { BehaviorSubject, Observable, Subject, Subscription } from "rxjs";
+import { BehaviorSubject, Observable, Subscription } from "rxjs";
 import { FormValidator } from "./form.validator";
 import { AuthenticationService, MapsService } from "app/@core/utils";
 import { msg } from "./_options";
 import { loadAutocomplete } from "@utils/commons.service";
 
 export class FormComponent {
-  constructor() {
+  //@ViewChild("infoModal") public dangerModal: ModalDirective;
+  constructor(protected activatedRoute: ActivatedRoute) {
     this.router = AppInjector.get(Router);
     this.toastr = AppInjector.get(ToastrService);
     this.authService = AppInjector.get(AuthenticationService);
-    this.config = { company: this.authService.company._id };
+    this.subscriptions.push(
+      activatedRoute.params.subscribe((params) => {
+        this.config._id = params.id || null;
+        this.config = { company: this.authService.company._id };
+      })
+    );
   }
   @Output() onLoadContent = new EventEmitter();
   @Output() onSubmitComplete = new EventEmitter();
@@ -80,41 +86,43 @@ export class FormComponent {
   };
   submitObserver: any = {
     next: (x) => {
-      //this.onSubmitComplete.emit(x);
       this.toastr.success(msg(this.config).success.saved);
       this.router.navigate([this.config.redirect]);
       return;
     },
     error: (err) => {
-      //this.onSubmitComplete.emit(err);
       this.toastr.error(msg(this.config).error.ups);
       this.router.navigate([this.config.redirect]);
       return;
     },
-    complete: (x) => console.log("Observer got a complete notification"),
+    complete: (x) => {
+      this.onSubmitComplete.emit(x);
+      console.log("Submition completed");
+    },
   };
 
-  //@ViewChild("infoModal") public dangerModal: ModalDirective;
-
-  ngOnInit() {
-    this.loadComponent();
-    this.loadForm();
-    this.subscriptions.push(this.formData.subscribe(this.dataObserver));
-  }
-  loadRoute(params) {
-    this.config._id = params.id || null;
-    this.obs$ = this.loadContent().pipe(first());
-    this.subscriptions.push(this.obs$.subscribe(this.onContentLoad));
-  }
-
-  onContentLoad = {
+  onContentLoad: any = {
     next: (x) => {
       this.contentLoad = true;
       this.formSubject.next(
         this.services[this.config.service].subject.getValue()
       );
     },
+    error: (err) => {
+      return;
+    },
+    complete: (x) => {
+      this.onLoadContent.emit(x);
+    },
   };
+
+  ngOnInit() {
+    this.loadComponent();
+    this.loadForm();
+    this.obs$ = this.loadContent().pipe(first());
+    this.subscriptions.push(this.obs$.subscribe(this.onContentLoad));
+    this.subscriptions.push(this.formData.subscribe(this.dataObserver));
+  }
   /**
    * First Function to be executed. Used to load all configurations in the components
    */
@@ -123,7 +131,7 @@ export class FormComponent {
     return this.services[this.config.service].loadOne({
       company: this.config.company,
       _id: this.config._id,
-    })
+    });
   }
   /**
    * Destroys all subscriptions to avoid memory leak
@@ -158,8 +166,8 @@ export class FormComponent {
    * Action when the user submit a form
    */
   onSubmit() {
+    if (this.submitted || !this.form.valid) return;
     this.submitted = true;
-    if (!this.form.valid) return;
     this.saveForm();
   }
 
@@ -167,7 +175,6 @@ export class FormComponent {
    * Save data in the DataBase and attach an Observer when the data are stored
    */
   saveForm() {
-    console.log(this.form.value);
     this.services[this.config.service]
       .save(this.form.value)
       .subscribe(this.submitObserver);
