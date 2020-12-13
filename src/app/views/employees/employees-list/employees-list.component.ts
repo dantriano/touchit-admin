@@ -6,7 +6,7 @@ import { concat } from "rxjs";
 
 @Component({
   //selector: "list-columns",
-  templateUrl: '../../../common/views/list.component.html',
+  templateUrl: "../../../common/views/list.component.html",
 })
 export class EmployeesListComponent extends ListComponent implements OnInit {
   constructor(protected employeeService: EmployeeService) {
@@ -15,12 +15,9 @@ export class EmployeesListComponent extends ListComponent implements OnInit {
   }
   loadComponent() {
     this.config = config;
-    this.dataTable = this.services.employee.employees;
+    this.dataTable = this.services[this.config.service].getListObs;
   }
-
-  loadContent(){
-    return concat(
-      this.services.employee.getList({ company: this.config.company }),
-    );
+  loadContent() {
+    return super.loadContent();
   }
 }

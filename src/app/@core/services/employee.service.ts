@@ -3,21 +3,42 @@ import { ApolloService } from "./apollo.service";
 import gql from "graphql-tag";
 import { Observable, BehaviorSubject, of } from "rxjs";
 import { Employee } from "../models/employee.model";
+import { Service } from "./service";
 
 @Injectable({ providedIn: "root" })
-export class EmployeeService {
-  constructor(private apollo: ApolloService) {}
-
-  private subject = new BehaviorSubject<Employee>(null);
-  private subjectList = new BehaviorSubject<Employee[]>([]);
-  get employee(): Observable<Employee> {
-    return this.subject.asObservable();
+export class EmployeeService extends Service {
+  constructor(protected apollo: ApolloService) {
+    super(apollo);
   }
-  get employees(): Observable<Employee[]> {
-    return this.subjectList.asObservable();
+  converToModel(x) {
+    return new Employee().deserialize(x);
   }
-
-  public getFragment = gql`
+  toModel = this.converToModel;
+  saveQuery = gql`
+    mutation saveEmplyee($input: employeeInput!) {
+      saveEmployee(input: $input)
+    }
+  `;
+  removeQuery = gql`
+    mutation removeEmployee($input: employeeInput!) {
+      removeEmployee(input: $input)
+    }
+  `;
+  oneQuery = gql`
+    query employee($input: employeeInput) {
+      employee(input: $input) {
+        ...employeeFragment
+      }
+    }
+  `;
+  listQuery = gql`
+    query employee($input: employeeInput) {
+      employees(input: $input) {
+        ...employeeFragment
+      }
+    }
+  `;
+  fragment = gql`
     fragment employeeFragment on Employee {
       __typename
       _id
@@ -51,106 +72,4 @@ export class EmployeeService {
     }
     return result;
   }
-  getOne(input: any): Observable<any> {
-    const variables = { input: input };
-    const query = gql`
-      query employee($input: employeeInput) {
-        employee(input: $input) {
-          ...employeeFragment
-        }
-      }
-      ${this.getFragment}
-    `;
-    const watch = this.apollo.watch(query, variables);
-    watch.subscribe((data) => {
-      this.subject.next(new Employee().deserialize(data.employee));
-    });
-    return watch;
-  }
-  getList(input: any): Observable<any> {
-    const variables = { input: input };
-    const query = gql`
-      query employees($input: employeeInput) {
-        employees(input: $input) {
-          ...employeeFragment
-        }
-      }
-      ${this.getFragment}
-    `;
-    const watch = this.apollo.watch(query, variables);
-    watch.subscribe((data) => {
-      this.subjectList.next(data.employees.map((x) => new Employee().deserialize(x)));
-    });
-    return watch;
-  }
-  save(input: any): Observable<any> {
-    const variables = { input: input };
-    const mutation = gql`
-      mutation saveEmplyee($input: employeeInput!) {
-        saveEmployee(input: $input)
-      }
-    `;
-    const watch = this.apollo.mutation(mutation, variables).subscribe();
-    return of(watch);
-  }
-  remove(id: string): Observable<any> {
-    const variables = { id: id };
-    const mutation = gql`
-      mutation removeEmployee($id: ID!) {
-        removeEmployee(_id: $id)
-      }
-    `;
-    const watch = this.apollo.mutation(mutation, variables).subscribe();
-    return of(watch);
-  }
-  /*load(input: any): Observable<any> {
-    const groupInput = { company: input.company };
-    const activityInput = { company: input.company };
-    const configInput = {
-      status: "active",
-      companies: input.company,
-      //value: { sections: "employeeOptions" },
-    };
-    const variables = {
-      input: input,
-      /*activity: activityInput,
-      group: groupInput,
-      configuration: configInput,*/
-  /* };
-    const query = gql`
-      query($input: employeeInput) {
-        employee(input: $input) {
-          ...employeeFragment
-        }
-      }
-      ${EmployeeService.getFragment()}
-    `;
-    /*
-        $configuration: configurationInput!
-        $activity: activityInput
-        $group: groupInput
-
-
-        activities(input: $activity) {
-          ...activityFragment
-        }
-        groups(input: $group) {
-          ...groupFragment
-        }
-        configuration(input: $configuration) {
-          ...configFragment
-        }
-      ${ActivityService.getFragment()}
-      ${GroupService.getFragment()}
-      ${ConfigurationService.getFragment()} */
-  // const watch = this.apollo.watch(query, variables).subscribe((data) => {
-  /*const activities = data.activities.map((x) =>
-        new Activity().deserialize(x)
-      );
-      const groups = data.activities.map((x) => new Group().deserialize(x));*/
-  /*  const employee = new Employee().deserialize(data.employee);
-      this.set(employee);
-    });
-    return of(watch);
-  }*/
 }

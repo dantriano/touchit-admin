@@ -66,7 +66,7 @@ const employeeSchema = gql`
   }
   
   extend type Mutation {
-    removeEmployee(_id: ID!): Boolean
+    removeEmployee(input:employeeInput!): Boolean
     saveEmployee(input:employeeInput!): Boolean
   }
 

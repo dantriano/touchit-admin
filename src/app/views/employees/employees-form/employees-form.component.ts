@@ -75,10 +75,7 @@ export class EmployeesFormComponent extends FormComponent {
 
   loadContent() {
     return concat(
-      this.services.employee.getOne({
-        company: this.config.company,
-        _id: this.config._id,
-      }),
+      super.loadContent(),
       this.services.activity.getList({ company: this.config.company }),
       this.services.group.getList({ company: this.config.company })
     );

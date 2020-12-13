@@ -120,7 +120,10 @@ export class FormComponent {
    */
   loadComponent() {}
   loadContent(): Observable<any> {
-    return new Observable();
+    return this.services[this.config.service].loadOne({
+      company: this.config.company,
+      _id: this.config._id,
+    })
   }
   /**
    * Destroys all subscriptions to avoid memory leak

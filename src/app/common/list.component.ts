@@ -12,7 +12,6 @@ export class ListComponent implements OnInit {
   protected dataSource = new MatTableDataSource<any>();
   protected dataTable: Observable<any>;
   protected obs$: Observable<any>;
-  protected _id: string = null;
   protected subscription: Subscription[] = [];
   protected services: any;
   protected toastrService: ToastrService;
@@ -67,7 +66,9 @@ export class ListComponent implements OnInit {
    * Destroy suscription when page change
    */
   loadContent(): Observable<any> {
-    return new Observable();
+    return concat(
+      this.services[this.config.service].loadList({ company: this.config.company }),
+    );
   }
 
   /**
@@ -84,10 +85,10 @@ export class ListComponent implements OnInit {
    */
   confirmDelete() {
     concat(
-      of(this.services[this.config.service].remove(this.config._id)),
+      of(this.services[this.config.service].remove({ _id: this.config._id })),
       of(this.loadContent())
     );
-    this.config._id=null
+    this.config._id = null;
   }
   /**
    * Filters by string any row
