@@ -36,8 +36,8 @@ const locationSchema= gql`
     locations(input: locationInput): [Location]
   }
   extend type Mutation {
-    saveLocation(input:locationInput): Boolean
-    removeLocation(input:locationInput): Boolean
+    saveLocation(input:locationInput!): Boolean
+    removeLocation(input:locationInput!): Boolean
   }
 `;
 export default locationSchema;

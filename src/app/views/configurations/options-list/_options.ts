@@ -33,7 +33,7 @@ export const config = {
   redirect: "configurations",
   uiName: "Configurations",
   service: "configuration",
-  query: null,
+  query: {},
   displayedOptions: displayedOptions,
   displayedColumns: displayedColumns,
   dropdownOptions: dropdownOptions,

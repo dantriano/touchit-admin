@@ -30,7 +30,6 @@
             [formGroup]="form"
             (ngSubmit)="onSubmit()"
           >
-            <input type="hidden" formControlName="code" class="form-control" />
             <div class="row">
               <div class="col-lg-6">
                 <div class="card">
@@ -64,7 +63,7 @@
                           }"
                         >
                           <mat-option
-                            *ngFor="let option of data.companies"
+                            *ngFor="let option of companies | async"
                             [value]="option._id"
                           >
                             {{ option.name }}

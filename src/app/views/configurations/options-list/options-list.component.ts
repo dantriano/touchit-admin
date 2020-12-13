@@ -17,7 +17,6 @@ export class ConfigurationsListComponent
   }
   loadComponent() {
     this.config = config;
-    this.config.query = {};
     this.dataTable = this.services[this.config.service].getListObs;
   }
   loadContent() {

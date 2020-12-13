@@ -1,12 +1,15 @@
 import { gql } from "apollo-server";
 const configurationSchema = gql`
   type Configuration {
-    _id: String
+    _id: ID
     type: String
     name: String
     desc: String
-    status: String
+    company: String
+    section: String
     companies: [ID]
+    sections: [String]
+    status: String
     value: configurationType
   }
   type configurationType {
@@ -15,9 +18,14 @@ const configurationSchema = gql`
     status: String
   }
   input configurationInput {
-    id: String
+    _id: ID
     type: String
+    name: String
+    desc: String
+    company: String
+    section: String
     companies: [ID]
+    sections: [String]
     status: String
     value: configurationValueInput
   }
@@ -29,6 +37,10 @@ const configurationSchema = gql`
   extend type Query {
     configuration(input: configurationInput): Configuration
     configurations(input: configurationInput): [Configuration]
+  }
+  extend type Mutation {
+    saveConfiguration(input:configurationInput!): Boolean
+    removeConfiguration(input:configurationInput!): Boolean
   }
 `;
 export default configurationSchema;

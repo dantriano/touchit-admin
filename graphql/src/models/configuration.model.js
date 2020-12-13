@@ -1,16 +1,20 @@
 import mongoose from "mongoose";
-
 const configurationSchema = new mongoose.Schema({
-  id: {
+  _id: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
-    unique: true,
   },
   type: {
     type: String,
     required: true,
   },
   name: {
+    type: String,
+  },
+  company: {
+    type: String,
+  },
+  section: {
     type: String,
   },
   desc: {
@@ -20,6 +24,9 @@ const configurationSchema = new mongoose.Schema({
     type: String,
   },
   companies: {
+    type: Object,
+  },
+  sections: {
     type: Object,
   },
   value: {

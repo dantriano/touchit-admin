@@ -1,34 +1,49 @@
-import { Component } from "@angular/core";
-import { Router, ActivatedRoute } from "@angular/router";
-import { ToastrService } from "ngx-toastr";
+import { CompanyService, ConfigurationService } from "app/@core/services";
+import { Component, ViewChildren } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
+import { Observable, concat } from "rxjs";
+import { config } from "./_options";
 import { FormComponent } from "@views/common/form/form.component";
-import { AuthenticationService } from "app/@core/utils";
-import { ConfigurationService } from "app/@core/services";
 
 @Component({
   selector: "options-form",
   templateUrl: "./options-form.component.html",
 })
+/**
+ * Component to generate the Employee Form Page
+ */
 export class OptionsFormComponent extends FormComponent {
-  protected model: string = "configuration";
+  public configuration: Observable<any>;
+  public companies: Observable<any>;
   constructor(
-    public service: ConfigurationService,
-    public route: ActivatedRoute,
-    public router: Router,
-    public toastr: ToastrService,
-    public authService: AuthenticationService
+    public activatedRoute: ActivatedRoute,
+    public configurationService: ConfigurationService,
+    public companyService: CompanyService
   ) {
-    super(route, router, toastr);
+    super(activatedRoute);
+    this.services = {
+      configuration: this.configurationService,
+      company: this.companyService,
+    };
   }
+  /**
+   * Load the component elements and configuration
+   */
   loadComponent() {
-    this.config = { redirect: "configurations" };
-    this.set("formInputs", {
+    this.config = config;
+    this.configuration = this.services.configuration.getOneObs;
+    this.companies = this.services.configuration.getListObs;
+
+    this.config.formInputs = {
       _id: [],
       type: ["option"],
       name: ["", [this.validators.required]],
       company: [],
       section: [],
-      active: [],
-    });
+      status: [],
+    };
+  }
+  loadContent() {
+    return concat(super.loadContent(), this.services.company.loadList());
   }
 }
