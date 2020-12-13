@@ -36,7 +36,7 @@ const routes: Routes = [
           },
         ],
       },
-      {
+      /*{
         path: "activity",
         children: [
           {
@@ -116,7 +116,7 @@ const routes: Routes = [
             },
           },
         ],
-      },
+      },*/
     ],
   },
 ];

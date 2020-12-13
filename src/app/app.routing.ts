@@ -72,7 +72,7 @@ export const routes: Routes = [
         (m) => m.RegistersModule
       ),
   },
-  /*{
+  {
     path: "settings",
     component: DefaultLayoutComponent,
     data: {
@@ -81,7 +81,7 @@ export const routes: Routes = [
     loadChildren: () =>
       import("./views/settings/settings.module").then((m) => m.SettingsModule),
   },
-  {
+  /*{
     path: "configurations",
     component: DefaultLayoutComponent,
     data: {

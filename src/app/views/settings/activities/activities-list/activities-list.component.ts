@@ -1,23 +1,22 @@
 import { Component, OnInit } from "@angular/core";
-import { ToastrService } from "ngx-toastr";
 import { ListComponent } from "@views/common/list/list.component";
-import { AuthenticationService } from "app/@core/utils";
 import { ActivityService } from "app/@core/services";
+import { config } from "./_options";
 
 @Component({
   selector: "activities-list",
-  templateUrl: "./activities-list.component.html",
+  templateUrl: "../../../common/list/list.component.html",
 })
 export class ActivitiesListComponent extends ListComponent implements OnInit {
-  protected model: string = "activities";
-  constructor(
-    protected service: ActivityService,
-    public toastr: ToastrService,
-    public authService: AuthenticationService
-  ) {
-    super(toastr, authService);
+  constructor(protected activityService: ActivityService) {
+    super();
+    this.services = { activity: this.activityService };
   }
-  public loadComponent() {
-    this.set("displayedColumns", ["name", "locations", "options"]);
+  loadComponent() {
+    this.config = config;
+    this.dataTable = this.services[this.config.service].getListObs;
+  }
+  loadContent() {
+    return super.loadContent();
   }
 }

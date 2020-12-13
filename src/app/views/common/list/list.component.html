@@ -120,6 +120,29 @@
               </ng-container>
             </ng-container>
 
+            <!-- Activity  Columns -->
+            <ng-container *ngIf="config.service == 'activity'">
+              <ng-container matColumnDef="id">
+                <th *matHeaderCellDef mat-sort-header>No.</th>
+                <td *matCellDef="let element">{{ element._id }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="name">
+                <th *matHeaderCellDef mat-sort-header>Name</th>
+                <td *matCellDef="let element">{{ element.name }}</td>
+              </ng-container>
+              <ng-container matColumnDef="locations">
+                <th *matHeaderCellDef>Locations</th>
+                <td *matCellDef="let element">
+                  <span
+                    *ngFor="let item of element._locations"
+                    class="badge badge-info mr-1"
+                    >{{ item.name }}</span
+                  >
+                </td>
+              </ng-container>
+            </ng-container>
+
             <!-- Buttons Column -->
             <ng-container matColumnDef="options">
               <th *matHeaderCellDef>Options</th>
