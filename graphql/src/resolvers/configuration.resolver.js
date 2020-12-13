@@ -1,5 +1,6 @@
 import { AuthenticationError } from "apollo-server";
-
+import * as utils from "./utils";
+let status;
 export default {
   Query: {
     configuration: async (

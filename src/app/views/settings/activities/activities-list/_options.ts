@@ -10,12 +10,12 @@ const displayedOptions = [
     delete: "true",
   },
 ];
-const dropdownOptions = {
-  0: {
+const dropdownOptions = [
+  {
     link: "/settings/activity",
     text: "Add activity",
   },
-};
+];
 const displayedColumns = ["name", "locations", "options"];
 export const config = {
   redirect: "activities",

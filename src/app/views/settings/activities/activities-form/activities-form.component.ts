@@ -1,39 +1,45 @@
-import { Component } from "@angular/core";
-import { Router, ActivatedRoute } from "@angular/router";
-
-import { ToastrService } from "ngx-toastr";
+import { Component, ViewChildren } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
 import { FormComponent } from "@views/common/form/form.component";
-import { AuthenticationService } from "app/@core/utils";
-import { ActivityService } from "app/@core/services";
+import { Observable, concat } from "rxjs";
+import { config } from "./_options";
+import { ActivityService, LocationService } from "app/@core/services";
+import { FormControl } from "@angular/forms";
 
 @Component({
   selector: "activites-form",
   templateUrl: "./activities-form.component.html",
 })
+/**
+ * Component to generate the Registers Form Page
+ */
 export class ActivitiesFormComponent extends FormComponent {
-  daysWeek: any = [
-    { _id: 0, name: "Monday" },
-    { _id: 1, name: "Tuesday" },
-    { _id: 2, name: "Wensday" },
-    { _id: 3, name: "Thursday" },
-    { _id: 4, name: "Friday" },
-    { _id: 5, name: "Saturday" },
-    { _id: 6, name: "Sunday" },
-  ];
-  protected model: string = "activity";
+  public activity: Observable<any>;
+  public locations: Observable<any>;
+
+  @ViewChildren("customSelected") cs;
+  protected employeeName: FormControl = new FormControl();
+
   constructor(
-    public service: ActivityService,
-    public route: ActivatedRoute,
-    public router: Router,
-    public toastr: ToastrService,
-    public authService: AuthenticationService
+    public activatedRoute: ActivatedRoute,
+    public activityService: ActivityService,
+    public locationService: LocationService
   ) {
-    super(route, router, toastr);
+    super(activatedRoute);
+    this.services = {
+      activity: this.activityService,
+      location: this.locationService,
+    };
   }
+  /**
+   * Load the component elements and configuration
+   */
   loadComponent() {
-    this.company = this.authService.company._id;
-    this.config = { redirect: "settings", uiName: "Activity" };
-    this.set("formInputs", {
+    this.config = config;
+    this.activity = this.services.activity.getOneObs;
+    this.locations = this.services.location.getListObs;
+
+    this.config.formInputs = {
       _id: [""],
       //name: ['', [validators.required],[validators.valueExist()]],
       name: ["", [this.validators.required]],
@@ -41,11 +47,19 @@ export class ActivitiesFormComponent extends FormComponent {
       options: [[]],
       startFrom: [""],
       startTo: [""],
-      company: [this.company],
+      company: [this.config.company],
       days: [[]],
       duration: [""],
-    });
+    };
   }
+
+  loadContent() {
+    return concat(
+      super.loadContent(),
+      this.services.location.loadList({ company: this.config.company })
+    );
+  }
+
   deleteLocation(el) {
     let locations = this.form.controls.locations.value;
     locations.splice(locations.indexOf(el._id), 1);

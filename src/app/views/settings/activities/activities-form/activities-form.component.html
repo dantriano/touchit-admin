@@ -73,7 +73,7 @@
                 <ul class="list-group">
                   <li
                     href="#"
-                    *ngFor="let option of data.locations; let i = index"
+                    *ngFor="let option of locations | async; let i = index"
                     [ngClass]="{
                       hidden: f.locations.value.includes(option._id) == false
                     }"
@@ -116,7 +116,7 @@
                   <label class="form-col-form-label">Days</label>
                   <mat-selection-list #days formControlName="days">
                     <mat-list-option
-                      *ngFor="let option of daysWeek"
+                      *ngFor="let option of config.daysWeek"
                       [value]="option._id"
                     >
                       {{ option.name }}
@@ -202,7 +202,7 @@
             <perfect-scrollbar class="scroll-area-sm" [config]="config">
               <ul class="list-group">
                 <li
-                  *ngFor="let option of data.locations; let i = index"
+                  *ngFor="let option of locations | async; let i = index"
                   [ngClass]="{
                     hidden: f.locations.value.includes(option._id) == true
                   }"

@@ -169,7 +169,7 @@ export class FormComponent {
    * Action when the user submit a form
    */
   onSubmit() {
-    if (this.submitted || !this.form.valid) return;
+    //if (this.submitted || !this.form.valid) return;
     this.submitted = true;
     this.saveForm();
   }
@@ -178,6 +178,7 @@ export class FormComponent {
    * Save data in the DataBase and attach an Observer when the data are stored
    */
   saveForm() {
+    console.log(this.form.value)
     this.services[this.config.service]
       .save(this.form.value)
       .subscribe(this.submitObserver);
