@@ -8,6 +8,7 @@ import { Service } from "./service";
 export class ConfigurationService extends Service {
   constructor(protected apollo: ApolloService) {
     super(apollo);
+    this.fragment = ConfigurationService.fragment;
   }
   converToModel(x) {
     return new Configuration().deserialize(x);
@@ -37,7 +38,7 @@ export class ConfigurationService extends Service {
       }
     }
   `;
-  fragment = gql`
+  static fragment = gql`
     fragment configurationFragment on Configuration {
       __typename
       _id

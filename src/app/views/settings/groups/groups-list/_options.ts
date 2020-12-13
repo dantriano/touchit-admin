@@ -1,6 +1,6 @@
 const displayedOptions = [
   {
-    link: "/settings/activity/",
+    link: "/settings/group/",
     class: "btn-warning",
     icon: "fa fa-pencil",
   },
@@ -12,15 +12,15 @@ const displayedOptions = [
 ];
 const dropdownOptions = {
   0: {
-    link: "/settings/activity",
-    text: "Add activity",
+    link: "/settings/group",
+    text: "Add group",
   },
 };
-const displayedColumns = ["name", "locations", "options"];
+const displayedColumns = ["name", "activities", "options"];
 export const config = {
-  redirect: "activities",
-  uiName: "Activities",
-  service: "activity",
+  redirect: "groups",
+  uiName: "Groups",
+  service: "group",
   displayedOptions: displayedOptions,
   displayedColumns: displayedColumns,
   dropdownOptions: dropdownOptions,

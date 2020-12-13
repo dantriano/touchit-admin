@@ -6,9 +6,9 @@ import { Service } from "./service";
 
 @Injectable({ providedIn: "root" })
 export class GroupService extends Service {
-  fragment=GroupService.fragment
   constructor(protected apollo: ApolloService) {
     super(apollo);
+    this.fragment = GroupService.fragment;
   }
   converToModel(x) {
     return new Group().deserialize(x);

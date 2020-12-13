@@ -7,29 +7,16 @@ import { first } from "rxjs/operators";
 import { BehaviorSubject, Observable, Subscription } from "rxjs";
 import { FormValidator } from "./form.validator";
 import { AuthenticationService, MapsService } from "app/@core/utils";
-import { msg } from "./_options";
+import { msg } from "../_options";
 import { loadAutocomplete } from "@utils/commons.service";
 
 export class FormComponent {
   //@ViewChild("infoModal") public dangerModal: ModalDirective;
-  constructor(protected activatedRoute: ActivatedRoute) {
-    this.router = AppInjector.get(Router);
-    this.toastr = AppInjector.get(ToastrService);
-    this.authService = AppInjector.get(AuthenticationService);
-    this.subscriptions.push(
-      activatedRoute.params.subscribe((params) => {
-        this.config._id = params.id || null;
-        this.config = { company: this.authService.company._id };
-      })
-    );
-  }
+
   @Output() onLoadContent = new EventEmitter();
   @Output() onSubmitComplete = new EventEmitter();
 
   protected formSubject = new BehaviorSubject<any>(null);
-  get formData(): Observable<any> {
-    return this.formSubject.asObservable();
-  }
   protected loadAutocomplete = loadAutocomplete;
   protected obs$: Observable<any>;
   protected subscriptions: Subscription[] = [];
@@ -42,7 +29,17 @@ export class FormComponent {
   protected router: Router;
   protected authService: AuthenticationService;
   protected services: any;
-
+  constructor(protected activatedRoute: ActivatedRoute) {
+    this.router = AppInjector.get(Router);
+    this.toastr = AppInjector.get(ToastrService);
+    this.authService = AppInjector.get(AuthenticationService);
+    this.subscriptions.push(
+      activatedRoute.params.subscribe((params) => {
+        this.config._id = params.id || null;
+        this.config = { company: this.authService.company._id };
+      })
+    );
+  }
   protected validators: any = {
     valueExist: () =>
       FormValidator.valueExist(
@@ -56,6 +53,9 @@ export class FormComponent {
     redirect: "settings",
     uiName: "Element",
   };
+  get formData(): Observable<any> {
+    return this.formSubject.asObservable();
+  }
   get f() {
     return this.form.controls;
   }

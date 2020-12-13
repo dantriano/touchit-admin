@@ -8,6 +8,7 @@ import { Service } from "./service";
 export class LocationService extends Service {
   constructor(protected apollo: ApolloService) {
     super(apollo);
+    this.fragment = LocationService.fragment;
   }
   converToModel(x) {
     return new Location().deserialize(x);
@@ -26,18 +27,18 @@ export class LocationService extends Service {
   oneQuery = gql`
     query($input: locationInput!) {
       location(input: $input) {
-        ...LocationFragment
+        ...locationFragment
       }
     }
   `;
   listQuery = gql`
     query locations($input: locationInput) {
       locations(input: $input) {
-        ...LocationFragment
+        ...locationFragment
       }
     }
   `;
-  fragment = gql`
+  static fragment = gql`
     fragment locationFragment on Location {
       __typename
       _id

@@ -143,6 +143,33 @@
               </ng-container>
             </ng-container>
 
+            <!-- Group  Columns -->
+            <ng-container *ngIf="config.service == 'group'">
+              <ng-container matColumnDef="name">
+                <th *matHeaderCellDef>Name</th>
+                <td *matCellDef="let element">{{ element.name }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="activities">
+                <th *matHeaderCellDef>Activities</th>
+                <td *matCellDef="let element">
+                  <span
+                    *ngFor="let item of element._activities"
+                    class="badge badge-success mr-1"
+                    >{{ item.name }}</span
+                  >
+                </td>
+              </ng-container>
+            </ng-container>
+
+            <!-- Location  Columns -->
+            <ng-container *ngIf="config.service == 'location'">
+              <ng-container matColumnDef="name">
+                <th *matHeaderCellDef mat-sort-header>Name</th>
+                <td *matCellDef="let element">{{ element.name }}</td>
+              </ng-container>
+            </ng-container>
+
             <!-- Buttons Column -->
             <ng-container matColumnDef="options">
               <th *matHeaderCellDef>Options</th>

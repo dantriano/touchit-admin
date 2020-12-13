@@ -4,6 +4,7 @@ import { ToastrService } from "ngx-toastr";
 import { concat, Observable, of, Subscription } from "rxjs";
 import { AuthenticationService } from "app/@core/utils";
 import { AppInjector } from "app/app.module";
+import { msg } from "../_options";
 
 export class ListComponent implements OnInit {
   loadComponent() {}
@@ -14,6 +15,7 @@ export class ListComponent implements OnInit {
   protected services: any;
   protected toastrService: ToastrService;
   protected authService: AuthenticationService;
+  protected toastr: ToastrService;
 
   private _config: any = {
     redirect: "settings",
@@ -27,6 +29,7 @@ export class ListComponent implements OnInit {
     return this._config;
   }
   constructor() {
+    this.toastr = AppInjector.get(ToastrService);
     this.toastrService = AppInjector.get(ToastrService);
     this.authService = AppInjector.get(AuthenticationService);
     this.config = { company: this.authService.company._id };
@@ -39,6 +42,10 @@ export class ListComponent implements OnInit {
   };
   onContentLoad = {
     next: (x) => {
+      return;
+    },
+    error: (err) => {
+      this.toastr.error(msg(this.config).error.ups);
       return;
     },
   };
