@@ -6,3 +6,4 @@ export * from './company.model';
 export * from './configuration.model';
 export * from './location.model';
 export * from './register.model';
+export * from './schedule.model';

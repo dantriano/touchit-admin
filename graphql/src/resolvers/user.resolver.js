@@ -15,6 +15,9 @@ export default {
   Query: {
     user: singleResolver(service),
     users: listResolver(service),
+    token: async (parent, { input }, { models: { userModel } }, info) => {
+      return jwt.sign(input, "riddlemethis", { expiresIn: "7d" });
+    },
     login: async (parent, { input }, { models: { userModel } }, info) => {
       const user = await userModel.findOne({ email: input.email }).exec();
       if (!user) {

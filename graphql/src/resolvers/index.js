@@ -6,6 +6,7 @@ import activityResolver from "./activity.resolver";
 import groupResolver from "./group.resolver";
 import registerResolver from "./register.resolver";
 import companyResolver from "./company.resolver";
+import scheduleResolver from "./schedule.resolver";
 
 export default [
   userResolver,
@@ -16,4 +17,5 @@ export default [
   activityResolver,
   groupResolver,
   registerResolver,
+  scheduleResolver,
 ];

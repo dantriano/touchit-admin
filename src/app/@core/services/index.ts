@@ -9,6 +9,7 @@ export * from './configuration.service';
 export * from './user.service';
 export * from './company.service';
 export * from './authentication.service';
+export * from './schedule.service';
 
 
 //export default [BaseService];

@@ -1,13 +1,14 @@
-import userSchema from './user.schema';
-import locationSchema from './location.schema';
-import employeeSchema from './employee.schema';
-import configurationSchema from './configuration.schema';
-import activitySchema from './activity.schema';
-import groupSchema from './group.schema';
-import registerSchema from './register.schema';
-import companySchema from './company.schema';
+import userSchema from "./user.schema";
+import locationSchema from "./location.schema";
+import employeeSchema from "./employee.schema";
+import configurationSchema from "./configuration.schema";
+import activitySchema from "./activity.schema";
+import groupSchema from "./group.schema";
+import registerSchema from "./register.schema";
+import companySchema from "./company.schema";
+import scheduleSchema from "./schedule.schema";
 
-import { gql } from 'apollo-server';
+import { gql } from "apollo-server";
 
 const linkSchema = gql`
   type Query {
@@ -16,7 +17,6 @@ const linkSchema = gql`
   type Mutation {
     _: Boolean
   }
-
 `;
 /*const schema = mergeSchemas({
   schemas: [activitySchema, groupSchema],
@@ -35,4 +35,15 @@ const linkSchema = gql`
   ],
 });*/
 
-export default [linkSchema, companySchema,userSchema,employeeSchema, locationSchema,configurationSchema,activitySchema,groupSchema,registerSchema];
+export default [
+  linkSchema,
+  companySchema,
+  userSchema,
+  employeeSchema,
+  locationSchema,
+  configurationSchema,
+  activitySchema,
+  groupSchema,
+  registerSchema,
+  scheduleSchema,
+];

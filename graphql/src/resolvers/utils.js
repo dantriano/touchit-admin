@@ -16,7 +16,7 @@ utils.arrayId = (arr) => {
   return a;
 };
 
-utils.scalarDate = {
+/*utils.scalarDate = {
   Date: new GraphQLScalarType({
     name: "Date",
     description: "Date custom scalar type",
@@ -33,6 +33,6 @@ utils.scalarDate = {
       return null;
     },
   }),
-};
+};*/
 
 module.exports = utils;

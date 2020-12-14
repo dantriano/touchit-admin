@@ -3,8 +3,12 @@ import { Routes, RouterModule } from "@angular/router";
 
 import { SettingsComponent } from "./settings.component";
 import { SettingsMainComponent } from "./settings-main/settings-main.component";
+
 import { ActivitiesFormComponent } from "./activities/activities-form/activities-form.component";
 import { ActivitiesListComponent } from "./activities/activities-list/activities-list.component";
+
+import { SchedulesFormComponent } from "./schedules/schedules-form/schedules-form.component";
+import { SchedulesListComponent } from "./schedules/schedules-list/schedules-list.component";
 
 import { LocationsFormComponent } from "./locations/locations-form/locations-form.component";
 import { LocationsListComponent } from "./locations/locations-list/locations-list.component";
@@ -51,6 +55,37 @@ const routes: Routes = [
             component: ActivitiesFormComponent,
             data: {
               title: "Activities",
+            },
+          },
+        ],
+      },
+      {
+        path: "schedules",
+        children: [
+          {
+            path: "",
+            component: SchedulesListComponent,
+            data: {
+              title: "Activities",
+            },
+          },
+        ],
+      },
+      {
+        path: "schedule",
+        children: [
+          {
+            path: "",
+            component: SchedulesFormComponent,
+            data: {
+              title: "Schedules",
+            },
+          },
+          {
+            path: ":id",
+            component: SchedulesFormComponent,
+            data: {
+              title: "Schedules",
             },
           },
         ],
@@ -129,6 +164,8 @@ const routes: Routes = [
 export class TablesRoutingModule {}
 
 export const routedComponents = [
+  SchedulesFormComponent,
+  SchedulesListComponent,
   SettingsComponent,
   SettingsMainComponent,
   ActivitiesFormComponent,

@@ -1,6 +1,6 @@
-import { gql } from 'apollo-server';
+import { gql } from "apollo-server";
 
-const userSchema=gql`
+const userSchema = gql`
   type User {
     _id: ID!
     firstName: String
@@ -8,21 +8,22 @@ const userSchema=gql`
     picture: String
     email: String
     token: String
-    bind:[Bind]
+    bind: [Bind]
   }
 
-  type Bind { 
+  type Bind {
     employee: ID
     company: ID
   }
-  input userInput  {
-    _id: ID,
+  input userInput {
+    _id: ID
     name: String
     email: String
     password: String
   }
   extend type Query {
     user(input: userInput!): User!
+    users(input: userInput!): [User]
     login(input: userInput!): User!
     token(input: userInput!): String!
   }
@@ -31,8 +32,8 @@ const userSchema=gql`
     _company: [Company]
   }
   extend type Mutation {
-    saveUser(input:userInput!): Boolean
-    removeUser(input:userInput!): Boolean
+    saveUser(input: userInput!): Boolean
+    removeUser(input: userInput!): Boolean
   }
 `;
 export default userSchema;

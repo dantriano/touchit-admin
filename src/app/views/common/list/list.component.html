@@ -143,6 +143,29 @@
               </ng-container>
             </ng-container>
 
+             <!-- Schedule  Columns -->
+             <ng-container *ngIf="config.service == 'schedule'">
+              <ng-container matColumnDef="id">
+                <th *matHeaderCellDef mat-sort-header>No.</th>
+                <td *matCellDef="let element">{{ element._id }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="name">
+                <th *matHeaderCellDef mat-sort-header>Name</th>
+                <td *matCellDef="let element">{{ element.name }}</td>
+              </ng-container>
+              <ng-container matColumnDef="locations">
+                <th *matHeaderCellDef>Locations</th>
+                <td *matCellDef="let element">
+                  <span
+                    *ngFor="let item of element._locations"
+                    class="badge badge-info mr-1"
+                    >{{ item.name }}</span
+                  >
+                </td>
+              </ng-container>
+            </ng-container>
+
             <!-- Group  Columns -->
             <ng-container *ngIf="config.service == 'group'">
               <ng-container matColumnDef="name">
