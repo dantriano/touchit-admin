@@ -1,4 +1,5 @@
 import { Deserializable } from "./deserializable.model";
+import { Activity } from "./activity.model";
 
 export class Group implements Deserializable {
   _id: string;
@@ -6,10 +7,13 @@ export class Group implements Deserializable {
   main: string;
   activities: string[];
   options: string[];
+  _activities: Activity[];
 
   deserialize(input: any) {
     Object.assign(this, input);
-    //this._groups = this._groups.map(x=> return new Group().deserialize(x));
+    this._activities = this._activities.map((x) =>
+      new Activity().deserialize(x)
+    );
     return this;
   }
 }

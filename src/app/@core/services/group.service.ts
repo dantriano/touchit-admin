@@ -3,6 +3,7 @@ import { ApolloService } from "./apollo.service";
 import gql from "graphql-tag";
 import { Group } from "app/@core/models";
 import { Service } from "./service";
+import { ActivityService } from "./activity.service";
 
 @Injectable({ providedIn: "root" })
 export class GroupService extends Service {
@@ -46,6 +47,10 @@ export class GroupService extends Service {
       options
       main
       activities
+      _activities {
+        ...activityFragment
+      }
     }
+    ${ActivityService.fragment}
   `;
 }
