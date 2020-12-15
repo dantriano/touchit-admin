@@ -6,7 +6,7 @@ import {
   GroupService,
 } from "app/@core/services";
 import { FormComponent } from "@views/common/form/form.component";
-import { Observable, concat } from "rxjs";
+import { Observable, zip } from "rxjs";
 import { config } from "./_options";
 import { getCustomStatus } from "../employees";
 import { find } from "@utils/commons.service";
@@ -69,8 +69,8 @@ export class EmployeesFormComponent extends FormComponent {
   }
 
   loadContent() {
-    return concat(
-      super.loadContent(),
+    return zip(
+      this.services[this.config.service].loadOne(this.config.query),
       this.services.activity.loadList({ company: this.config.company }),
       this.services.group.loadList({ company: this.config.company })
     );

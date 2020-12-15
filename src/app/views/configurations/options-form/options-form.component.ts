@@ -1,7 +1,7 @@
 import { CompanyService, ConfigurationService } from "app/@core/services";
-import { Component, ViewChildren } from "@angular/core";
+import { Component } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { Observable, concat } from "rxjs";
+import { Observable, zip } from "rxjs";
 import { config } from "./_options";
 import { FormComponent } from "@views/common/form/form.component";
 
@@ -44,6 +44,9 @@ export class OptionsFormComponent extends FormComponent {
     };
   }
   loadContent() {
-    return concat(super.loadContent(), this.services.company.loadList());
+    return zip(
+      this.services[this.config.service].loadOne(this.config.query),
+      this.services.company.loadList()
+    );
   }
 }

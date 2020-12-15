@@ -14,7 +14,7 @@ export class Schedule implements Deserializable {
 
   deserialize(input: any) {
     Object.assign(this, input);
-    this._locations = this._locations.map((x) => new Location().deserialize(x));
+    this._locations = this._locations?.map((x) => new Location().deserialize(x));
     return this;
   }
 }

@@ -11,7 +11,7 @@ export class Group implements Deserializable {
 
   deserialize(input: any) {
     Object.assign(this, input);
-    this._activities = this._activities.map((x) =>
+    this._activities = this._activities?.map((x) =>
       new Activity().deserialize(x)
     );
     return this;

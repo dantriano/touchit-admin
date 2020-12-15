@@ -12,7 +12,7 @@ export class Employee implements Deserializable {
   deserialize(input: any) {
     if(!input) return null
     Object.assign(this, input);
-    this._groups = this._groups.map(x=> new Group().deserialize(x));
+    this._groups = this._groups?.map(x=> new Group().deserialize(x));
     return this;
   }
 }

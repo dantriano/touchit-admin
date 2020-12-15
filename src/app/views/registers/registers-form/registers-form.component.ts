@@ -1,7 +1,7 @@
 import { Component, ViewChildren } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { FormComponent } from "@views/common/form/form.component";
-import { Observable, concat } from "rxjs";
+import { Observable, zip } from "rxjs";
 import { config } from "./_options";
 import {
   ActivityService,
@@ -66,8 +66,8 @@ export class RegistersFormComponent extends FormComponent {
   }
 
   loadContent() {
-    return concat(
-      super.loadContent(),
+    return zip(
+      this.services[this.config.service].loadOne(this.config.query),
       this.services.activity.loadList({ company: this.config.company }),
       this.services.employee.loadList({ company: this.config.company })
     );

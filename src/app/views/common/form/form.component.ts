@@ -73,7 +73,7 @@ export class FormComponent {
     return this._config;
   }
 
-  dataObserver: any = {
+  /*dataObserver: any = {
     next: (x) => {
       if (!x && this.contentLoad && this.config._id) {
         this.toastr.error(msg(this.config).error.notFound);
@@ -88,7 +88,7 @@ export class FormComponent {
       return;
     },
     complete: (x) => console.log("Observer got a complete notification"),
-  };
+  };*/
   submitObserver: any = {
     next: (x) => {
       this.toastr.success(msg(this.config).success.saved);
@@ -109,9 +109,8 @@ export class FormComponent {
   onContentLoad: any = {
     next: (x) => {
       this.contentLoad = true;
-      this.formSubject.next(
-        this.services[this.config.service].subject.getValue()
-      );
+      let formData=this.services[this.config.service].subject.getValue()
+      this.populateForm(formData);
     },
     error: (err) => {
       this.toastr.error(msg(this.config).error.ups);
@@ -127,14 +126,14 @@ export class FormComponent {
     this.loadForm();
     this.obs$ = this.loadContent().pipe(first());
     this.subscriptions.push(this.obs$.subscribe(this.onContentLoad));
-    this.subscriptions.push(this.formData.subscribe(this.dataObserver));
+    //this.subscriptions.push(this.formData.subscribe(this.dataObserver));
   }
   /**
    * First Function to be executed. Used to load all configurations in the components
    */
   loadComponent() {}
   loadContent(): Observable<any> {
-    return this.services[this.config.service].loadOne(this.config.query);
+    return null;
   }
   /**
    * Destroys all subscriptions to avoid memory leak
@@ -165,6 +164,15 @@ export class FormComponent {
     this.form = new FormBuilder().group(this.config.formInputs);
     this.onFormChanges();
   }
+
+  populateForm(formData) {
+    if (!formData && this.contentLoad && this.config._id) {
+      this.toastr.error(msg(this.config).error.notFound);
+      this.router.navigate([this.config.redirect]);
+      return;
+    }
+    formData && this.form.patchValue(formData);
+  }
   /**
    * Action when the user submit a form
    */
@@ -178,7 +186,7 @@ export class FormComponent {
    * Save data in the DataBase and attach an Observer when the data are stored
    */
   saveForm() {
-    console.log(this.form.value)
+    console.log(this.form.value);
     this.services[this.config.service]
       .save(this.form.value)
       .subscribe(this.submitObserver);
