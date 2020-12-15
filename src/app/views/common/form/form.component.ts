@@ -109,7 +109,8 @@ export class FormComponent {
   onContentLoad: any = {
     next: (x) => {
       this.contentLoad = true;
-      let formData=this.services[this.config.service].subject.getValue()
+      let formData = this.services[this.config.service].subject.getValue();
+      console.log(formData )
       this.populateForm(formData);
     },
     error: (err) => {

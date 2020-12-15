@@ -9,6 +9,7 @@ export class RegisterService extends Service {
   constructor(protected apollo: ApolloService) {
     super(apollo);
     this.fragment = RegisterService.fragment;
+    console.log(88)
   }
   converToModel(x) {
     return new Register().deserialize(x);

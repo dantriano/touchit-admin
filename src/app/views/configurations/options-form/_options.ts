@@ -4,10 +4,8 @@ const customOptions = [
   { value: "off", label: "btn btn-danger", span: "fa fa-close" },
 ];
 export const config = {  
-  _id: null,
   redirect: "configurations",
   uiName: "Configurations",
   service: "configuration",
-  query: {},
   customOptions: customOptions,
 };

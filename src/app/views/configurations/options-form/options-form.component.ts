@@ -44,6 +44,7 @@ export class OptionsFormComponent extends FormComponent {
     };
   }
   loadContent() {
+    this.config.query = { _id: this.config._id };
     return zip(
       this.services[this.config.service].loadOne(this.config.query),
       this.services.company.loadList()

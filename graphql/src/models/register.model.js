@@ -1,8 +1,8 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 const latLng = {
   lat: String,
   lng: String,
-}
+};
 const registerSchema = new mongoose.Schema({
   _id: {
     type: mongoose.Schema.Types.ObjectId,
@@ -10,29 +10,27 @@ const registerSchema = new mongoose.Schema({
   },
   activity: {
     type: String,
-    require:true,
   },
   employee: {
     type: String,
-    require:true
   },
   company: {
     type: String,
   },
-  start:{
-    type:Date,
+  start: {
+    type: Date,
   },
-  end:{
-    type:Date,
+  end: {
+    type: Date,
   },
-  delay:{
-    type:Number,
+  delay: {
+    type: Number,
   },
-  location:{
-    type:latLng,
+  location: {
+    type: latLng,
   },
-  inPosition:{
-    type:Boolean,
+  inPosition: {
+    type: Boolean,
   },
   _activity: {
     type: Object,
@@ -44,6 +42,6 @@ const registerSchema = new mongoose.Schema({
     type: String,
   },
 });
-const registerModel = mongoose.model('register', registerSchema);
+const registerModel = mongoose.model("register", registerSchema);
 
 export default registerModel;

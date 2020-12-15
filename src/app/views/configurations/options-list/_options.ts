@@ -1,11 +1,11 @@
 const displayedOptions = [
   {
-    link: "/employees/profile/",
+    link: "/configurations/options/profile/",
     class: "btn-primary",
     icon: "fa fa-eye",
   },
   {
-    link: "/employees/edit/",
+    link: "/configurations/options/edit/",
     class: "btn-warning",
     icon: "fa fa-pencil",
   },
@@ -17,8 +17,8 @@ const displayedOptions = [
 ];
 const dropdownOptions = {
   0: {
-    link: "/employees/edit",
-    text: "Add employee",
+    link: "/configurations/options/edit",
+    text: "Add option",
   },
 };
 const displayedColumns =[

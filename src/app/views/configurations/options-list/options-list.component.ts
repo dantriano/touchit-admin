@@ -5,8 +5,7 @@ import { config } from "./_options";
 
 @Component({
   selector: "options-list",
-  templateUrl: "options-list.component.html",
-  //templateUrl: "../../common/list/list.component.html",
+  templateUrl: "../../common/list/list.component.html",
 })
 export class ConfigurationsListComponent
   extends ListComponent

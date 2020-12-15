@@ -1,24 +1,24 @@
-import { gql } from 'apollo-server';
+import { gql } from "apollo-server";
 
-const registerSchema= gql`
+const registerSchema = gql`
   scalar Date
   type Register {
     _id: ID
     activity: String
-    employee: String
+    employee: ID
     company: ID
     start: Date
-    end: Date 
+    end: Date
     delay: Int
     inPosition: Boolean
     location: latLng
     status: String
   }
-  extend type Register{
+  extend type Register {
     _activity: Activity
     _employee: Employee
   }
-  input registerInput  {
+  input registerInput {
     _id: ID
     company: ID
     activity: String
@@ -35,8 +35,8 @@ const registerSchema= gql`
     registers(input: registerInput): [Register]
   }
   extend type Mutation {
-    saveRegister(input:registerInput!): Boolean
-    removeRegister(input:registerInput!): Boolean
+    saveRegister(input: registerInput!): Boolean
+    removeRegister(input: registerInput!): Boolean
   }
 `;
 export default registerSchema;
