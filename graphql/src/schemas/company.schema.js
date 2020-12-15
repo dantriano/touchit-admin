@@ -4,11 +4,13 @@ const companySchema = gql`
   type Company {
     _id: ID
     name: String
+    status: String
     options: [String]
   }
   input companyInput {
     _id: ID
     name: String
+    status: String
     options: [String]
   }
 

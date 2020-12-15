@@ -10,8 +10,9 @@ const scheduleSchema = gql`
     days: [Int]
     locations: [String]
     _locations: [Location]
-    company: ID,
+    company: ID
     options: [String]
+    status: String
   }
   input scheduleInput  {
     _id: ID, 
@@ -21,8 +22,9 @@ const scheduleSchema = gql`
     duration:String,
     days:[Int]
     company: ID,
-    locations: [String],
+    locations: [String]
     options: [String]
+    status: String
   }
 
 

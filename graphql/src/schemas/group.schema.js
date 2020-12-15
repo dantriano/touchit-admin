@@ -7,15 +7,17 @@ const groupSchema= gql`
     main: String
     activities: [String]
     options: [String]
-    company: ID,
+    company: ID
+    status: String
   }
   input groupInput  {
-    _id: ID, 
-    name: String,
-    main: String,
-    activities: [ID],
+    _id: ID
+    name: String
+    main: String
+    activities: [ID]
     options: [String]
-    company: ID,
+    company: ID
+    status: String
   }
 
   extend type Query {

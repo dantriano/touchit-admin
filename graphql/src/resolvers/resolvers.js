@@ -1,6 +1,6 @@
 import * as utils from "./utils";
 import { AuthenticationError } from "apollo-server";
-
+let status
 function singleResolver(service, replaceInput) {
   const query = async (parent, { input }, { models, me }, info) => {
     input = replaceInput ? replaceInput : input;

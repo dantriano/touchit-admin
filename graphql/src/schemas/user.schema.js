@@ -9,6 +9,7 @@ const userSchema = gql`
     email: String
     token: String
     bind: [Bind]
+    status: String
   }
 
   type Bind {
@@ -20,6 +21,7 @@ const userSchema = gql`
     name: String
     email: String
     password: String
+    status: String
   }
   extend type Query {
     user(input: userInput!): User!

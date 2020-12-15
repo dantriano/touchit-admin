@@ -29,7 +29,10 @@ const activitySchema = new mongoose.Schema({
   },
   options: {
     type: Object,
-  }
+  },
+  status: {
+    type: String,
+  },
 });
 const activityModel = mongoose.model('activity', activitySchema);
 

@@ -41,6 +41,9 @@ const userSchema = new mongoose.Schema({
   bind: {
     type: [Object],
   },
+  status: {
+    type: String,
+  },
 });
 
 userSchema.pre('save', function() {

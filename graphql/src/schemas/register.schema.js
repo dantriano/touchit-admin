@@ -12,6 +12,7 @@ const registerSchema= gql`
     delay: Int
     inPosition: Boolean
     location: latLng
+    status: String
   }
   extend type Register{
     _activity: Activity
@@ -27,6 +28,7 @@ const registerSchema= gql`
     delay: Int
     inPosition: Boolean
     location: latLngInput
+    status: String
   }
   extend type Query {
     register(input: registerInput): Register

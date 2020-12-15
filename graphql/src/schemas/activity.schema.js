@@ -10,18 +10,20 @@ const activitySchema = gql`
     days: [Int]
     locations: [String]
     _locations: [Location]
-    company: ID,
+    company: ID
+    status: String
     options: [String]
   }
   input activityInput  {
-    _id: ID, 
-    name: String,
-    startTo:String,
-    startFrom:String,
-    duration:String,
+    _id: ID
+    name: String
+    startTo:String
+    startFrom:String
+    duration:String
     days:[Int]
-    company: ID,
-    locations: [String],
+    company: ID
+    status: String
+    locations: [String]
     options: [String]
   }
 

@@ -31,6 +31,9 @@ const configurationSchema = new mongoose.Schema({
   value: {
     type: Object,
   },
+  status: {
+    type: String,
+  },
 });
 const configurationModel = mongoose.model("configuration", configurationSchema);
 export default configurationModel;

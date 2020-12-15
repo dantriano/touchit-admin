@@ -30,6 +30,9 @@ const scheduleSchema = new mongoose.Schema({
   options: {
     type: Object,
   },
+  status: {
+    type: String,
+  },
 });
 const scheduleModel = mongoose.model("schedule", scheduleSchema);
 

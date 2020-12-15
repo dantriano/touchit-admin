@@ -20,7 +20,10 @@ const groupSchema = new mongoose.Schema({
   },
   options: {
     type: Object,
-  }
+  },
+  status: {
+    type: String,
+  },
 });
 const groupModel = mongoose.model('group', groupSchema);
 

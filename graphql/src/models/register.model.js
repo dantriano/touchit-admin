@@ -39,7 +39,10 @@ const registerSchema = new mongoose.Schema({
   },
   _employee: {
     type: Object,
-  }
+  },
+  status: {
+    type: String,
+  },
 });
 const registerModel = mongoose.model('register', registerSchema);
 
