@@ -18,7 +18,7 @@ exports.setup = function(options, seedLink) {
 exports.up = function (db, callback) {
   //  db.createCollection('users');
     db.insert('activities',[{
-      _id: ObjectID('5e68298c6fcfb9245c70bb55'),
+      _id: '5e68298c6fcfb9245c70bb55',
       name: 'Check-in',
       startTo: '9:00 AM',
       startFrom: '8:00 AM',
@@ -34,7 +34,7 @@ exports.up = function (db, callback) {
       ],
       __v: 0
   },{
-    _id: ObjectID('5f665837d626d41bc5544a0a'),
+    _id: '5f665837d626d41bc5544a0a',
     name: 'Teletrabajo',
     startTo: '1:00 AM',
     startFrom: '1:00 AM',

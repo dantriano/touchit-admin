@@ -1,6 +1,6 @@
 {
     "dev": {
-        "host": "localhost",
+        "host": "mongo",
         "user": "devroot",
         "password" : "devroot",
         "port": "27017",

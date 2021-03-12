@@ -46,7 +46,7 @@ services:
       - MONGO_INITDB_ROOT_PASSWORD=${MONGO_ROOT_PASSWORD}
       - MONGO_INITDB_DATABASE=touch_it
     ports:
-      - ${MONGO_PORT}
+      - ${MONGO_PORT}:${MONGO_PORT}
     volumes:
       - ${DATA_PATH}:/data/db
     networks:
