@@ -63,7 +63,7 @@ export class AuthenticationService {
     this.isAuthenticated = true;
   }
   attemptAuth(credentials) {
-    this.userService.getOne({
+    this.userService.login({
       email: credentials.username,
       password: credentials.password,
     });

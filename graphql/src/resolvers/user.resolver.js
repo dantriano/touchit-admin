@@ -19,6 +19,7 @@ export default {
       return jwt.sign(input, "riddlemethis", { expiresIn: "7d" });
     },
     login: async (parent, { input }, { models: { userModel } }, info) => {
+      console.log(input)
       const user = await userModel.findOne({ email: input.email }).exec();
       if (!user) {
         throw new AuthenticationError("Invalid credentials");

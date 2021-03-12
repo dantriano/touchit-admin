@@ -3,6 +3,7 @@ import { ApolloService } from "./apollo.service";
 import gql from "graphql-tag";
 import { User } from "app/@core/models";
 import { Service } from "./service";
+import { Observable } from "rxjs";
 
 @Injectable({ providedIn: "root" })
 export class UserService extends Service {
@@ -32,12 +33,33 @@ export class UserService extends Service {
     }
   `;
   listQuery = gql`
+    query users($input: userInput!) {
+      users(input: $input) {
+        ...userFragment
+      }
+    }
+  `;
+  loginQuery = gql`
     query login($input: userInput!) {
       login(input: $input) {
         ...userFragment
       }
     }
   `;
+
+  login(input: any): Observable<any> {
+    const variables = { input: input };
+    const query = gql`
+      ${this.loginQuery}
+      ${this.fragment}
+    `;
+    const watch = this.apollo.watch(query, variables);
+    watch.subscribe((data) => {
+      const result: any = Object.values(data)[0];
+      this.subject.next(this.toModel(result));
+    });
+    return watch;
+  }
   static fragment = gql`
     fragment userFragment on User {
       __typename

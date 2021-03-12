@@ -24,9 +24,9 @@ const userSchema = gql`
     status: String
   }
   extend type Query {
-    user(input: userInput!): User!
+    user(input: userInput!): User
     users(input: userInput!): [User]
-    login(input: userInput!): User!
+    login(input: userInput!): User
     token(input: userInput!): String!
   }
   extend type User {

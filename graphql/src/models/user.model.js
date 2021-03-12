@@ -47,8 +47,8 @@ const userSchema = new mongoose.Schema({
 });
 
 userSchema.pre('save', function() {
- // const hashedPassword = bcrypt.hashSync(this.password, saltRounds);
- // this.password = hashedPassword;
+  const hashedPassword = bcrypt.hashSync(this.password, saltRounds);
+  this.password = hashedPassword;
 });
 
 const userModel = mongoose.model('user', userSchema);
