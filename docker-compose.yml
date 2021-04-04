@@ -49,6 +49,7 @@ services:
     ports:
       - ${MONGO_PORT}:${MONGO_PORT}
     volumes:
+     #- dbdata
       - ${DATA_PATH}:/data/db
     networks:
       - app-network
@@ -70,3 +71,7 @@ services:
 networks:
   app-network:
     driver: bridge
+#Volumes
+volumes:
+  dbdata:
+    driver: local

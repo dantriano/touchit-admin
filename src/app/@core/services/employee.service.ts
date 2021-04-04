@@ -33,7 +33,7 @@ export class EmployeeService extends Service {
     }
   `;
   listQuery = gql`
-    query employee($input: employeeInput) {
+    query employees($input: employeeInput) {
       employees(input: $input) {
         ...employeeFragment
       }
