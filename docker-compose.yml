@@ -6,8 +6,8 @@ services:
     image: node:10
     container_name: node_${PROJECT_NAME}
     working_dir: /app
-    command: sh -c "npm run dev"
-    #Node with command:
+    tty: true
+    #command: sh -c "npm run dev"
     #command: tail -F anything
     #First Install:
     #command: sh -c "npm install && npm install -g migrate-mongo && npm run dev"
@@ -15,7 +15,7 @@ services:
     environment:
       - MONGO_URI=mongodb://${MONGO_ROOT_USER}:${MONGO_ROOT_PASSWORD}@mongo:27017
     ports:
-      - ${NODE_PORT}:4200
+      - ${NODE_PORT}:${NODE_PORT}
     volumes:
       - ${PROJECT_PATH}:/app
     networks:
@@ -25,6 +25,7 @@ services:
     image: node:10
     container_name: graphql_${PROJECT_NAME}
     working_dir: /app
+    tty: true
     #command: tail -F anything
     command: sh -c "npm install && npm run dev"
     restart: unless-stopped
@@ -61,7 +62,7 @@ services:
     depends_on:
       - mongo
     ports:
-      - ${MONGOCLIENT_PORT}:3000
+      - ${MONGOCLIENT_PORT}:${MONGOCLIENT_PORT}
     networks:
       - app-network
 
