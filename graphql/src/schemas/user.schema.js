@@ -8,19 +8,26 @@ const userSchema = gql`
     picture: String
     email: String
     token: String
-    bind: [Bind]
+    companies: [Companies]
     status: String
   }
 
-  type Bind {
-    employee: ID
-    company: ID
+  type Companies {
+    employee: String
+    company: String
+  }
+
+  input companiesInput {
+    employee: String
+    company: String
   }
   input userInput {
     _id: ID
-    name: String
+    firstName: String
+    lastName: String
     email: String
     password: String
+    companies: [companiesInput]
     status: String
   }
   extend type Query {

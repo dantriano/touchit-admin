@@ -16,6 +16,19 @@ This is a developping program to manage all the information and company structur
 It is based on Bootstrap 4 and uses
 [Angular 2+](https://github.com/coreui/coreui-free-angular-admin-template) as Framework to work and comunicate with the database providing easy and user friendly interfaces to our users.
 
+## Functions
+- Donwload
+- Init Docker and run dev environment
+```
+docker-compose up -d
+npm run dev
+```
+
+Now you can open the site on http://localhost:4200
+```
+user: admin@admin.com
+pass: 1234
+```
 
 ## Functions
 

@@ -36,7 +36,7 @@ export class FormComponent {
     this.subscriptions.push(
       activatedRoute.params.subscribe((params) => {
         this.config._id = params.id || null;
-        this.config = { company: this.authService.company._id };
+        this.config = { company: this.authService.company?this.authService.company.company:null };
         this.config.query = {
           company: this.config.company,
           _id: this.config._id,

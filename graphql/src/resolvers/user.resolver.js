@@ -19,7 +19,6 @@ export default {
       return jwt.sign(input, "riddlemethis", { expiresIn: "7d" });
     },
     login: async (parent, { input }, { models: { userModel } }, info) => {
-      console.log(input)
       const user = await userModel.findOne({ email: input.email }).exec();
       if (!user) {
         throw new AuthenticationError("Invalid credentials");
@@ -43,11 +42,15 @@ export default {
   },
 
   User: {
-    _employee: async ({ employeeIds }, args, { models }, info) => {
-      return await models.employeeModel.find({ _id: employeeIds });
+    _employee: async ({ companies }, args, { models }, info) => {
+      return await models.employeeModel.find({ _id: companies.employee });
     },
     _company: async ({ companies }, args, { models }, info) => {
-      return await models.companyModel.find({ _id: companies });
+      //Esto deberia ser un bucle
+      console.log(companies);
+      var result = await models.companyModel.find({ _id: companies.company });
+      console.log(result)
+      return result;
     },
   },
 };

@@ -20,7 +20,9 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "migrate": "node node_modules/db-migrate/bin/db-migrate up -e dev",
-    "dev": "nodemon --watch src"
+    "unmigrate": "node node_modules/db-migrate/bin/db-migrate reset -e dev",
+    "dev": "nodemon --watch src",
+    "init": "npm migrate & npm dev"
   },
   "private": true,
   "dependencies": {

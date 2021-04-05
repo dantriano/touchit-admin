@@ -32,7 +32,7 @@ export class ListComponent implements OnInit {
     this.toastr = AppInjector.get(ToastrService);
     this.toastrService = AppInjector.get(ToastrService);
     this.authService = AppInjector.get(AuthenticationService);
-    this.config = { company: this.authService.company?this.authService.company._id:null };
+    this.config = { company: this.authService.company?this.authService.company.company:null };
     this.config.query = { company: this.config.company };
   }
   fillTable: any = {

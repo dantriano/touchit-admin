@@ -53,12 +53,10 @@ export class AuthenticationService {
     return this.userService.getOneObs;
   }
   setAuth(user: User) {
+    console.log(user);
     this.user = user;
-    this.company = this.company
-      ? this.company
-      : user._company.length > 0
-      ? user._company[0]
-      : null;
+    this.company =
+      this.company && user.companies.length > 0 ? this.company[0] : null;
     this.currentUserSubject.next(user);
     this.isAuthenticated = true;
   }

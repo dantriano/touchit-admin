@@ -26,19 +26,13 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  employee: {
-    type: [String],
-  },
-  company: {
-    type: [String],
-  },
   token: {
     type: String,
   },
   picture: {
     type: String,
   },
-  bind: {
+  companies: {
     type: [Object],
   },
   status: {

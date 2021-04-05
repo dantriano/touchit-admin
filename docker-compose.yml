@@ -8,16 +8,16 @@ services:
     working_dir: /app
     tty: true
     #command: sh -c "npm run dev"
-    #command: tail -F anything
     #First Install:
-    #command: sh -c "npm install && npm install -g migrate-mongo && npm run dev"
+    entrypoint: sh /scripts/init.sh
     restart: unless-stopped
     environment:
-      - MONGO_URI=mongodb://${MONGO_ROOT_USER}:${MONGO_ROOT_PASSWORD}@mongo:27017
+      - MONGO_URI=mongodb://${MONGO_ROOT_USER}:${MONGO_ROOT_PASSWORD}@mongo:${MONGO_PORT}
     ports:
       - ${NODE_PORT}:${NODE_PORT}
     volumes:
       - ${PROJECT_PATH}:/app
+      - ./.docker/init.sh:/scripts/init.sh
     networks:
       - app-network
 
@@ -49,8 +49,8 @@ services:
     ports:
       - ${MONGO_PORT}:${MONGO_PORT}
     volumes:
-     #- dbdata
-      - ${DATA_PATH}:/data/db
+      - dbdata
+      #- ${DATA_PATH}:/data/db
     networks:
       - app-network
 
