@@ -1,14 +1,15 @@
 import * as utils from "./utils";
+
 import { AuthenticationError } from "apollo-server";
-let status
+let status;
 function singleResolver(service, replaceInput) {
   const query = async (parent, { input }, { models, me }, info) => {
     input = replaceInput ? replaceInput : input;
     if (!me) {
       throw new AuthenticationError("You are not authenticated");
     }
-    const result = input._id
-      ? await models[service].findById({ _id: utils.objectId(input._id) })
+    const result = ("_id" in input)
+      ? await models[service].findById(utils.objectId(input._id)).exec()
       : await models[service].findOne(input).exec();
     return result ? result : null;
   };

@@ -3,14 +3,14 @@ import locationSchema from "./location.schema";
 
 const companySchema = gql`
   type Company {
-    _id: ID
+    _id: String
     name: String
     locations: [Location]
     status: String
     options: [String]
   }
   input companyInput {
-    _id: ID
+    _id: String
     name: String
     status: String
     options: [String]
