@@ -7,28 +7,6 @@ import { Observable } from "rxjs";
   templateUrl: "./settings-main.component.html",
 })
 //export class SettingsMainComponent {}
-export class SettingsMainComponent implements OnInit {
-  protected services: any;
-  protected obs$: Observable<any>;
-  constructor(protected companyService: CompanyService) {
-    this.services = { company: this.companyService };
-  }
-  ngOnInit() {
-    this.obs$ = this.loadContent();
-    this.obs$.subscribe(this.onContentLoad);
-  }
-  loadContent(): Observable<any> {
-    let query = {};
-    return this.services["company"].loadOne(query);
-  }
-  onContentLoad = {
-    next: (x) => {
-      this.companyService.loadData(x);
-      return;
-    },
-    error: (err) => {
-      console.log(err);
-      return;
-    },
-  };
+export class SettingsMainComponent{
+
 }

@@ -28,13 +28,11 @@ export class LoginComponent{
   constructor(private formBuilder: FormBuilder, private authService: AuthenticationService, private route: ActivatedRoute, private router: Router, private toastr: ToastrService) {}
   
   ngOnInit() {
-    console.log(1)
     this.form = this.formBuilder.group({
       username: [null, [Validators.required, Validators.email]],
       password: [null, Validators.required],
     });
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
-    console.log(this.returnUrl )
     this.auth = this.authService.currentUser.subscribe(
       data => {
         if(data) 

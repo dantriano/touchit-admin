@@ -9,6 +9,7 @@ export class User implements Deserializable {
   token: string;
   status: string;
   companies: UserCompany[];
+  currentCompany:string;
   //car: Car;
 
   deserialize(input: any) {

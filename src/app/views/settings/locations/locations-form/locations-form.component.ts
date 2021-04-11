@@ -1,9 +1,10 @@
 import { Component } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { FormComponent } from "@views/common/form/form.component";
-import { Observable, zip } from "rxjs";
+import { Observable, of, zip } from "rxjs";
 import { config } from "./_options";
-import { LocationService } from "app/@core/services";
+import { CompanyService, LocationService } from "app/@core/services";
+import { find } from "@utils/commons.service";
 
 declare const google: any;
 @Component({
@@ -14,20 +15,15 @@ export class LocationsFormComponent extends FormComponent {
   public location: Observable<any>;
   constructor(
     public activatedRoute: ActivatedRoute,
-    public locationService: LocationService
+    public companyService: CompanyService
   ) {
-    super(activatedRoute);
-    this.services = {
-      location: this.locationService,
-    };
+    super(activatedRoute,config);
   }
   /**
    * Load the component elements and configuration
    */
   loadComponent() {
-    this.config = config;
-    this.location = this.services.location.getOneObs;
-
+    this.obs$ = this.companyService.companyData$;
     this.config.formInputs = {
       _id: [null],
       //name: [null, [this.validators.required],[this.validators.valueExist()]],
@@ -37,10 +33,15 @@ export class LocationsFormComponent extends FormComponent {
       //options: [[]]
     };
   }
-
   loadContent() {
-    return zip(this.services[this.config.service].loadOne(this.config.query));
+    console.log(1)
+    this.companyService.companyData$.subscribe((data) => {
+      console.log(this.config._id);
+      let formData = find(data.locations, this.config._id);
+      this.obs.next(formData)
+    });
   }
+
   onMapReady(map) {
     super.onMapReady(map);
     this.mapMgr.initDrawingManager();

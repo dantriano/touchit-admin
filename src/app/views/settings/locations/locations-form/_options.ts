@@ -3,4 +3,5 @@ export const config = {
   redirect: "settings",
   uiName: "Locations",
   service: "location",
+  dataObject: "location",
 };

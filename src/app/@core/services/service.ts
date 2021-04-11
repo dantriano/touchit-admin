@@ -38,6 +38,8 @@ export class Service {
     `;
     const watch = this.apollo.watch(query, variables);
     watch.subscribe((data) => {
+      console.log(999)
+      console.log(data)
       const result: any = Object.values(data)[0];
       this.subject.next(this.deserialize(result));
     });

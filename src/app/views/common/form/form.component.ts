@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { AppInjector } from "app/app.module";
 import { ToastrService } from "ngx-toastr";
 import { first } from "rxjs/operators";
-import { BehaviorSubject, Observable, Subscription } from "rxjs";
+import { BehaviorSubject, concat, Observable, of, Subject, Subscription } from "rxjs";
 import { FormValidator } from "./form.validator";
 import { AuthenticationService, MapsService } from "app/@core/utils";
 import { msg } from "../_options";
@@ -18,7 +18,7 @@ export class FormComponent {
 
   protected formSubject = new BehaviorSubject<any>(null);
   protected loadAutocomplete = loadAutocomplete;
-  protected obs$: Observable<any>;
+  //protected obs$: Observable<any>;
   protected subscriptions: Subscription[] = [];
   protected mapMgr: MapsService = new MapsService();
   protected form: FormGroup;
@@ -29,20 +29,14 @@ export class FormComponent {
   protected router: Router;
   protected authService: AuthenticationService;
   protected services: any;
-  constructor(protected activatedRoute: ActivatedRoute) {
+
+  protected obs = new Subject<any>();
+  obs$ = this.obs.asObservable();
+
+  constructor(protected activatedRoute: ActivatedRoute,protected _config?: any) {
     this.router = AppInjector.get(Router);
     this.toastr = AppInjector.get(ToastrService);
     this.authService = AppInjector.get(AuthenticationService);
-    this.subscriptions.push(
-      activatedRoute.params.subscribe((params) => {
-        this.config._id = params.id || null;
-        this.config = { company: this.authService.company?this.authService.company.company:null };
-        this.config.query = {
-          company: this.config.company,
-          _id: this.config._id,
-        };
-      })
-    );
   }
   protected validators: any = {
     valueExist: () =>
@@ -53,10 +47,10 @@ export class FormComponent {
     required: Validators.required,
     email: Validators.email,
   };
-  private _config: any = {
+  /*private _config: any = {
     redirect: "settings",
     uiName: "Element",
-  };
+  };*/
   get formData(): Observable<any> {
     return this.formSubject.asObservable();
   }
@@ -72,23 +66,6 @@ export class FormComponent {
   get config() {
     return this._config;
   }
-
-  /*dataObserver: any = {
-    next: (x) => {
-      if (!x && this.contentLoad && this.config._id) {
-        this.toastr.error(msg(this.config).error.notFound);
-        this.router.navigate([this.config.redirect]);
-        return;
-      }
-      x && this.form.patchValue(x);
-      return;
-    },
-    error: (err) => {
-      this.toastr.error(msg(this.config).error.ups);
-      return;
-    },
-    complete: (x) => console.log("Observer got a complete notification"),
-  };*/
   submitObserver: any = {
     next: (x) => {
       this.toastr.success(msg(this.config).success.saved);
@@ -105,13 +82,25 @@ export class FormComponent {
       console.log("Submition completed");
     },
   };
-
+  onRouteLoad: any = {
+    next: (params) => {
+      this.config._id = params.id || null;
+      this.config = {
+        company: this.authService.company
+          ? this.authService.company.company
+          : null,
+      };
+      this.config.query = {
+        company: this.config.company,
+        _id: this.config._id,
+      };
+      this.loadContent();
+    },
+  };
   onContentLoad: any = {
     next: (x) => {
       this.contentLoad = true;
-      let formData = this.services[this.config.service].subject.getValue();
-      console.log(formData )
-      this.populateForm(formData);
+      this.populateForm(x);
     },
     error: (err) => {
       this.toastr.error(msg(this.config).error.ups);
@@ -125,24 +114,28 @@ export class FormComponent {
   ngOnInit() {
     this.loadComponent();
     this.loadForm();
-    this.obs$ = this.loadContent().pipe(first());
-    this.subscriptions.push(this.obs$.subscribe(this.onContentLoad));
-    //this.subscriptions.push(this.formData.subscribe(this.dataObserver));
+    this.subscriptions.push(
+      this.activatedRoute.params.subscribe(this.onRouteLoad),
+      this.obs$.subscribe(this.onContentLoad)
+    );
   }
   /**
    * First Function to be executed. Used to load all configurations in the components
    */
   loadComponent() {}
-  loadContent(): Observable<any> {
-    return null;
+  loadContent() {
+    this.obs$ = this.services
+      ? concat(this.services[this.config.service].loadOne(this.config.query))
+      : of(true);
+    //this.subscriptions.push(this.formData.subscribe(this.dataObserver));
   }
   /**
    * Destroys all subscriptions to avoid memory leak
    */
   ngOnDestroy() {
-    this.subscriptions.forEach((element) => {
+    /*this.subscriptions.forEach((element) => {
       element?.unsubscribe();
-    });
+    });*/
   }
   /**
    * Init the service to show a Map in the components

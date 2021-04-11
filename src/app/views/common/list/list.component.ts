@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { MatTableDataSource } from "@angular/material/table";
 import { ToastrService } from "ngx-toastr";
-import { concat, Observable, of, Subscription } from "rxjs";
+import { concat, Observable, of, Subject, Subscription } from "rxjs";
 import { AuthenticationService } from "app/@core/utils";
 import { AppInjector } from "app/app.module";
 import { msg } from "../_options";
@@ -9,7 +9,6 @@ import { msg } from "../_options";
 export class ListComponent implements OnInit {
   loadComponent() {}
   protected dataSource = new MatTableDataSource<any>();
-  protected dataTable: Observable<any>;
   protected obs$: Observable<any>;
   protected subscription: Subscription[] = [];
   protected services: any;
@@ -17,18 +16,21 @@ export class ListComponent implements OnInit {
   protected authService: AuthenticationService;
   protected toastr: ToastrService;
 
-  private _config: any = {
+  protected dataTable = new Subject<any>();
+  protected dataTable$ = this.dataTable.asObservable();
+
+  /*private _config: any = {
     redirect: "settings",
     uiName: "Element",
     company: null,
-  };
+  };*/
   set config(obj) {
     this._config = { ...this._config, ...obj };
   }
   get config() {
     return this._config;
   }
-  constructor() {
+  constructor(protected _config?: any) {
     this.toastr = AppInjector.get(ToastrService);
     this.toastrService = AppInjector.get(ToastrService);
     this.authService = AppInjector.get(AuthenticationService);
@@ -54,20 +56,12 @@ export class ListComponent implements OnInit {
       return;
     },
   };
-
-  /*set(attr: string, service: any) {
-    this[attr] = service;
-  }
-  get(attr: string) {
-    return this[attr];
-  }*/
-
   /**
    *  Execution on Page Load
    */
   ngOnInit() {
     this.loadComponent();
-    this.obs$ = this.loadContent();
+    this.loadContent();
     this.subscription.push(this.obs$?.subscribe(this.onContentLoad));
     this.subscription.push(this.dataTable?.subscribe(this.fillTable));
   }
@@ -76,7 +70,7 @@ export class ListComponent implements OnInit {
    * Destroy suscription when page change
    */
   loadContent() {
-    return this.services
+    this.obs$ = this.services
       ? concat(this.services[this.config.service].loadList(this.config.query))
       : of(true);
   }
@@ -85,9 +79,9 @@ export class ListComponent implements OnInit {
    * Destroys all subscriptions to avoid memory leak
    */
   ngOnDestroy() {
-    this.subscription.forEach((element) => {
+    /*this.subscription.forEach((element) => {
       element?.unsubscribe();
-    });
+    });*/
   }
 
   /**

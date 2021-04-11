@@ -16,6 +16,7 @@ export class AuthenticationService {
       this.userService.getOneObs.subscribe(
         (user) => {
           if (user) {
+            user.currentCompany="5e6acf4e2a94ac32a586eafa";
             this.setAuth(user);
           } else {
             this.logout();
@@ -53,7 +54,6 @@ export class AuthenticationService {
     return this.userService.getOneObs;
   }
   setAuth(user: User) {
-    console.log(user);
     this.user = user;
     this.company =
       this.company && user.companies.length > 0 ? this.company[0] : null;

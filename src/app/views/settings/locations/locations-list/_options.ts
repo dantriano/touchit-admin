@@ -21,6 +21,7 @@ export const config = {
   redirect: "locations",
   uiName: "Locations",
   service: "location",
+  dataObject: "location",
   displayedOptions: displayedOptions,
   displayedColumns: displayedColumns,
   dropdownOptions: dropdownOptions,

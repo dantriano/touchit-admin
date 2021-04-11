@@ -3,7 +3,7 @@ import { ApolloService } from "./apollo.service";
 import gql from "graphql-tag";
 import { Company } from "app/@core/models";
 import { Service } from "./service";
-import { Subject } from 'rxjs';
+import { Subject } from "rxjs";
 
 @Injectable({ providedIn: "root" })
 export class CompanyService extends Service {
@@ -44,19 +44,31 @@ export class CompanyService extends Service {
       __typename
       _id
       name
-      locations{
+      locations {
         _id
         name
       }
     }
   `;
 
-  // Observable string sources
-  private companyData = new Subject<object>();
-  // Observable string streams
+  private companyData = new Subject<Company>();
   companyData$ = this.companyData.asObservable();
 
-  loadData(data: object) {
-    this.companyData.next(data);
+  loadData(query:Object={}) {
+    console.log(query)
+    this.loadOne(query).subscribe(this.onContentLoad);
   }
+  onContentLoad = {
+    next: (data) => {
+      console.log(data)
+      const company: Company = this.converToModel(Object.values(data)[0]);
+      console.log(company)
+      this.companyData.next(company);
+      return;
+    },
+    error: (err) => {
+      console.log(err);
+      return;
+    },
+  };
 }
