@@ -1,9 +1,11 @@
 import { gql } from "apollo-server";
+import locationSchema from "./location.schema";
 
 const companySchema = gql`
   type Company {
     _id: ID
     name: String
+    locations: [Location]
     status: String
     options: [String]
   }

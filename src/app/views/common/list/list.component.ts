@@ -32,7 +32,11 @@ export class ListComponent implements OnInit {
     this.toastr = AppInjector.get(ToastrService);
     this.toastrService = AppInjector.get(ToastrService);
     this.authService = AppInjector.get(AuthenticationService);
-    this.config = { company: this.authService.company?this.authService.company.company:null };
+    this.config = {
+      company: this.authService.company
+        ? this.authService.company.company
+        : null,
+    };
     this.config.query = { company: this.config.company };
   }
   fillTable: any = {
@@ -64,17 +68,17 @@ export class ListComponent implements OnInit {
   ngOnInit() {
     this.loadComponent();
     this.obs$ = this.loadContent();
-    this.subscription.push(this.obs$.subscribe(this.onContentLoad));
-    this.subscription.push(this.dataTable.subscribe(this.fillTable));
+    this.subscription.push(this.obs$?.subscribe(this.onContentLoad));
+    this.subscription.push(this.dataTable?.subscribe(this.fillTable));
   }
   /**
    * First Function to be executed. Used to load all configurations in the components
    * Destroy suscription when page change
    */
-  loadContent(): Observable<any> {
-    return concat(
-      this.services[this.config.service].loadList(this.config.query)
-    );
+  loadContent() {
+    return this.services
+      ? concat(this.services[this.config.service].loadList(this.config.query))
+      : of(true);
   }
 
   /**

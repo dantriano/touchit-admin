@@ -47,9 +47,7 @@ export default {
     },
     _company: async ({ companies }, args, { models }, info) => {
       //Esto deberia ser un bucle
-      console.log(companies);
       var result = await models.companyModel.find({ _id: companies.company });
-      console.log(result)
       return result;
     },
   },

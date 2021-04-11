@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import * as location from "./location";
 
 const companySchema = new mongoose.Schema({
   _id: {
@@ -8,6 +9,9 @@ const companySchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
+  },
+  locations: {
+    type: Object,
   },
   status: {
     type: String,
