@@ -38,8 +38,6 @@ export class Service {
     `;
     const watch = this.apollo.watch(query, variables);
     watch.subscribe((data) => {
-      console.log(999)
-      console.log(data)
       const result: any = Object.values(data)[0];
       this.subject.next(this.deserialize(result));
     });
@@ -61,6 +59,7 @@ export class Service {
   }
 
   save(input: any): Observable<any> {
+    delete input?.__typename;
     const variables = { input: input };
     const mutation = gql`
       ${this.saveQuery}

@@ -17,31 +17,32 @@ export class LocationsFormComponent extends FormComponent {
     public activatedRoute: ActivatedRoute,
     public companyService: CompanyService
   ) {
-    super(activatedRoute,config);
+    super(activatedRoute, config);
   }
   /**
    * Load the component elements and configuration
    */
   loadComponent() {
-    this.obs$ = this.companyService.companyData$;
     this.config.formInputs = {
-      _id: [null],
+      _id: [Math.floor(100000000 + Math.random() * 900000000)],
       //name: [null, [this.validators.required],[this.validators.valueExist()]],
       name: [null, [this.validators.required]],
       zones: [[], [this.validators.required]],
-      company: [this.config.company],
       //options: [[]]
     };
   }
   loadContent() {
-    console.log(1)
     this.companyService.companyData$.subscribe((data) => {
-      console.log(this.config._id);
-      let formData = find(data.locations, this.config._id);
-      this.obs.next(formData)
+      let formData = find(data?.locations, this.config._id);
+      this.obs.next(formData);
     });
   }
 
+  saveForm() {
+    let company=this.companyService.data
+    company.locations.push(this.form.value)
+    this.companyService.save(company).subscribe(this.submitObserver);
+  }
   onMapReady(map) {
     super.onMapReady(map);
     this.mapMgr.initDrawingManager();

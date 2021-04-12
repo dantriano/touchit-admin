@@ -42,15 +42,15 @@ export class CommonServices {
  *
  */
 function filter(el, id) {
-  return el.filter((x) => x._id == id) || {};
+  return el?.filter((x) => x._id == id) || {};
 }
 
 function find(el, id) {
-  return el.find((x) => x._id == id) || {};
+  return el?.find((x) => x._id == id) || {};
 }
 
 function index(el, id) {
-  return el.findIndex((x) => x._id === id) || false;
+  return el?.findIndex((x) => x._id === id) || false;
 }
 
 /**

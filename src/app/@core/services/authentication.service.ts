@@ -15,6 +15,7 @@ export class AuthenticationService {
     if (!this.isAuthenticated) {
       this.userService.getOneObs.subscribe(
         (user) => {
+          console.log(user)
           if (user) {
             user.currentCompany="5e6acf4e2a94ac32a586eafa";
             this.setAuth(user);

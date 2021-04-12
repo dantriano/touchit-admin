@@ -4,7 +4,14 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { AppInjector } from "app/app.module";
 import { ToastrService } from "ngx-toastr";
 import { first } from "rxjs/operators";
-import { BehaviorSubject, concat, Observable, of, Subject, Subscription } from "rxjs";
+import {
+  BehaviorSubject,
+  concat,
+  Observable,
+  of,
+  Subject,
+  Subscription,
+} from "rxjs";
 import { FormValidator } from "./form.validator";
 import { AuthenticationService, MapsService } from "app/@core/utils";
 import { msg } from "../_options";
@@ -33,7 +40,10 @@ export class FormComponent {
   protected obs = new Subject<any>();
   obs$ = this.obs.asObservable();
 
-  constructor(protected activatedRoute: ActivatedRoute,protected _config?: any) {
+  constructor(
+    protected activatedRoute: ActivatedRoute,
+    protected _config?: any
+  ) {
     this.router = AppInjector.get(Router);
     this.toastr = AppInjector.get(ToastrService);
     this.authService = AppInjector.get(AuthenticationService);
@@ -68,6 +78,7 @@ export class FormComponent {
   }
   submitObserver: any = {
     next: (x) => {
+      console.log(x)
       this.toastr.success(msg(this.config).success.saved);
       this.router.navigate([this.config.redirect]);
       return;
@@ -94,6 +105,7 @@ export class FormComponent {
         company: this.config.company,
         _id: this.config._id,
       };
+      //if (this.config._id) 
       this.loadContent();
     },
   };
@@ -133,9 +145,9 @@ export class FormComponent {
    * Destroys all subscriptions to avoid memory leak
    */
   ngOnDestroy() {
-    /*this.subscriptions.forEach((element) => {
+    this.subscriptions.forEach((element) => {
       element?.unsubscribe();
-    });*/
+    });
   }
   /**
    * Init the service to show a Map in the components
@@ -160,17 +172,18 @@ export class FormComponent {
   }
 
   populateForm(formData) {
-    if (!formData && this.contentLoad && this.config._id) {
+    if (Object.keys(formData).length === 0 && this.contentLoad && this.config._id) {
       this.toastr.error(msg(this.config).error.notFound);
       this.router.navigate([this.config.redirect]);
       return;
     }
-    formData && this.form.patchValue(formData);
+    Object.keys(formData).length !== 0 && this.form.patchValue(formData);
   }
   /**
    * Action when the user submit a form
    */
   onSubmit() {
+    !this.form.valid && this.toastr.error(msg(this.config).error.errorForm);
     if (this.submitted || !this.form.valid) return;
     this.submitted = true;
     this.saveForm();
@@ -180,7 +193,6 @@ export class FormComponent {
    * Save data in the DataBase and attach an Observer when the data are stored
    */
   saveForm() {
-    console.log(this.form.value);
     this.services[this.config.service]
       .save(this.form.value)
       .subscribe(this.submitObserver);
@@ -203,87 +215,4 @@ export class FormComponent {
       this.formChanged = true;
     });
   }
-
-  /**
-   * Get all the data from the DataBase using the Load function of the current service
-   */
-  /*loadList() {
-    //this.obs$ =  this.service.load({ '_id': this._id ,'company': this.company });
-    /*this.obs$ = this.service.load({ '_id': this._id ,'company': this.company }).pipe(map(res => {
-      this.formData = res['data']
-      console.log(this.formData)
-      if (this._id && !this.formData[this.model]) {
-        this.toastr.error(this.msg.error.notFound);
-        this.router.navigate([this.config.redirect]);
-        return;
-      }
-      if (this.formData[this.model]) this.form.patchValue(this.formData[this.model])
-      this.onLoadContent.emit(this.formData);
-      return this.formData
-    }, (error) => {
-      this.toastr.error(this.msg.error.ups);
-      this.router.navigate([this.config.redirect]);
-      return;
-    }));
-  }*/
-  /**
-   *
-   * Group of Helpers
-   *
-   */
-  /*
-  filter(el, id) {
-    return this.common.getObjectByFilter(el, id);
-  }
-  find(el, id) {
-    return this.common.getObjectByFind(el, id);
-  }
-  index(el, id) {
-    return this.common.getIndexById(el, id);
-  }
-*/
-
-  /*setObject(object,el, reset?) {
-    if (reset) return []
-    let index = this.index(object,el._id)
-    object.splice(index, 1);
-    object.push(el)
-    return object;
-  }*/
-  /*switchElement(el, source, dest) {
-    dest.push(el);
-    source.splice(source.indexOf(el), 1);
-  }
-
-  /*setOption(input, object, reset?) {
-    let values = this.form.controls[input].value;
-    if (reset) values = []
-    if (values && values.length > 0 && object._id) {
-      let index = values.findIndex((obj => obj._id == object._id));
-      if (index !== -1) values.splice(index, 1);
-    }
-    if (object) values.push(object)
-    this.form.controls[input].setValue(values);
-  }
-  /*getOption(_id, input) {
-    let values = this.form.controls[input].value;
-    return (_id && values && values.length > 0) ? values.filter((obj => obj._id == _id))[0] : null;
-  }
-
-  unsetOption(input, object) {
-    let values = this.form.controls[input].value;
-    let index = values.findIndex((obj => obj._id == object._id));
-    if (index !== -1) values.splice(index, 1);
-    this.form.controls[input].setValue(values);
-  }
-  /*switchTriStatus(_id, input) {
-    let el = this.getOption(_id, input)
-
-    if (!el || el.status === 'null') status = 'allow'
-    else if (el.status === 'allow') status = 'deny'
-    else if (el.status === 'deny') status = 'null'
-
-    let object = { '_id': _id, 'status': status };
-    this.setOption(input, object);
-  }*/
 }

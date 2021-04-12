@@ -3,7 +3,7 @@ import locationSchema from "./location.schema";
 
 const companySchema = gql`
   type Company {
-    _id: String
+    _id: ID
     name: String
     locations: [Location]
     status: String
@@ -13,9 +13,9 @@ const companySchema = gql`
     _id: String
     name: String
     status: String
+    locations: [locationInput]
     options: [String]
   }
-
   extend type Query {
     company(input: companyInput): Company
     companies(input: companyInput): [Company]

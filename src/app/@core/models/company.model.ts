@@ -8,6 +8,7 @@ export class Company implements Deserializable {
 
   deserialize(input: any) {
     Object.assign(this, input);
+    this.locations = this.locations?.map((x) => new Location().deserialize(x)) || [];
     return this;
   }
 }

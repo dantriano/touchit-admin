@@ -3,7 +3,7 @@ import * as location from "./location";
 
 const companySchema = new mongoose.Schema({
   _id: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
     required: true,
   },
   name: {

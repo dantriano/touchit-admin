@@ -17,7 +17,7 @@ export class LocationsListComponent extends ListComponent {
   }
   loadContent() {
     this.obs$.subscribe((data) => {
-      this.dataTable.next(data.locations);
+      this.dataTable.next(data?.locations);
     });
   }
 }

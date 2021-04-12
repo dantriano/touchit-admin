@@ -79,9 +79,9 @@ export class ListComponent implements OnInit {
    * Destroys all subscriptions to avoid memory leak
    */
   ngOnDestroy() {
-    /*this.subscription.forEach((element) => {
+    this.subscription.forEach((element) => {
       element?.unsubscribe();
-    });*/
+    });
   }
 
   /**

@@ -9,6 +9,7 @@ function msg(x) {
     error: {
       notFound: `${x.uiName} not found`,
       ups: "Ups..Something happend",
+      errorForm: "Please check all fields",
     },
   };
 }

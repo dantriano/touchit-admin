@@ -32,7 +32,7 @@ const userSchema = gql`
   }
   extend type Query {
     user(input: userInput!): User
-    users(input: userInput!): [User]
+    users(input: userInput): [User]
     login(input: userInput!): User
     token(input: userInput!): String!
   }

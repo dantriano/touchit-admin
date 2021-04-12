@@ -7,6 +7,7 @@ import { Subject } from "rxjs";
 
 @Injectable({ providedIn: "root" })
 export class CompanyService extends Service {
+  private company: Company;
   constructor(protected apollo: ApolloService) {
     super(apollo);
     this.fragment = CompanyService.fragment;
@@ -15,6 +16,12 @@ export class CompanyService extends Service {
     return new Company().deserialize(x);
   }
   toModel = this.converToModel;
+  get data(): Company {
+    return this.company;
+  }
+  set data(company) {
+    this.company = company;
+  }
   saveQuery = gql`
     mutation saveCompany($input: companyInput!) {
       saveCompany(input: $input)
@@ -54,16 +61,13 @@ export class CompanyService extends Service {
   private companyData = new Subject<Company>();
   companyData$ = this.companyData.asObservable();
 
-  loadData(query:Object={}) {
-    console.log(query)
+  loadData(query: Object = {}) {
     this.loadOne(query).subscribe(this.onContentLoad);
   }
   onContentLoad = {
     next: (data) => {
-      console.log(data)
-      const company: Company = this.converToModel(Object.values(data)[0]);
-      console.log(company)
-      this.companyData.next(company);
+      this.data = this.converToModel(Object.values(data)[0]);
+      this.companyData.next(this.data);
       return;
     },
     error: (err) => {

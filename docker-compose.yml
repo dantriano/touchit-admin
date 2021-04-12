@@ -49,7 +49,7 @@ services:
     ports:
       - ${MONGO_PORT}:${MONGO_PORT}
     volumes:
-      - dbdata
+      - dbdata:/data/db
       #- ${DATA_PATH}:/data/db
     networks:
       - app-network
