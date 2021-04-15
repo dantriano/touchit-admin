@@ -1,78 +1,59 @@
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, Observable, throwError } from "rxjs";
 import { UserService } from "app/@core/services/user.service";
 import { User } from "app/@core/models";
 
 @Injectable({ providedIn: "root" })
 export class AuthenticationService {
-  currentUserSubject: BehaviorSubject<User> = new BehaviorSubject<User>(null);
-  currentUser: Observable<User> = this.currentUserSubject.asObservable();
-
+  private user: User;
+  private auth: boolean = false;
   constructor(private userService: UserService) {
-    if (this.isAuthenticated) {
-      this.setAuth(JSON.parse(localStorage.getItem("currentUser")));
-    }
-    if (!this.isAuthenticated) {
-      this.userService.getOneObs.subscribe(
-        (user) => {
-          console.log(user)
-          if (user) {
-            user.currentCompany="5e6acf4e2a94ac32a586eafa";
-            this.setAuth(user);
-          } else {
-            this.logout();
-          }
-        },
-        (error) => {
-          this.logout();
-          return;
-          return throwError("Error");
-        }
-      );
-    }
+    if (this.localUser) this.setAuth(this.localUser);
   }
-  set isAuthenticated(is: boolean) {
-    localStorage.setItem("isAuthenticated", JSON.stringify(is));
-  }
-  set user(user) {
+  set localUser(user) {
     localStorage.setItem("currentUser", JSON.stringify(user));
+  }
+  get localUser() {
+    return (
+      localStorage.getItem("currentUser") &&
+      new User().deserialize(JSON.parse(localStorage.getItem("currentUser")))
+    );
+  }
+
+  get isAuthenticated() {
+    return this.auth;
+  }
+  get currentUser() {
+    return this.user;
   }
   set company(company) {
     localStorage.setItem("currentCompany", JSON.stringify(company));
   }
-  get isAuthenticated(): boolean {
-    return localStorage.getItem("isAuthenticated") == "true";
-  }
-  get user() {
-    return localStorage.getItem("currentUser")
-      ? new User().deserialize(JSON.parse(localStorage.getItem("currentUser")))
-      : null;
-  }
   get company() {
     return JSON.parse(localStorage.getItem("currentCompany"));
+  }
+  hasUserAuth() {
+    return localStorage.getItem("currentUser") != null;
   }
   getUser() {
     return this.userService.getOneObs;
   }
   setAuth(user: User) {
     this.user = user;
+    this.localUser=user;
     this.company =
       this.company && user.companies.length > 0 ? this.company[0] : null;
-    this.currentUserSubject.next(user);
-    this.isAuthenticated = true;
+    this.auth = true;
   }
   attemptAuth(credentials) {
-    this.userService.login({
+    return this.userService.login({
       email: credentials.username,
       password: credentials.password,
     });
   }
-
   logout() {
     localStorage.removeItem("currentUser");
     localStorage.removeItem("currentCompany");
     localStorage.removeItem("isAuthenticated");
-    this.currentUserSubject.next(null);
-    this.isAuthenticated = false;
+    this.auth = false;
   }
 }

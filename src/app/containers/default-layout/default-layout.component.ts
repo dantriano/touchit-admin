@@ -20,7 +20,7 @@ export class DefaultLayoutComponent {
     this.sidebarMinimized = e;
   }
   get user() {
-    return this.authService.currentUserSubject.getValue();
+    return this.authService.currentUser;
   }
   get company() {
     return this.authService.company;

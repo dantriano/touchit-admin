@@ -21,12 +21,14 @@ export default {
     login: async (parent, { input }, { models: { userModel } }, info) => {
       const user = await userModel.findOne({ email: input.email }).exec();
       if (!user) {
-        throw new AuthenticationError("Invalid credentials");
+        return null;
+        //throw new AuthenticationError("Invalid credentials");
         //return error('Username or password is incorrect');
       }
       const matchPasswords = bcrypt.compareSync(input.password, user.password);
       if (!matchPasswords) {
-        throw new AuthenticationError("Invalid credentials");
+        return null;
+        //throw new AuthenticationError("Invalid credentials");
         //return error('Username or password is incorrect');‹
       }
       const userToken = jwt.sign({ id: user._id }, "riddlemethis", {

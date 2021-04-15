@@ -20,6 +20,8 @@ services:
       - ./.docker/init.sh:/scripts/init.sh
     networks:
       - app-network
+    depends_on:
+      - mongo
 
   graphql:
     image: node:10
