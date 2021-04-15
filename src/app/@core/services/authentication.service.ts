@@ -39,7 +39,7 @@ export class AuthenticationService {
   }
   setAuth(user: User) {
     this.user = user;
-    this.localUser=user;
+    this.localUser = user;
     this.company =
       this.company && user.companies.length > 0 ? this.company[0] : null;
     this.auth = true;

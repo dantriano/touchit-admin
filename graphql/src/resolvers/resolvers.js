@@ -12,6 +12,7 @@ function singleResolver(service, replaceInput) {
     const result = ("_id" in input)
       ? await models[service].findById(utils.objectId(input._id)).exec()
       : await models[service].findOne(input).exec();
+    console.log(result)
     return result ? result : null;
   };
   return query;
@@ -23,6 +24,7 @@ function listResolver(service) {
       throw new AuthenticationError("You are not authenticated");
     }
     const result = await models[service].find(input).exec();
+    console.log(result)
     return result ? result : [];
   };
   return query;

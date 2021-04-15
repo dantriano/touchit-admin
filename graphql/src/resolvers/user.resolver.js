@@ -10,7 +10,7 @@ import {
   removeResolver,
 } from "./resolvers";
 const saltRounds = 12;
-const service = "groupModel";
+const service = "userModel";
 export default {
   Query: {
     user: singleResolver(service),

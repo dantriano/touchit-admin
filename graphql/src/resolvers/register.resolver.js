@@ -5,7 +5,7 @@ import {
   removeResolver,
 } from "./resolvers";
 
-const service = "groupModel";
+const service = "registerModel";
 export default {
   Query: {
     register: singleResolver(service),
