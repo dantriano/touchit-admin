@@ -35,8 +35,8 @@ export class ListComponent implements OnInit {
     this.toastrService = AppInjector.get(ToastrService);
     this.authService = AppInjector.get(AuthenticationService);
     this.config = {
-      company: this.authService.company
-        ? this.authService.company.company
+      company: this.authService.currentCompany
+        ? this.authService.currentCompany
         : null,
     };
     this.config.query = { company: this.config.company };

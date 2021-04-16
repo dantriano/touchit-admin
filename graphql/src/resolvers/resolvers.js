@@ -1,18 +1,20 @@
 import * as utils from "./utils";
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 import { AuthenticationError } from "apollo-server";
 let status;
 function singleResolver(service, replaceInput) {
   const query = async (parent, { input }, { models, me }, info) => {
+    console.log(input);
     input = replaceInput ? replaceInput : input;
     if (!me) {
       throw new AuthenticationError("You are not authenticated");
     }
-    const result = ("_id" in input)
-      ? await models[service].findById(utils.objectId(input._id)).exec()
-      : await models[service].findOne(input).exec();
-    console.log(result)
+    const result =
+      "_id" in input
+        ? await models[service].findById(utils.objectId(input._id)).exec()
+        : await models[service].findOne(input).exec();
+    console.log(result);
     return result ? result : null;
   };
   return query;
@@ -20,11 +22,12 @@ function singleResolver(service, replaceInput) {
 
 function listResolver(service) {
   const query = async (parent, { input }, { models, me }, info) => {
+    console.log(input);
     if (!me) {
       throw new AuthenticationError("You are not authenticated");
     }
     const result = await models[service].find(input).exec();
-    console.log(result)
+    console.log(result);
     return result ? result : [];
   };
   return query;
@@ -33,10 +36,10 @@ function listResolver(service) {
 function saveResolver(service) {
   const query = async (parent, { input }, { models, me }, info) => {
     if (!me) throw new AuthenticationError("You are not authenticated");
-    console.log('save')
+    console.log("save");
     if (input._id) {
       input._id = utils.objectId(input._id);
-      console.log(input)
+      console.log(input);
       status = await models[service].updateOne({ _id: input._id }, input);
       return status.ok && status.nModified > 0;
     } else {

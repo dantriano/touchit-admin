@@ -1,9 +1,10 @@
 import bcrypt from 'bcrypt';
 import mongoose from 'mongoose';
 const saltRounds = 12;
-const companies = {
-  employee: String,
-  company: String,
+
+const _company = {
+  _id: String,
+  name: String,
 }
 const userSchema = new mongoose.Schema({
   _id: {
@@ -37,7 +38,10 @@ const userSchema = new mongoose.Schema({
     type: String,
   },
   companies: {
-    type: [companies],
+    type: [String],
+  },
+  _company: {
+    type: [_company],
   },
   status: {
     type: String,

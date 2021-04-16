@@ -8,7 +8,7 @@ const userSchema = gql`
     picture: String
     email: String
     token: String
-    companies: [Companies]
+    companies: [String]
     status: String
   }
 

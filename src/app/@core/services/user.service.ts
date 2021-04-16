@@ -68,13 +68,10 @@ export class UserService extends Service {
       lastName
       picture
       email
+      companies
       _company {
         _id
         name
-      }
-      _employee {
-        _id
-        firstName
       }
       token
     }

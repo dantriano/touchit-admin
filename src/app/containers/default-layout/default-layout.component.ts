@@ -23,11 +23,11 @@ export class DefaultLayoutComponent {
     return this.authService.currentUser;
   }
   get company() {
-    return this.authService.company;
+    return this.authService.currentCompany;
   }
   set company(company) {
+    this.authService.setCompany(company);
     this.router.navigate([this.router.url]);
-    this.authService.company = company;
   }
   logout() {
     this.authService.logout();

@@ -2,6 +2,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { AuthenticationError } from "apollo-server";
 import * as utils from "./utils";
+import * as company from "./company.resolver";
 
 import {
   singleResolver,
@@ -48,9 +49,8 @@ export default {
       return await models.employeeModel.find({ _id: companies.employee });
     },
     _company: async ({ companies }, args, { models }, info) => {
-      //Esto deberia ser un bucle
-      var result = await models.companyModel.find({ _id: companies.company });
-      return result;
+      var result = await models.companyModel.find({ _id: { $in: companies } });
+      return result ? result : [];
     },
   },
 };

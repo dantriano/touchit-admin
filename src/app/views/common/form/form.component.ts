@@ -97,8 +97,8 @@ export class FormComponent {
     next: (params) => {
       this.config._id = params.id || null;
       this.config = {
-        company: this.authService.company
-          ? this.authService.company.company
+        company: this.authService.currentCompany
+          ? this.authService.currentCompany
           : null,
       };
       this.config.query = {

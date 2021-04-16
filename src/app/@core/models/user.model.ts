@@ -8,24 +8,24 @@ export class User implements Deserializable {
   picture: string;
   token: string;
   status: string;
-  companies: UserCompany[];
+  companies: string[];
   currentCompany:string;
   //car: Car;
 
   deserialize(input: any) {
     Object.assign(this, input);
-    this.companies = this.companies?.map((x) =>
+    /*this.companies = this.companies?.map((x) =>
       new UserCompany().deserialize(x)
-    );
+    );*/
     //this.car = new Car().deserialize(input.car);
     return this;
   }
 }
-class UserCompany implements Deserializable {
+/*class UserCompany implements Deserializable {
   company: string;
   user: string;
   deserialize(input: any) {
     Object.assign(this, input);
     return this;
   }
-}
+}*/
