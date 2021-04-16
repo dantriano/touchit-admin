@@ -13,6 +13,12 @@ const companySchema = new mongoose.Schema({
   locations: {
     type: Object,
   },
+  groups: {
+    type: Object,
+  },
+  activities: {
+    type: Object,
+  },
   status: {
     type: String,
   },

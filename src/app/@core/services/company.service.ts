@@ -54,6 +54,28 @@ export class CompanyService extends Service {
       locations {
         _id
         name
+        zones{
+          latsLngs{
+            lat
+            lng
+          }
+        }
+      }
+      groups {
+        _id
+        name
+        activities
+        options
+      }
+      activities {
+        _id
+        name
+        startTo
+        startFrom
+        duration
+        days
+        locations
+        options
       }
     }
   `;
@@ -61,8 +83,8 @@ export class CompanyService extends Service {
   private companyData = new Subject<Company>();
   companyData$ = this.companyData.asObservable();
 
-  loadData(query: Object = {}) {
-    this.loadOne(query).subscribe(this.onContentLoad);
+  loadData(company: Object = {}) {
+    this.loadOne({_id:company}).subscribe(this.onContentLoad);
   }
   onContentLoad = {
     next: (data) => {

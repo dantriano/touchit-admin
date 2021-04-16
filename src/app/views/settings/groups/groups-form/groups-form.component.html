@@ -90,7 +90,7 @@
                 <mat-nav-list>
                   <mat-selection-list formControlName="activities">
                     <mat-list-option
-                      *ngFor="let option of activities | async"
+                      *ngFor="let option of activities"
                       [value]="option._id"
                     >
                       <span>{{ option.name }}</span>

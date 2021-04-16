@@ -1,9 +1,9 @@
 import { Component } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { FormComponent } from "@views/common/form/form.component";
-import { Observable, of, zip } from "rxjs";
+import { Observable } from "rxjs";
 import { config } from "./_options";
-import { CompanyService, LocationService } from "app/@core/services";
+import { CompanyService } from "app/@core/services";
 import { find } from "@utils/commons.service";
 
 declare const google: any;
@@ -39,8 +39,8 @@ export class LocationsFormComponent extends FormComponent {
   }
 
   saveForm() {
-    let company=this.companyService.data
-    company.locations.push(this.form.value)
+    let company = this.companyService.data;
+    company.locations.push(this.form.value);
     this.companyService.save(company).subscribe(this.submitObserver);
   }
   onMapReady(map) {

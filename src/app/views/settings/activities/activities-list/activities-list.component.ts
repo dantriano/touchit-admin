@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { ListComponent } from "@views/common/list/list.component";
-import { ActivityService } from "app/@core/services";
+import { ActivityService, CompanyService } from "app/@core/services";
 import { config } from "./_options";
 
 @Component({
@@ -8,15 +8,15 @@ import { config } from "./_options";
   templateUrl: "../../../common/list/list.component.html",
 })
 export class ActivitiesListComponent extends ListComponent implements OnInit {
-  constructor(protected activityService: ActivityService) {
-    super();
-    this.services = { activity: this.activityService };
+  constructor(protected companyService: CompanyService) {
+    super(config);
   }
   loadComponent() {
-    this.config = config;
-    this.dataTable = this.services[this.config.service].getListObs;
+    this.obs$ = this.companyService.companyData$;
   }
   loadContent() {
-    return super.loadContent();
+    this.obs$.subscribe((data) => {
+      this.dataTable.next(data?.activities);
+    });
   }
 }

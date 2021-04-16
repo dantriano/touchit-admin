@@ -3,7 +3,8 @@ import { ActivatedRoute } from "@angular/router";
 import { FormComponent } from "@views/common/form/form.component";
 import { Observable, zip } from "rxjs";
 import { config } from "./_options";
-import { ActivityService, LocationService } from "app/@core/services";
+import { ActivityService, CompanyService, LocationService } from "app/@core/services";
+import { find } from "@utils/commons.service";
 
 @Component({
   selector: "activites-form",
@@ -13,46 +14,42 @@ import { ActivityService, LocationService } from "app/@core/services";
  * Component to generate the Registers Form Page
  */
 export class ActivitiesFormComponent extends FormComponent {
-  public activity: Observable<any>;
-  public locations: Observable<any>;
+  public locations: any[];
   constructor(
     public activatedRoute: ActivatedRoute,
-    public activityService: ActivityService,
-    public locationService: LocationService
+    public companyService: CompanyService
   ) {
-    super(activatedRoute);
-    this.services = {
-      activity: this.activityService,
-      location: this.locationService,
-    };
+    super(activatedRoute, config);
   }
+  
   /**
    * Load the component elements and configuration
    */
   loadComponent() {
-    this.config = config;
-    this.activity = this.services.activity.getOneObs;
-    this.locations = this.services.location.getListObs;
-
     this.config.formInputs = {
-      _id: [""],
+      _id: [Math.floor(100000000 + Math.random() * 900000000)],
       //name: ['', [validators.required],[validators.valueExist()]],
       name: ["", [this.validators.required]],
       locations: [[]],
       options: [[]],
       startFrom: [""],
       startTo: [""],
-      company: [this.config.company],
       days: [[]],
       duration: [""],
     };
   }
-
   loadContent() {
-    return zip(
-      this.services[this.config.service].loadOne(this.config.query),
-      this.services.location.loadList({ company: this.config.company })
-    );
+    this.companyService.companyData$.subscribe((data) => {  
+      let formData = find(data?.activities, this.config._id);
+      this.locations = data.locations;
+      this.obs.next(formData);
+    });
+  }
+
+  saveForm() {
+    let company = this.companyService.data;
+    company.activities.push(this.form.value);
+    this.companyService.save(company).subscribe(this.submitObserver);
   }
 
   deleteLocation(el) {

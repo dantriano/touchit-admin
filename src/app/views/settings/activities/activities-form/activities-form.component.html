@@ -73,7 +73,7 @@
                 <ul class="list-group">
                   <li
                     href="#"
-                    *ngFor="let option of locations | async; let i = index"
+                    *ngFor="let option of locations; let i = index"
                     [ngClass]="{
                       hidden: f.locations.value.includes(option._id) == false
                     }"
@@ -202,7 +202,7 @@
             <perfect-scrollbar class="scroll-area-sm" [config]="config">
               <ul class="list-group">
                 <li
-                  *ngFor="let option of locations | async; let i = index"
+                  *ngFor="let option of locations; let i = index"
                   [ngClass]="{
                     hidden: f.locations.value.includes(option._id) == true
                   }"

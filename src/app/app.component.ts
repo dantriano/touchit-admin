@@ -25,6 +25,6 @@ export class AppComponent implements OnInit {
     });
   }
   loadCompanyData() {
-    this.authService.currentUser && this.authService.currentUser && this.companyService.loadData({"name": "Empresa"});
+    this.authService.currentCompany && this.companyService.loadData(this.authService.currentCompany);
   }
 }

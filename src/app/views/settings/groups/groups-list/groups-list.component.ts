@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { ListComponent } from "@views/common/list/list.component";
-import { GroupService } from "app/@core/services";
+import { CompanyService, GroupService } from "app/@core/services";
 import { config } from "./_options";
 
 @Component({
@@ -8,15 +8,15 @@ import { config } from "./_options";
   templateUrl: "../../../common/list/list.component.html",
 })
 export class GroupsListComponent extends ListComponent implements OnInit {
-  constructor(protected groupService: GroupService) {
-    super();
-    this.services = { group: this.groupService };
+  constructor(protected companyService: CompanyService) {
+    super(config);
   }
   loadComponent() {
-    this.config = config;
-    this.dataTable = this.services[this.config.service].getListObs;
+    this.obs$ = this.companyService.companyData$;
   }
   loadContent() {
-    return super.loadContent();
+    this.obs$.subscribe((data) => {
+      this.dataTable.next(data?.groups);
+    });
   }
 }

@@ -1,41 +1,31 @@
 import { Component } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { FormComponent } from "@views/common/form/form.component";
-import { Observable, zip } from "rxjs";
+import { Observable } from "rxjs";
 import { config } from "./_options";
-import { ActivityService, GroupService } from "app/@core/services";
+import { ActivityService, CompanyService } from "app/@core/services";
+import { find } from "@utils/commons.service";
 
 @Component({
   selector: "groups-form",
   templateUrl: "./groups-form.component.html",
 })
 export class GroupsFormComponent extends FormComponent {
-  public group: Observable<any>;
-  public activities: Observable<any>;
+  public activities: any[];
   constructor(
     public activatedRoute: ActivatedRoute,
-    public groupService: GroupService,
-    public activityService: ActivityService
+    public companyService: CompanyService
   ) {
-    super(activatedRoute);
-    this.services = {
-      group: this.groupService,
-      activity: this.activityService,
-    };
+    super(activatedRoute, config);
   }
   /**
    * Load the component elements and configuration
    */
   loadComponent() {
-    this.config = config;
-    this.group = this.services.group.getOneObs;
-    this.activities = this.services.activity.getListObs;
-
     this.config.formInputs = {
-      _id: [""],
+      _id: [Math.floor(100000000 + Math.random() * 900000000)],
       //name: ['', [validators.required],[validators.valueExist()]],
       name: ["", [this.validators.required]],
-      company: [this.config.company],
       main: [""],
       activities: [[]],
       options: [[]],
@@ -43,9 +33,21 @@ export class GroupsFormComponent extends FormComponent {
   }
 
   loadContent() {
+    this.companyService.companyData$.subscribe((data) => {  
+      let formData = find(data?.groups, this.config._id);
+      this.activities = data.activities;
+      this.obs.next(formData);
+    });
+  }
+  saveForm() {
+    let company = this.companyService.data;
+    company.groups.push(this.form.value);
+    this.companyService.save(company).subscribe(this.submitObserver);
+  }
+  /*loadContent() {
     return zip(
-      this.services[this.config.service].loadOne(this.config.query),
+      this.companyService.companyData$,
       this.services.activity.loadList({ company: this.config.company })
     );
-  }
+  }*/
 }
