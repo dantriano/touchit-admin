@@ -1,7 +1,4 @@
 import { gql } from "apollo-server";
-import locationSchema from "./location.schema";
-import groupShema from "./group.schema";
-import activitySchema from "./activity.schema";
 
 const companySchema = gql`
   type Company {
@@ -10,6 +7,7 @@ const companySchema = gql`
     locations: [Location]
     groups: [Group]
     activities: [Activity]
+    schedules: [Schedule]
     status: String
     options: [String]
   }
@@ -20,6 +18,7 @@ const companySchema = gql`
     locations: [locationInput]
     groups: [groupInput]
     activities: [activityInput]
+    schedules: [scheduleInput]
     options: [String]
   }
   extend type Query {

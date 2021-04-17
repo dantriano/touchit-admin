@@ -3,7 +3,6 @@ import { ApolloService } from "./apollo.service";
 import gql from "graphql-tag";
 import { Employee } from "../models/employee.model";
 import { Service } from "./service";
-import { GroupService } from "./group.service";
 
 @Injectable({ providedIn: "root" })
 export class EmployeeService extends Service {
@@ -47,9 +46,6 @@ export class EmployeeService extends Service {
       firstName
       lastName
       groups
-      _groups {
-        ...groupFragment
-      }
       options
       mainActivity
       customActivities {
@@ -59,7 +55,6 @@ export class EmployeeService extends Service {
       linkCode
       isLinked
     }
-    ${GroupService.fragment}
   `;
   generateCode() {
     var length = 4;

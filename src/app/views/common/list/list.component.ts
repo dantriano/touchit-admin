@@ -10,7 +10,7 @@ export class ListComponent implements OnInit {
   loadComponent() {}
   protected dataSource = new MatTableDataSource<any>();
   protected obs$: Observable<any>;
-  protected subscription: Subscription[] = [];
+  protected subscriptions: Subscription[] = [];
   protected services: any;
   protected toastrService: ToastrService;
   protected authService: AuthenticationService;
@@ -62,8 +62,8 @@ export class ListComponent implements OnInit {
   ngOnInit() {
     this.loadComponent();
     this.loadContent();
-    this.subscription.push(this.obs$?.subscribe(this.onContentLoad));
-    this.subscription.push(this.dataTable?.subscribe(this.fillTable));
+    this.subscriptions.push(this.obs$?.subscribe(this.onContentLoad));
+    this.subscriptions.push(this.dataTable?.subscribe(this.fillTable));
   }
   /**
    * First Function to be executed. Used to load all configurations in the components
@@ -79,7 +79,7 @@ export class ListComponent implements OnInit {
    * Destroys all subscriptions to avoid memory leak
    */
   ngOnDestroy() {
-    this.subscription.forEach((element) => {
+    this.subscriptions.forEach((element) => {
       element?.unsubscribe();
     });
   }

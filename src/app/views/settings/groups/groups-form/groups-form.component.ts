@@ -3,8 +3,9 @@ import { ActivatedRoute } from "@angular/router";
 import { FormComponent } from "@views/common/form/form.component";
 import { Observable } from "rxjs";
 import { config } from "./_options";
-import { ActivityService, CompanyService } from "app/@core/services";
-import { find } from "@utils/commons.service";
+import { CompanyService } from "app/@core/services";
+import { addOrReplace, find, replace } from "@utils/commons.service";
+import { first } from "rxjs/operators";
 
 @Component({
   selector: "groups-form",
@@ -33,21 +34,19 @@ export class GroupsFormComponent extends FormComponent {
   }
 
   loadContent() {
-    this.companyService.companyData$.subscribe((data) => {  
+    this.companyService.companyData$.pipe(first()).subscribe((data) => {
       let formData = find(data?.groups, this.config._id);
       this.activities = data.activities;
       this.obs.next(formData);
     });
   }
   saveForm() {
-    let company = this.companyService.data;
-    company.groups.push(this.form.value);
-    this.companyService.save(company).subscribe(this.submitObserver);
+    this.companyService
+      .loadData(this.authService.currentCompany)
+      .pipe(first())
+      .subscribe((company) => {
+        company.groups = addOrReplace(company?.groups, [this.form.value]);
+        this.companyService.save(company).subscribe(this.submitObserver);
+      });
   }
-  /*loadContent() {
-    return zip(
-      this.companyService.companyData$,
-      this.services.activity.loadList({ company: this.config.company })
-    );
-  }*/
 }

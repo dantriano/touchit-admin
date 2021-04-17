@@ -1,9 +1,7 @@
 import { Component, ViewChildren } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import {
-  ActivityService,
   EmployeeService,
-  GroupService,
 } from "app/@core/services";
 import { FormComponent } from "@views/common/form/form.component";
 import { Observable, zip } from "rxjs";
@@ -27,15 +25,11 @@ export class EmployeesFormComponent extends FormComponent {
 
   constructor(
     public activatedRoute: ActivatedRoute,
-    public employeeService: EmployeeService,
-    public activityService: ActivityService,
-    public groupService: GroupService
+    public employeeService: EmployeeService
   ) {
     super(activatedRoute);
     this.services = {
       employee: this.employeeService,
-      activity: this.activityService,
-      group: this.groupService,
     };
   }
   /**

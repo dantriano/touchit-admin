@@ -4,7 +4,8 @@ import { FormComponent } from "@views/common/form/form.component";
 import { Observable } from "rxjs";
 import { config } from "./_options";
 import { CompanyService } from "app/@core/services";
-import { find } from "@utils/commons.service";
+import { addOrReplace, find } from "@utils/commons.service";
+import { first } from "rxjs/operators";
 
 declare const google: any;
 @Component({
@@ -32,16 +33,19 @@ export class LocationsFormComponent extends FormComponent {
     };
   }
   loadContent() {
-    this.companyService.companyData$.subscribe((data) => {
+    this.companyService.companyData$.pipe(first()).subscribe((data) => {
       let formData = find(data?.locations, this.config._id);
       this.obs.next(formData);
     });
   }
-
   saveForm() {
-    let company = this.companyService.data;
-    company.locations.push(this.form.value);
-    this.companyService.save(company).subscribe(this.submitObserver);
+    this.companyService
+      .loadData(this.authService.currentCompany)
+      .pipe(first())
+      .subscribe((company) => {
+        company.locations = addOrReplace(company.locations, [this.form.value]);
+        this.companyService.save(company).subscribe(this.submitObserver);
+      });
   }
   onMapReady(map) {
     super.onMapReady(map);

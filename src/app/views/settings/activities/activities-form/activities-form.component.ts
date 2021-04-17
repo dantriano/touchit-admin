@@ -3,8 +3,9 @@ import { ActivatedRoute } from "@angular/router";
 import { FormComponent } from "@views/common/form/form.component";
 import { Observable, zip } from "rxjs";
 import { config } from "./_options";
-import { ActivityService, CompanyService, LocationService } from "app/@core/services";
-import { find } from "@utils/commons.service";
+import { CompanyService } from "app/@core/services";
+import { find, addOrReplace } from "@utils/commons.service";
+import { first } from "rxjs/operators";
 
 @Component({
   selector: "activites-form",
@@ -21,7 +22,7 @@ export class ActivitiesFormComponent extends FormComponent {
   ) {
     super(activatedRoute, config);
   }
-  
+
   /**
    * Load the component elements and configuration
    */
@@ -39,19 +40,23 @@ export class ActivitiesFormComponent extends FormComponent {
     };
   }
   loadContent() {
-    this.companyService.companyData$.subscribe((data) => {  
-      let formData = find(data?.activities, this.config._id);
+    this.companyService.companyData$.pipe(first()).subscribe((data) => {
       this.locations = data.locations;
+      let formData = find(data?.activities, this.config._id);
       this.obs.next(formData);
     });
   }
-
   saveForm() {
-    let company = this.companyService.data;
-    company.activities.push(this.form.value);
-    this.companyService.save(company).subscribe(this.submitObserver);
+    this.companyService
+      .loadData(this.authService.currentCompany)
+      .pipe(first())
+      .subscribe((company) => {
+        company.activities = addOrReplace(company.activities, [
+          this.form.value,
+        ]);
+        this.companyService.save(company).subscribe(this.submitObserver);
+      });
   }
-
   deleteLocation(el) {
     let locations = this.form.controls.locations.value;
     locations.splice(locations.indexOf(el._id), 1);

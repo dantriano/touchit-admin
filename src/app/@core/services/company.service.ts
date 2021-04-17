@@ -54,8 +54,8 @@ export class CompanyService extends Service {
       locations {
         _id
         name
-        zones{
-          latsLngs{
+        zones {
+          latsLngs {
             lat
             lng
           }
@@ -77,6 +77,16 @@ export class CompanyService extends Service {
         locations
         options
       }
+      schedules {
+        _id
+        name
+        options
+        startFrom
+        startTo
+        duration
+        days
+        locations
+      }
     }
   `;
 
@@ -84,7 +94,8 @@ export class CompanyService extends Service {
   companyData$ = this.companyData.asObservable();
 
   loadData(company: Object = {}) {
-    this.loadOne({_id:company}).subscribe(this.onContentLoad);
+    this.loadOne({ _id: company }).subscribe(this.onContentLoad);
+    return this.companyData$;
   }
   onContentLoad = {
     next: (data) => {

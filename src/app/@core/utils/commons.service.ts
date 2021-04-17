@@ -41,16 +41,30 @@ export class CommonServices {
  * Group of Helpers to find elements in Object
  *
  */
-function filter(el, id) {
-  return el?.filter((x) => x._id == id) || {};
+function remove(arr, id) {
+  return arr?.filter((x) => x._id != id) || {};
 }
-
-function find(el, id) {
-  return el?.find((x) => x._id == id) || {};
+function replace(arr, arr2) {
+  return arr.map((obj) => arr2.find((o) => o._id === obj._id) || obj);
 }
-
-function index(el, id) {
-  return el?.findIndex((x) => x._id === id) || false;
+function addOrReplace(arr, arr2) {
+  arr2.map((o) => {
+    arr = index(arr, o._id) >= 0 ? replace(arr, [o]) : add(arr, o);
+  });
+  return arr;
+}
+function add(arr, obj) {
+  arr.push(obj);
+  return arr;
+}
+function filter(arr, id) {
+  return arr?.filter((x) => x._id == id) || {};
+}
+function find(arr, id) {
+  return arr?.find((x) => x._id == id) || {};
+}
+function index(arr, id) {
+  return arr?.findIndex((x) => x._id === id) || false;
 }
 
 /**
@@ -111,4 +125,13 @@ function _filterAutocompleteMultiple(
   });
 }
 
-export { filter, find, index, loadAutocomplete };
+export {
+  filter,
+  find,
+  index,
+  loadAutocomplete,
+  remove,
+  replace,
+  add,
+  addOrReplace,
+};

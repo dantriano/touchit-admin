@@ -4,7 +4,6 @@ import { FormComponent } from "@views/common/form/form.component";
 import { Observable, zip } from "rxjs";
 import { config } from "./_options";
 import {
-  ActivityService,
   EmployeeService,
   RegisterService,
 } from "app/@core/services";
@@ -30,13 +29,11 @@ export class RegistersFormComponent extends FormComponent {
   constructor(
     public activatedRoute: ActivatedRoute,
     public registerService: RegisterService,
-    public activityService: ActivityService,
     public employeeService: EmployeeService
   ) {
     super(activatedRoute);
     this.services = {
       register: this.registerService,
-      activity: this.activityService,
       employee: this.employeeService,
     };
   }

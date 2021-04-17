@@ -3,7 +3,9 @@ import { ActivatedRoute } from "@angular/router";
 import { FormComponent } from "@views/common/form/form.component";
 import { Observable, zip } from "rxjs";
 import { config } from "./_options";
-import { LocationService, ScheduleService } from "app/@core/services";
+import { CompanyService } from "app/@core/services";
+import { addOrReplace, find } from "@utils/commons.service";
+import { first } from "rxjs/operators";
 
 @Component({
   selector: "schedules-form",
@@ -14,28 +16,19 @@ import { LocationService, ScheduleService } from "app/@core/services";
  */
 export class SchedulesFormComponent extends FormComponent {
   public schedule: Observable<any>;
-  public locations: Observable<any>;
+  public locations: any[];
   constructor(
     public activatedRoute: ActivatedRoute,
-    public scheduleService: ScheduleService,
-    public locationService: LocationService
+    public companyService: CompanyService
   ) {
-    super(activatedRoute);
-    this.services = {
-      schedule: this.scheduleService,
-      location: this.locationService,
-    };
+    super(activatedRoute, config);
   }
   /**
    * Load the component elements and configuration
    */
   loadComponent() {
-    this.config = config;
-    this.schedule = this.services.schedule.getOneObs;
-    this.locations = this.services.location.getListObs;
-
     this.config.formInputs = {
-      _id: [""],
+      _id: [Math.floor(100000000 + Math.random() * 900000000)],
       //name: ['', [validators.required],[validators.valueExist()]],
       name: ["", [this.validators.required]],
       locations: [[]],
@@ -47,12 +40,21 @@ export class SchedulesFormComponent extends FormComponent {
       duration: [""],
     };
   }
-
   loadContent() {
-    return zip(
-      this.services[this.config.service].loadOne(this.config.query),
-      this.services.location.loadList({ company: this.config.company })
-    );
+    this.companyService.companyData$.pipe(first()).subscribe((data) => {
+      this.locations = data.locations;
+      let formData = find(data?.schedules, this.config._id);
+      this.obs.next(formData);
+    });
+  }
+  saveForm() {
+    this.companyService
+      .loadData(this.authService.currentCompany)
+      .pipe(first())
+      .subscribe((company) => {
+        company.schedules = addOrReplace(company.schedules, [this.form.value]);
+        this.companyService.save(company).subscribe(this.submitObserver);
+      });
   }
 
   deleteLocation(el) {
