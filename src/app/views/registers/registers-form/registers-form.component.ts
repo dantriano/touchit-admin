@@ -3,11 +3,9 @@ import { ActivatedRoute } from "@angular/router";
 import { FormComponent } from "@views/common/form/form.component";
 import { Observable, zip } from "rxjs";
 import { config } from "./_options";
-import {
-  EmployeeService,
-  RegisterService,
-} from "app/@core/services";
+import { CompanyService, RegisterService } from "app/@core/services";
 import { FormControl } from "@angular/forms";
+import { find, first } from "rxjs/operators";
 
 @Component({
   selector: "register-form",
@@ -20,8 +18,8 @@ export class RegistersFormComponent extends FormComponent {
   protected filteredEmployees: Observable<any[]>;
   private position = { lat: 0, lng: 0 };
   public register: Observable<any>;
-  public activities: Observable<any>;
-  public employees: Observable<any>;
+  public activities: any[];
+  public employees: any[];
 
   @ViewChildren("customSelected") cs;
   protected employeeName: FormControl = new FormControl();
@@ -29,26 +27,15 @@ export class RegistersFormComponent extends FormComponent {
   constructor(
     public activatedRoute: ActivatedRoute,
     public registerService: RegisterService,
-    public employeeService: EmployeeService
+    public companyService: CompanyService
   ) {
-    super(activatedRoute);
-    this.services = {
-      register: this.registerService,
-      employee: this.employeeService,
-    };
+    super(activatedRoute, config);
   }
   /**
    * Load the component elements and configuration
    */
   loadComponent() {
-    this.config = config;
-    this.register = this.services.register.getOneObs;
-    this.activities = this.services.activity.getListObs;
-    this.employees = this.services.employee.getListObs;
-
     this.getLocation();
-    this.employeeAutocomplete();
-
     this.config.formInputs = {
       _id: [],
       company: [this.config.company],
@@ -63,11 +50,25 @@ export class RegistersFormComponent extends FormComponent {
   }
 
   loadContent() {
-    return zip(
-      this.services[this.config.service].loadOne(this.config.query),
-      this.services.activity.loadList({ company: this.config.company }),
-      this.services.employee.loadList({ company: this.config.company })
-    );
+    this.companyService.companyData$.pipe(first()).subscribe((data) => {
+      this.activities = data.activities;
+      this.employees = data.employees;
+      this.employeeAutocomplete();
+    });
+    this.registerService
+      .loadOne({
+        company: this.authService.currentCompany,
+        _id: this.config._id,
+      })
+      .subscribe(({ register }) => {
+        this.obs.next(register || {});
+        //this.employeeName.setValue("ups");
+      });
+  }
+  saveForm() {
+    this.registerService
+      .save(this.form.value)
+      .subscribe(this.submitObserver);
   }
   getLocation() {
     navigator.geolocation.getCurrentPosition((position) => {
@@ -78,15 +79,10 @@ export class RegistersFormComponent extends FormComponent {
   }
 
   employeeAutocomplete() {
-    this.subscriptions.push(
-      this.employees.subscribe((data) => {
-        this.filteredEmployees = this.loadAutocomplete(
-          this.services.employee.getList,
-          this.employeeName,
-          ["firstName", "lastName"]
-        );
-        this.employeeName.setValue(data.register?._employee.firstName);
-      })
+    this.filteredEmployees = this.loadAutocomplete(
+      this.employees,
+      this.employeeName,
+      ["firstName", "lastName"]
     );
   }
 }

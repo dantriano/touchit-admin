@@ -21,6 +21,9 @@ const companySchema = new mongoose.Schema({
   schedules: {
     type: Object,
   },
+  employees: {
+    type: Object,
+  },
   status: {
     type: String,
   },

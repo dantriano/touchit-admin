@@ -8,6 +8,7 @@ const companySchema = gql`
     groups: [Group]
     activities: [Activity]
     schedules: [Schedule]
+    employees: [Employee]
     status: String
     options: [String]
   }
@@ -19,6 +20,7 @@ const companySchema = gql`
     groups: [groupInput]
     activities: [activityInput]
     schedules: [scheduleInput]
+    employees: [employeeInput]
     options: [String]
   }
   extend type Query {

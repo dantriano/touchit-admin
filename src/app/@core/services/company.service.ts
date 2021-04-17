@@ -87,6 +87,21 @@ export class CompanyService extends Service {
         days
         locations
       }
+      employees {
+        _id
+        email
+        firstName
+        lastName
+        groups
+        options
+        mainActivity
+        customActivities {
+          _id
+          status
+        }
+        linkCode
+        isLinked
+      }
     }
   `;
 

@@ -1,5 +1,6 @@
 import { Activity } from "./activity.model";
 import { Deserializable } from "./deserializable.model";
+import { Employee } from "./employee.model";
 import { Group } from "./group.model";
 import { Location } from "./location.model";
 import { Schedule } from "./schedule.model";
@@ -11,6 +12,7 @@ export class Company implements Deserializable {
   groups: Group[];
   activities: Activity[];
   schedules: Schedule[];
+  employees: Employee[];
 
   deserialize(input: any) {
     Object.assign(this, input);
@@ -21,6 +23,8 @@ export class Company implements Deserializable {
       this.schedules?.map((x) => new Schedule().deserialize(x)) || [];
     this.activities =
       this.activities?.map((x) => new Activity().deserialize(x)) || [];
+    this.employees =
+      this.employees?.map((x) => new Employee().deserialize(x)) || [];
     return this;
   }
 }
