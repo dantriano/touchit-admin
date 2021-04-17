@@ -22,10 +22,9 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 });
 const currentUser=localStorage.getItem('currentUser');
 const user = (currentUser && currentUser!='undefined')?JSON.parse(currentUser):'';
-console.log(user)
 const auth = setContext((operation, context) => ({
   headers: {
-    Authorization: (user)?user.token:'',
+    authorization: user?.token,
     //CurrentCompany:'5e6acf4e2a94ac32a586eafa'
   },
 }));

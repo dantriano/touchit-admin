@@ -21,7 +21,6 @@ export default {
     },*/
     _employee: async ({ employee }, args, { models }, info) => {
       var r = await models.userModel.findOne({ _id: employee });
-      console.log(r);
       return r;
     },
   },

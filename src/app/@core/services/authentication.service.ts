@@ -50,6 +50,7 @@ export class AuthenticationService {
   setAuth(user: User) {
     this.user = user;
     this.localUser = user;
+    localStorage.setItem('token',user.token);
     if (this.localCompany) this.setCompany(this.localCompany);
     else if (this.user.companies.length != 0)
       this.setCompany(this.user.companies[0]);

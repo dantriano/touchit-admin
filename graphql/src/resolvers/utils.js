@@ -15,6 +15,9 @@ utils.arrayId = (arr) => {
   });
   return a;
 };
+utils.saltRounds = 12;
+utils.jwtSeed = "riddlemethis";
+
 /*
 export default {
   Date: new GraphQLScalarType({

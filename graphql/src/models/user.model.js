@@ -1,4 +1,4 @@
-import bcrypt from 'bcrypt';
+import * as bcrypt from "bcryptjs";
 import mongoose from 'mongoose';
 const saltRounds = 12;
 

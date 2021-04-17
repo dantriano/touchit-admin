@@ -49,6 +49,7 @@ export class UserService extends Service {
 
   login(input: any): Observable<any> {
     const variables = { input: input };
+    console.log(variables)
     const query = gql`
       ${this.loginQuery}
       ${this.fragment}

@@ -36,10 +36,8 @@ function listResolver(service) {
 function saveResolver(service) {
   const query = async (parent, { input }, { models, me }, info) => {
     if (!me) throw new AuthenticationError("You are not authenticated");
-    console.log("save");
     if (input._id) {
       input._id = utils.objectId(input._id);
-      console.log(input);
       status = await models[service].updateOne({ _id: input._id }, input);
       return status.ok && status.nModified > 0;
     } else {

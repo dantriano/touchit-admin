@@ -1,4 +1,4 @@
-import bcrypt from "bcrypt";
+import * as bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { AuthenticationError } from "apollo-server";
 import * as utils from "./utils";
@@ -10,7 +10,7 @@ import {
   saveResolver,
   removeResolver,
 } from "./resolvers";
-const saltRounds = 12;
+const SALT = 12;
 const service = "userModel";
 export default {
   Query: {
@@ -32,7 +32,7 @@ export default {
         //throw new AuthenticationError("Invalid credentials");
         //return error('Username or password is incorrect');‹
       }
-      const userToken = jwt.sign({ id: user._id }, "riddlemethis", {
+      const userToken = jwt.sign({ id: user._id }, utils.jwtSeed, {
         expiresIn: "7d",
       });
       user["token"] = userToken;
