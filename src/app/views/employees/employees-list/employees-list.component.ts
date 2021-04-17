@@ -1,21 +1,34 @@
 import { Component, OnInit } from "@angular/core";
+import { remove } from "@utils/commons.service";
 import { ListComponent } from "@views/common/list/list.component";
-import { EmployeeService } from "app/@core/services";
+import { CompanyService } from "app/@core/services";
+import { first } from "rxjs/operators";
 import { config } from "./_options";
 
 @Component({
   templateUrl: "../../common/list/list.component.html",
 })
 export class EmployeesListComponent extends ListComponent implements OnInit {
-  constructor(protected employeeService: EmployeeService) {
-    super();
-    this.services = { employee: this.employeeService };
+  constructor(protected companyService: CompanyService) {
+    super(config);
   }
   loadComponent() {
-    this.config = config;
-    this.dataTable = this.services[this.config.service].getListObs;
+    this.obs$ = this.companyService.companyData$;
   }
   loadContent() {
-    return super.loadContent();
+    this.obs$.subscribe((data) => {
+      this.dataTable.next(data?.employees);
+    });
+  }
+  confirmDelete() {
+    this.companyService
+      .loadData(this.authService.currentCompany)
+      .pipe(first())
+      .subscribe((company) => {
+        company.employees = remove(company?.employees, this.config._id);
+        this.companyService.save(company).subscribe(({ data }) => {
+          if (data.saveCompany) this.dataTable.next(company.employees);
+        });
+      });
   }
 }

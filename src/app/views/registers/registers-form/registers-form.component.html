@@ -31,6 +31,7 @@
             (ngSubmit)="onSubmit()"
           >
             <input type="hidden" formControlName="_id" class="form-control" />
+            <input type="hidden" formControlName="name" class="form-control" />
             <div class="row">
               <div class="col-lg-6">
                 <div class="card">
@@ -81,6 +82,7 @@
                         <mat-option
                           *ngFor="let option of activities"
                           [value]="option._id"
+                          (click)="f.name.setValue(option.name)"
                         >
                           {{ option.name }}
                         </mat-option>

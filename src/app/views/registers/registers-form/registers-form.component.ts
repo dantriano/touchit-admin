@@ -38,9 +38,10 @@ export class RegistersFormComponent extends FormComponent {
     this.getLocation();
     this.config.formInputs = {
       _id: [],
-      company: [this.config.company],
+      company: [this.authService.currentCompany],
       employee: [, this.validators.required],
       activity: [, this.validators.required],
+      name: [""],
       start: [new Date()],
       end: [new Date()],
       delay: [123],
@@ -66,9 +67,7 @@ export class RegistersFormComponent extends FormComponent {
       });
   }
   saveForm() {
-    this.registerService
-      .save(this.form.value)
-      .subscribe(this.submitObserver);
+    this.registerService.save(this.form.value).subscribe(this.submitObserver);
   }
   getLocation() {
     navigator.geolocation.getCurrentPosition((position) => {

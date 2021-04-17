@@ -4,7 +4,8 @@ const registerSchema = gql`
   scalar Date
   type Register {
     _id: ID
-    activity: String
+    name: String
+    activity: ID
     employee: ID
     company: ID
     start: Date
@@ -15,14 +16,14 @@ const registerSchema = gql`
     status: String
   }
   extend type Register {
-    _activity: Activity
     _employee: Employee
   }
   input registerInput {
     _id: ID
+    name: String
     company: ID
-    activity: String
-    employee: String
+    employee: ID
+    activity: ID
     start: Date
     end: Date
     delay: Int

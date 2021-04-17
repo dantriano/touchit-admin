@@ -1,9 +1,12 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const employeeSchema = new mongoose.Schema({
   _id: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
+  },
+  userID: {
+    type: String,
   },
   employeeCode: {
     type: String,
@@ -42,13 +45,13 @@ const employeeSchema = new mongoose.Schema({
   },
   company: {
     type: String,
-    require:true,
+    require: true,
   },
   options: {
     type: Object,
-  }
+  },
 });
 
-const employeeModel = mongoose.model('employee', employeeSchema);
+const employeeModel = mongoose.model("employee", employeeSchema);
 
 export default employeeModel;

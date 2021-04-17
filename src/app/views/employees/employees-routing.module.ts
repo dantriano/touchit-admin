@@ -19,24 +19,23 @@ const routes: Routes = [
       },
       {
         path: "edit",
-        data: {
-          title: "Edit",
-        },
         children: [
           {
-            data: {
-              title: "Create",
-            },
             path: "",
             component: EmployeesFormComponent,
+            data: {
+              text: "Employees",
+            },
           },
           {
             path: ":id",
             component: EmployeesFormComponent,
+            data: {
+              text: "Employees",
+            },
           },
         ],
       },
-
       {
         path: "profile/:id",
         data: {

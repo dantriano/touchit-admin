@@ -4,7 +4,7 @@ import { FormComponent } from "@views/common/form/form.component";
 import { Observable } from "rxjs";
 import { config } from "./_options";
 import { CompanyService } from "app/@core/services";
-import { addOrReplace, find } from "@utils/commons.service";
+import { addOrReplace, find, genID } from "@utils/commons.service";
 import { first } from "rxjs/operators";
 
 declare const google: any;
@@ -25,7 +25,7 @@ export class LocationsFormComponent extends FormComponent {
    */
   loadComponent() {
     this.config.formInputs = {
-      _id: [Math.floor(100000000 + Math.random() * 900000000)],
+      _id: genID(),
       //name: [null, [this.validators.required],[this.validators.valueExist()]],
       name: [null, [this.validators.required]],
       zones: [[], [this.validators.required]],

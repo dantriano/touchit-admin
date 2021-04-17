@@ -4,7 +4,7 @@ import { FormComponent } from "@views/common/form/form.component";
 import { Observable, zip } from "rxjs";
 import { config } from "./_options";
 import { CompanyService } from "app/@core/services";
-import { find, addOrReplace } from "@utils/commons.service";
+import { find, addOrReplace, genID } from "@utils/commons.service";
 import { first } from "rxjs/operators";
 
 @Component({
@@ -28,7 +28,7 @@ export class ActivitiesFormComponent extends FormComponent {
    */
   loadComponent() {
     this.config.formInputs = {
-      _id: [Math.floor(100000000 + Math.random() * 900000000)],
+      _id: genID(),
       //name: ['', [validators.required],[validators.valueExist()]],
       name: ["", [this.validators.required]],
       locations: [[]],

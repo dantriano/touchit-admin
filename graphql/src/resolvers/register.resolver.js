@@ -16,11 +16,13 @@ export default {
     removeRegister: removeResolver(service),
   },
   Register: {
-    _activity: async ({ activity }, args, { models }, info) => {
+    /* _activity: async ({ activity }, args, { models }, info) => {
       return await models.activityModel.find({ _id: activity });
-    },
+    },*/
     _employee: async ({ employee }, args, { models }, info) => {
-      return await models.employeeModel.find({ _id: employee });
+      var r = await models.userModel.findOne({ _id: employee });
+      console.log(r);
+      return r;
     },
   },
 };

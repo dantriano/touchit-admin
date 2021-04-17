@@ -2,7 +2,8 @@ import { Deserializable } from "./deserializable.model";
 
 export class Register implements Deserializable {
   _id: string;
-  activity: string;
+  company: string;
+  activity: Object;
   employee: string;
   start: string;
   end: string;
@@ -10,7 +11,6 @@ export class Register implements Deserializable {
   delay: string;
   location: Object;
   _employee:Object;
-  _activity:Object;
 
   deserialize(input: any) {
     Object.assign(this, input);

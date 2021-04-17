@@ -108,6 +108,17 @@ export class CompanyService extends Service {
   private companyData = new Subject<Company>();
   companyData$ = this.companyData.asObservable();
 
+  generateEmployeeCode() {
+    var length = 4;
+    var result = "";
+    var characters =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    var charactersLength = characters.length;
+    for (var i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+  }
   loadData(company: Object = {}) {
     this.loadOne({ _id: company }).subscribe(this.onContentLoad);
     return this.companyData$;

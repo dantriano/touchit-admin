@@ -1,4 +1,4 @@
-import { gql } from 'apollo-server';
+import { gql } from "apollo-server";
 /*import { GraphQLNonNull, GraphQLString } from 'graphql';
 import { Types } from 'mongoose';
 const ObjectId = require('mongoose').Types.ObjectId;
@@ -16,6 +16,7 @@ ObjectId.prototype.valueOf = function () {
 const employeeSchema = gql`
   type Employee {
     _id: ID!
+    userID: ID
     employeeCode: String
     firstName: String
     lastName: String
@@ -24,39 +25,39 @@ const employeeSchema = gql`
     linkCode: String
     status: String
     avatar: String
-    groups:[ID]
-    company:ID
+    groups: [ID]
+    company: ID
     mainActivity: ID
-    customActivities:[selectionType]
+    customActivities: [selectionType]
     options: [String]
   }
 
-
-  type selectionType{
+  type selectionType {
     _id: ID
     name: String
     status: String
   }
-  input employeeInput  {
-    _id: ID, 
-    groups: [ID],
-    employeeCode: String,
-    firstName: String,
-    lastName: String,
-    email: String,
-    isLinked:Boolean,
-    linkCode:String,
-    avatar:String,
-    status:String,
-    customActivities:[selectionInput],
-    mainActivity: ID,
-    company: ID,
+  input employeeInput {
+    _id: ID
+    userID: ID
+    groups: [ID]
+    employeeCode: String
+    firstName: String
+    lastName: String
+    email: String
+    isLinked: Boolean
+    linkCode: String
+    avatar: String
+    status: String
+    customActivities: [selectionInput]
+    mainActivity: ID
+    company: ID
     options: [String]
   }
-  
-  input selectionInput  {
-    _id: ID, 
-    status: String,
+
+  input selectionInput {
+    _id: ID
+    status: String
     type: String
   }
   extend type Query {
@@ -64,14 +65,14 @@ const employeeSchema = gql`
     employee(input: employeeInput): Employee
     employees(input: employeeInput): [Employee]
   }
-  
+
   extend type Mutation {
-    removeEmployee(input:employeeInput!): Boolean
-    saveEmployee(input:employeeInput!): Boolean
+    removeEmployee(input: employeeInput!): Boolean
+    saveEmployee(input: employeeInput!): Boolean
   }
 
   extend type Employee {
-    getCustomActivities:[selectionType]
+    getCustomActivities: [selectionType]
     _groups: [Group]
   }
 `;

@@ -66,6 +66,9 @@ function find(arr, id) {
 function index(arr, id) {
   return arr?.findIndex((x) => x._id === id) || false;
 }
+function genID() {
+  return [Math.floor(10000000000000 + Math.random() * 90000000000000)];
+}
 
 /**
  *
@@ -134,4 +137,5 @@ export {
   replace,
   add,
   addOrReplace,
+  genID
 };

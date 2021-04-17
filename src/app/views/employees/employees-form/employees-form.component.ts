@@ -1,13 +1,11 @@
 import { Component, ViewChildren } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import {
-  EmployeeService,
-} from "app/@core/services";
+import { CompanyService } from "app/@core/services";
 import { FormComponent } from "@views/common/form/form.component";
-import { Observable, zip } from "rxjs";
 import { config } from "./_options";
 import { getCustomStatus } from "../employees";
-import { find } from "@utils/commons.service";
+import { addOrReplace, find, genID } from "@utils/commons.service";
+import { first } from "rxjs/operators";
 
 @Component({
   selector: "employees-form",
@@ -18,31 +16,23 @@ import { find } from "@utils/commons.service";
  */
 export class EmployeesFormComponent extends FormComponent {
   public getCustomStatus = getCustomStatus;
-  public employee: Observable<any>;
-  public activities: Observable<any>;
-  public groups: Observable<any>;
+  public activities: any[];
+  public groups: any[];
   @ViewChildren("customSelected") cs;
 
   constructor(
     public activatedRoute: ActivatedRoute,
-    public employeeService: EmployeeService
+    public companyService: CompanyService
   ) {
-    super(activatedRoute);
-    this.services = {
-      employee: this.employeeService,
-    };
+    super(activatedRoute, config);
   }
   /**
    * Load the component elements and configuration
    */
   loadComponent() {
-    this.config = config;
-    this.employee = this.services.employee.getOneObs;
-    this.activities = this.services.activity.getListObs;
-    this.groups = this.services.group.getListObs;
-
     this.config.formInputs = {
-      _id: [""],
+      _id: genID(),
+      userID: [""],
       options: [[]],
       customActivities: [[]],
       employeeCode: [""],
@@ -51,29 +41,39 @@ export class EmployeesFormComponent extends FormComponent {
       firstName: [, [this.validators.required]],
       lastName: [""],
       groups: [[]],
-      company: [this.config.company],
+      company: [this.authService.currentCompany],
       mainActivity: [, [this.validators.required]],
       //email: ['', [validators.email, validators.required]],
       email: [
         "",
         [this.validators.email, this.validators.required],
-        [this.validators.valueExist()],
+        //[this.validators.valueExist()],
       ],
     };
   }
-
   loadContent() {
-    return zip(
-      this.services[this.config.service].loadOne(this.config.query),
-      this.services.activity.loadList({ company: this.config.company }),
-      this.services.group.loadList({ company: this.config.company })
-    );
+    this.companyService.companyData$.pipe(first()).subscribe((data) => {
+      this.activities = data.activities;
+      this.groups = data.groups;
+      let formData = find(data?.employees, this.config._id);
+      this.obs.next(formData);
+    });
+  }
+  saveForm() {
+    this.companyService
+      .loadData(this.authService.currentCompany)
+      .pipe(first())
+      .subscribe((company) => {
+        company.employees = addOrReplace(company.employees, [this.form.value]);
+        console.log(company.employees);
+        this.companyService.save(company).subscribe(this.submitObserver);
+      });
   }
   /**
    * Generate a new random Code
    */
   makeCode() {
-    return this.services.employee.generateCode();
+    return this.companyService.generateEmployeeCode();
   }
   /**
    * Change the service option for the current user: on, off, default

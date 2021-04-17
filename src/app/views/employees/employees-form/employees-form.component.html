@@ -103,7 +103,7 @@
               >
                 <option disabled>Please select</option>
                 <option
-                  *ngFor="let option of activities | async"
+                  *ngFor="let option of activities"
                   [ngValue]="option._id"
                 >
                   {{ option.name }}

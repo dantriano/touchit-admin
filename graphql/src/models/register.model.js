@@ -8,6 +8,9 @@ const registerSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     required: true,
   },
+  name: {
+    type: String,
+  },
   activity: {
     type: String,
   },
@@ -31,9 +34,6 @@ const registerSchema = new mongoose.Schema({
   },
   inPosition: {
     type: Boolean,
-  },
-  _activity: {
-    type: Object,
   },
   _employee: {
     type: Object,
